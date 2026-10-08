@@ -177,7 +177,10 @@ export default function App() {
       />
 
       {activePage === "home" && !feedbackModalOpen && (
-        <FeedbackFloatTab onOpen={() => handleOpenContactModal("feedback")} />
+        <FeedbackFloatTab
+          onOpenFeedback={() => handleOpenContactModal("feedback")}
+          onOpenEnquiry={() => handleOpenContactModal("enquiry")}
+        />
       )}
 
       <WhatsappButton />

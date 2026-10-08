@@ -10,6 +10,8 @@ import {
   Calendar,
   Clock,
   Car,
+  BedDouble,
+  Palmtree,
   CheckCircle2,
   Package,
   Plane,
@@ -52,6 +54,7 @@ export function BookingTabs({
   compactMode = false
 }) {
   const [activeTab, setActiveTab] = useState(initialTab);
+  const [activeService, setActiveService] = useState("cabs");
   const [cars, setCars] = useState([]);
   const [offerBanner, setOfferBanner] = useState(() => OfferBannerBAL.getOfferBanner());
   const [selectedCarId, setSelectedCarId] = useState(preselectedCarId || "");
@@ -227,6 +230,51 @@ export function BookingTabs({
       className="booking-card-container"
       style={compactMode ? { margin: 0, boxShadow: "none", border: "none", background: "transparent" } : {}}
     >
+      {!compactMode && (
+        <div className="booking-service-tabs" role="group" aria-label="Choose a booking service">
+          <button
+            type="button"
+            aria-pressed={activeService === "cabs"}
+            className={`booking-service-tab ${activeService === "cabs" ? "active" : ""}`}
+            onClick={() => setActiveService("cabs")}
+          >
+            <Car size={18} />
+            <span>Cabs</span>
+            {offerBanner.enabled && <span className="booking-service-offer">Upto 20% Off</span>}
+          </button>
+          <a
+            href="https://www.oyorooms.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="booking-service-tab"
+            aria-label="Search hotels on OYO (opens in a new tab)"
+          >
+            <BedDouble size={18} />
+            <span>Hotels</span>
+          </a>
+          <button
+            type="button"
+            aria-pressed={activeService === "flight"}
+            className={`booking-service-tab ${activeService === "flight" ? "active" : ""}`}
+            onClick={() => setActiveService("flight")}
+          >
+            <Plane size={18} />
+            <span>Flight</span>
+          </button>
+          <button
+            type="button"
+            aria-pressed={activeService === "holiday"}
+            className={`booking-service-tab ${activeService === "holiday" ? "active" : ""}`}
+            onClick={() => setActiveService("holiday")}
+          >
+            <Palmtree size={18} />
+            <span>Holiday</span>
+          </button>
+        </div>
+      )}
+
+      {activeService === "cabs" ? (
+      <>
       {/* Tabs Navigation Header */}
       <div className="booking-tabs-header">
         <button
@@ -528,6 +576,13 @@ export function BookingTabs({
           </button>
         </div>
       </form>
+      </>
+      ) : (
+        <div className="booking-service-placeholder" role="status">
+          {activeService === "holiday" ? <Palmtree size={28} /> : <Plane size={28} />}
+          <span>{activeService === "holiday" ? "Holiday bookings are coming soon." : "Flight bookings are coming soon."}</span>
+        </div>
+      )}
     </div>
   );
 

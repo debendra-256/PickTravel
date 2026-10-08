@@ -331,7 +331,10 @@ export const APP_CONFIG = {
 
   // WhatsApp Helper Function
   getWhatsappLink: (messageText) => {
-    const encoded = encodeURIComponent(messageText || "Hello PickMyTravels, I would like to inquire about taxi booking.");
-    return `https://wa.me/${APP_CONFIG.WHATSAPP_NUMBER}?text=${encoded}`;
+    const baseUrl = `https://wa.me/${APP_CONFIG.WHATSAPP_NUMBER}`;
+    if (messageText === "") return baseUrl;
+
+    const encoded = encodeURIComponent(messageText ?? "Hello PickMyTravels, I would like to inquire about taxi booking.");
+    return `${baseUrl}?text=${encoded}`;
   }
 };
