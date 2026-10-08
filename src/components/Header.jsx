@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import { APP_CONFIG } from "../config/app.config";
-import { dbFactory } from "../dal/DBFactory";
 import { assetUrl } from "../config/assetUrl";
 import {
   Phone,
   Mail,
   MessageSquare,
-  Database,
   UserCheck,
   Lock,
   Menu,
@@ -37,8 +35,6 @@ export function Header({
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileSubmenu, setMobileSubmenu] = useState(null); // 'services' | 'fleet' | 'packages'
 
-  const activeDriverInfo = dbFactory.getActiveDriverInfo();
-  const driverType = activeDriverInfo ? activeDriverInfo.type : "EXCEL";
   const isAdminDashboard = activeTab === "admin";
 
   const handleNavClick = (pageName) => {
@@ -96,18 +92,7 @@ export function Header({
             </a>
           </div>
 
-          {/* Database Layer Status Badge */}
           <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-            <div
-              className={`badge ${driverType === "MYSQL" ? "badge-blue" : driverType === "POSTGRES" ? "badge-red" : "badge-green"}`}
-              title="Pluggable Data Access Layer Active Driver"
-              style={{ cursor: "pointer", display: "flex", alignItems: "center", gap: "4px" }}
-              onClick={onOpenAdmin}
-            >
-              <Database size={12} />
-              <span>{driverType === "POSTGRES" ? "Neon Postgres" : "Database"}</span>
-            </div>
-
             {session ? (
               <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }} className="hide-mobile">
                 <span style={{ fontSize: "0.82rem", color: "#f8fafc" }}>
