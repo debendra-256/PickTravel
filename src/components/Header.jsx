@@ -1,0 +1,502 @@
+import React, { useState } from "react";
+import { APP_CONFIG } from "../config/app.config";
+import { dbFactory } from "../dal/DBFactory";
+import {
+  Phone,
+  Mail,
+  MessageSquare,
+  Database,
+  UserCheck,
+  Lock,
+  Menu,
+  X,
+  ChevronDown,
+  Navigation,
+  ArrowRight,
+  RotateCw,
+  Plane,
+  Package,
+  Users,
+  LogOut,
+  ExternalLink
+} from "lucide-react";
+
+export function Header({
+  activeTab,
+  setActiveTab,
+  onOpenAuthModal,
+  onOpenAdmin,
+  session,
+  onOpenFeedback,
+  onOpenEnquiry,
+  onSelectBookingTab,
+  onSelectPackage,
+  onSelectFleetFilter
+}) {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileSubmenu, setMobileSubmenu] = useState(null); // 'services' | 'fleet' | 'packages'
+
+  const activeDriverInfo = dbFactory.getActiveDriverInfo();
+  const driverType = activeDriverInfo ? activeDriverInfo.type : "EXCEL";
+  const isAdminDashboard = activeTab === "admin";
+
+  const handleNavClick = (pageName) => {
+    setActiveTab(pageName);
+    setMobileMenuOpen(false);
+  };
+
+  const handleServiceSelect = (tabName) => {
+    setActiveTab("home");
+    if (onSelectBookingTab) onSelectBookingTab(tabName);
+    setMobileMenuOpen(false);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handlePackageSelect = (packageName) => {
+    setActiveTab("home");
+    if (onSelectBookingTab) onSelectBookingTab("Taxi Packages");
+    if (onSelectPackage) onSelectPackage(packageName);
+    setMobileMenuOpen(false);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handleFleetSelect = (seaterFilter = "ALL") => {
+    setActiveTab("fleet");
+    if (onSelectFleetFilter) onSelectFleetFilter(seaterFilter);
+    setMobileMenuOpen(false);
+  };
+
+  const toggleMobileSubmenu = (name) => {
+    setMobileSubmenu(mobileSubmenu === name ? null : name);
+  };
+
+  return (
+    <header>
+      {/* Top Contact Bar */}
+      <div className="top-bar">
+        <div className="container top-bar-content">
+          <div className="top-contacts">
+            <a href={`tel:${APP_CONFIG.TOLL_FREE.replace(/\s+/g, "")}`} className="top-contact-item">
+              <Phone size={14} className="text-red" />
+              <span>Toll-Free: <strong>{APP_CONFIG.TOLL_FREE}</strong></span>
+            </a>
+            <a
+              href={APP_CONFIG.getWhatsappLink()}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="top-contact-item"
+            >
+              <MessageSquare size={14} style={{ color: "#25d366" }} />
+              <span>WhatsApp: <strong>{APP_CONFIG.DISPLAY_WHATSAPP}</strong></span>
+            </a>
+            <a href={`mailto:${APP_CONFIG.EMAIL}`} className="top-contact-item hide-mobile">
+              <Mail size={14} />
+              <span>{APP_CONFIG.EMAIL}</span>
+            </a>
+          </div>
+
+          {/* Database Layer Status Badge */}
+          <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+            <div
+              className={`badge ${driverType === "MYSQL" ? "badge-blue" : driverType === "POSTGRES" ? "badge-red" : "badge-green"}`}
+              title="Pluggable Data Access Layer Active Driver"
+              style={{ cursor: "pointer", display: "flex", alignItems: "center", gap: "4px" }}
+              onClick={onOpenAdmin}
+            >
+              <Database size={12} />
+              <span>DAL: {driverType === "MYSQL" ? "MySQL DB" : driverType === "POSTGRES" ? "PostgreSQL DB" : "Excel DB"}</span>
+            </div>
+
+            {session ? (
+              <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }} className="hide-mobile">
+                <span style={{ fontSize: "0.82rem", color: "#f8fafc" }}>
+                  <UserCheck size={13} style={{ display: "inline", marginRight: "4px" }} />
+                  {session.username}
+                </span>
+                <button
+                  onClick={onOpenAdmin}
+                  style={{
+                    background: "rgba(255,255,255,0.15)",
+                    color: "white",
+                    padding: "0.2rem 0.6rem",
+                    borderRadius: "4px",
+                    fontSize: "0.75rem"
+                  }}
+                >
+                  Dashboard
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={onOpenAuthModal}
+                className="hide-mobile"
+                style={{
+                  background: "transparent",
+                  color: "#cbd5e1",
+                  fontSize: "0.82rem",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "0.3rem"
+                }}
+              >
+                <Lock size={13} />
+                <span>Admin Login</span>
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Main Navigation Bar */}
+      <nav className="main-header">
+        <div className="container nav-container">
+          {/* Brand Logo with picklogo.png */}
+          <div className="logo-brand" style={{ cursor: "pointer" }} onClick={() => handleNavClick("home")}>
+            <img className="site-logo-image" src="/picklogo.png" alt="Pick My Travel" style={{ height: "48px", objectFit: "contain" }} />
+          </div>
+
+          {/* HIDE ALL PUBLIC MENUS IF ON ADMIN DASHBOARD AFTER LOGIN */}
+          {!isAdminDashboard ? (
+            <>
+              {/* Desktop Navigation Menu with SubMenus */}
+              <ul className="nav-menu hide-mobile-menu">
+                <li className="nav-item">
+                  <button
+                    className={`nav-link ${activeTab === "home" ? "active" : ""}`}
+                    onClick={() => handleNavClick("home")}
+                  >
+                    Home
+                  </button>
+                </li>
+
+                {/* SubMenu 1: Taxi Services */}
+                <li className="nav-item dropdown">
+                  <button className="nav-link dropdown-toggle">
+                    <span>Taxi Services</span>
+                    <ChevronDown size={14} />
+                  </button>
+                  <div className="dropdown-menu">
+                    <button className="dropdown-item" onClick={() => handleServiceSelect("Local Trip")}>
+                      <Navigation size={18} className="text-red" />
+                      <div>
+                        <div className="dropdown-title">Local City Cab</div>
+                        <div className="dropdown-desc">8 Hrs / 12 Hrs Package Rentals</div>
+                      </div>
+                    </button>
+
+                    <button className="dropdown-item" onClick={() => handleServiceSelect("One Way")}>
+                      <ArrowRight size={18} className="text-red" />
+                      <div>
+                        <div className="dropdown-title">Outstation One Way</div>
+                        <div className="dropdown-desc">Inter-city & Point to Point Cabs</div>
+                      </div>
+                    </button>
+
+                    <button className="dropdown-item" onClick={() => handleServiceSelect("Round Trip")}>
+                      <RotateCw size={18} className="text-red" />
+                      <div>
+                        <div className="dropdown-title">Outstation Round Trip</div>
+                        <div className="dropdown-desc">Multi-day Outstation Tour Cabs</div>
+                      </div>
+                    </button>
+
+                    <button className="dropdown-item" onClick={() => handleServiceSelect("Airport Transfer")}>
+                      <Plane size={18} className="text-red" />
+                      <div>
+                        <div className="dropdown-title">Airport Pickup & Drop</div>
+                        <div className="dropdown-desc">24/7 BJU Airport Doorstep Taxi</div>
+                      </div>
+                    </button>
+                  </div>
+                </li>
+
+                {/* SubMenu 2: Our Fleet */}
+                <li className="nav-item dropdown">
+                  <button
+                    className={`nav-link dropdown-toggle ${activeTab === "fleet" ? "active" : ""}`}
+                    onClick={() => handleNavClick("fleet")}
+                  >
+                    <span>Our Fleet</span>
+                    <ChevronDown size={14} />
+                  </button>
+                  <div className="dropdown-menu">
+                    <button className="dropdown-item" onClick={() => handleFleetSelect("ALL")}>
+                      <Navigation size={18} className="text-red" />
+                      <div>
+                        <div className="dropdown-title">All Vehicles & Rates</div>
+                        <div className="dropdown-desc">Sedans, SUVs, Vans & Buses</div>
+                      </div>
+                    </button>
+
+                    <button className="dropdown-item" onClick={() => handleFleetSelect("4")}>
+                      <Users size={18} className="text-red" />
+                      <div>
+                        <div className="dropdown-title">4-Seater Sedans</div>
+                        <div className="dropdown-desc">Swift Dzire, Etios, Aura</div>
+                      </div>
+                    </button>
+
+                    <button className="dropdown-item" onClick={() => handleFleetSelect("7")}>
+                      <Users size={18} className="text-red" />
+                      <div>
+                        <div className="dropdown-title">6 & 7-Seater SUVs</div>
+                        <div className="dropdown-desc">Innova Crysta, Ertiga, Carens</div>
+                      </div>
+                    </button>
+
+                    <button className="dropdown-item" onClick={() => handleFleetSelect("12")}>
+                      <Users size={18} className="text-red" />
+                      <div>
+                        <div className="dropdown-title">12-26 Seater Tempo Travellers</div>
+                        <div className="dropdown-desc">Spacious AC Vans & Mini Buses</div>
+                      </div>
+                    </button>
+                  </div>
+                </li>
+
+                {/* SubMenu 3: Tour Packages */}
+                <li className="nav-item dropdown">
+                  <button className="nav-link dropdown-toggle">
+                    <span>Tour Packages</span>
+                    <ChevronDown size={14} />
+                  </button>
+                  <div className="dropdown-menu">
+                    <button className="dropdown-item" onClick={() => handlePackageSelect("Bhubaneswar Temple & City Tour")}>
+                      <Package size={18} className="text-red" />
+                      <div>
+                        <div className="dropdown-title">Bhubaneswar Temple Tour</div>
+                        <div className="dropdown-desc">Lingaraj, Khandagiri & City Sightseeing</div>
+                      </div>
+                    </button>
+
+                    <button className="dropdown-item" onClick={() => handlePackageSelect("Puri Jagannath Temple & Beach Tour")}>
+                      <Package size={18} className="text-red" />
+                      <div>
+                        <div className="dropdown-title">Puri Jagannath & Beach</div>
+                        <div className="dropdown-desc">Darshan, Golden Beach & Marine Drive</div>
+                      </div>
+                    </button>
+
+                    <button className="dropdown-item" onClick={() => handlePackageSelect("Konark Sun Temple & Marine Drive")}>
+                      <Package size={18} className="text-red" />
+                      <div>
+                        <div className="dropdown-title">Konark Sun Temple</div>
+                        <div className="dropdown-desc">UNESCO World Heritage Sightseeing</div>
+                      </div>
+                    </button>
+
+                    <button className="dropdown-item" onClick={() => handlePackageSelect("Chilika Lake & Satapada Dolphin Tour")}>
+                      <Package size={18} className="text-red" />
+                      <div>
+                        <div className="dropdown-title">Chilika Lake Dolphins</div>
+                        <div className="dropdown-desc">Satapada Boating & Sea Mouth Tour</div>
+                      </div>
+                    </button>
+                  </div>
+                </li>
+
+                <li className="nav-item">
+                  <button
+                    className={`nav-link ${activeTab === "blogs" ? "active" : ""}`}
+                    onClick={() => handleNavClick("blogs")}
+                  >
+                    Blogs
+                  </button>
+                </li>
+
+                {activeTab === "home" && (
+                  <li className="nav-item">
+                    <button className="nav-link" onClick={onOpenFeedback}>
+                      Contact Us
+                    </button>
+                  </li>
+                )}
+
+                <li className="nav-item">
+                  <button
+                    className={`nav-link ${activeTab === "rates" ? "active" : ""}`}
+                    onClick={() => handleNavClick("rates")}
+                  >
+                    Rate Chart
+                  </button>
+                </li>
+                <li className="nav-item">
+                  <button
+                    className={`nav-link ${activeTab === "about" ? "active" : ""}`}
+                    onClick={() => handleNavClick("about")}
+                  >
+                    About Us
+                  </button>
+                </li>
+              </ul>
+
+              <div style={{ display: "flex", gap: "0.75rem", alignItems: "center" }}>
+                <button className="btn-primary hide-mobile" onClick={onOpenEnquiry}>
+                  Quick Enquiry
+                </button>
+
+                {/* Mobile Hamburger Toggle Button */}
+                <button
+                  className="hamburger-btn show-mobile-only"
+                  onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                  aria-label="Toggle Navigation Menu"
+                >
+                  {mobileMenuOpen ? <X size={26} /> : <Menu size={26} />}
+                </button>
+              </div>
+            </>
+          ) : (
+            /* SIMPLE ADMIN HEADER ACTION BAR WHEN ON DASHBOARD */
+            <div style={{ display: "flex", gap: "0.75rem", alignItems: "center" }}>
+              <button
+                className="btn-outline"
+                onClick={() => handleNavClick("home")}
+                style={{ fontSize: "0.85rem", padding: "0.5rem 1rem" }}
+              >
+                <ExternalLink size={15} />
+                <span>Back to Main Website</span>
+              </button>
+            </div>
+          )}
+        </div>
+
+        {/* Mobile Dropdown Menu Drawer (Only on public view) */}
+        {mobileMenuOpen && !isAdminDashboard && (
+          <div className="mobile-drawer show-mobile-only">
+            <button
+              className={`mobile-drawer-link ${activeTab === "home" ? "active" : ""}`}
+              onClick={() => handleNavClick("home")}
+            >
+              Home Portal
+            </button>
+
+            {/* Mobile Services Submenu Toggle */}
+            <div>
+              <button
+                className="mobile-drawer-link"
+                style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}
+                onClick={() => toggleMobileSubmenu("services")}
+              >
+                <span>Taxi Services</span>
+                <ChevronDown size={16} style={{ transform: mobileSubmenu === "services" ? "rotate(180deg)" : "rotate(0)" }} />
+              </button>
+              {mobileSubmenu === "services" && (
+                <div className="mobile-submenu-list">
+                  <button className="mobile-submenu-item" onClick={() => handleServiceSelect("Local Trip")}>Local City Cab</button>
+                  <button className="mobile-submenu-item" onClick={() => handleServiceSelect("One Way")}>Outstation One Way</button>
+                  <button className="mobile-submenu-item" onClick={() => handleServiceSelect("Round Trip")}>Outstation Round Trip</button>
+                  <button className="mobile-submenu-item" onClick={() => handleServiceSelect("Airport Transfer")}>Airport Pickup & Drop</button>
+                </div>
+              )}
+            </div>
+
+            {/* Mobile Fleet Submenu Toggle */}
+            <div>
+              <button
+                className="mobile-drawer-link"
+                style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}
+                onClick={() => toggleMobileSubmenu("fleet")}
+              >
+                <span>Our Fleet Vehicles</span>
+                <ChevronDown size={16} style={{ transform: mobileSubmenu === "fleet" ? "rotate(180deg)" : "rotate(0)" }} />
+              </button>
+              {mobileSubmenu === "fleet" && (
+                <div className="mobile-submenu-list">
+                  <button className="mobile-submenu-item" onClick={() => handleFleetSelect("ALL")}>All Vehicles & Rates</button>
+                  <button className="mobile-submenu-item" onClick={() => handleFleetSelect("4")}>4-Seater Sedans</button>
+                  <button className="mobile-submenu-item" onClick={() => handleFleetSelect("7")}>6 & 7-Seater SUVs</button>
+                  <button className="mobile-submenu-item" onClick={() => handleFleetSelect("12")}>12-26 Seater Tempo Travellers</button>
+                </div>
+              )}
+            </div>
+
+            {/* Mobile Packages Submenu Toggle */}
+            <div>
+              <button
+                className="mobile-drawer-link"
+                style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}
+                onClick={() => toggleMobileSubmenu("packages")}
+              >
+                <span>Tour Packages</span>
+                <ChevronDown size={16} style={{ transform: mobileSubmenu === "packages" ? "rotate(180deg)" : "rotate(0)" }} />
+              </button>
+              {mobileSubmenu === "packages" && (
+                <div className="mobile-submenu-list">
+                  <button className="mobile-submenu-item" onClick={() => handlePackageSelect("Bhubaneswar Temple & City Tour")}>Bhubaneswar Temple Tour</button>
+                  <button className="mobile-submenu-item" onClick={() => handlePackageSelect("Puri Jagannath Temple & Beach Tour")}>Puri Jagannath & Beach</button>
+                  <button className="mobile-submenu-item" onClick={() => handlePackageSelect("Konark Sun Temple & Marine Drive")}>Konark Sun Temple</button>
+                  <button className="mobile-submenu-item" onClick={() => handlePackageSelect("Chilika Lake & Satapada Dolphin Tour")}>Chilika Lake Dolphins</button>
+                </div>
+              )}
+            </div>
+
+            <button
+              className={`mobile-drawer-link ${activeTab === "blogs" ? "active" : ""}`}
+              onClick={() => handleNavClick("blogs")}
+            >
+              Travel Blogs
+            </button>
+            {activeTab === "home" && (
+              <button
+                className="mobile-drawer-link"
+                onClick={() => {
+                  onOpenFeedback();
+                  setMobileMenuOpen(false);
+                }}
+              >
+                Share Feedback
+              </button>
+            )}
+
+            <button
+              className={`mobile-drawer-link ${activeTab === "rates" ? "active" : ""}`}
+              onClick={() => handleNavClick("rates")}
+            >
+              Rate Chart
+            </button>
+
+            <button
+              className={`mobile-drawer-link ${activeTab === "about" ? "active" : ""}`}
+              onClick={() => handleNavClick("about")}
+            >
+              About Us
+            </button>
+
+            {session ? (
+              <button
+                className="mobile-drawer-link"
+                onClick={() => {
+                  onOpenAdmin();
+                  setMobileMenuOpen(false);
+                }}
+              >
+                Admin Console ({session.username})
+              </button>
+            ) : (
+              <button
+                className="mobile-drawer-link"
+                onClick={() => {
+                  onOpenAuthModal();
+                  setMobileMenuOpen(false);
+                }}
+              >
+                Admin / Staff Login
+              </button>
+            )}
+
+            <button
+              className="btn-primary"
+              style={{ marginTop: "1rem", width: "100%", justifyContent: "center" }}
+              onClick={() => {
+                onOpenEnquiry();
+                setMobileMenuOpen(false);
+              }}
+            >
+              Quick Enquiry
+            </button>
+          </div>
+        )}
+      </nav>
+    </header>
+  );
+}
