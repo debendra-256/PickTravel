@@ -12,7 +12,9 @@
   "dependencies": {
     "@neon/config": "^1.8.4",
     "@neon/env": "^1.5.1",
+    "@neon/functions": "^0.11.0",
     "lucide-react": "^1.48.0",
+    "pg": "^8.23.1",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "xlsx": "^0.18.5"

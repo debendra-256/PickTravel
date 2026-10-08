@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { BookingTabs } from "./BookingTabs";
 import { FleetBAL } from "../bal/FleetBAL";
 import { Car, Users, Briefcase, Filter, Zap, X } from "lucide-react";
+import { DATABASE_UPDATED_EVENT } from "../dal/drivers/PostgresDriver";
 
 export function FleetSection({
   carsVersion = 0,
@@ -20,6 +21,8 @@ export function FleetSection({
 
   useEffect(() => {
     loadCars();
+    window.addEventListener(DATABASE_UPDATED_EVENT, loadCars);
+    return () => window.removeEventListener(DATABASE_UPDATED_EVENT, loadCars);
   }, [filterSeater, maxPrice, carsVersion]);
 
   const openBookingModal = (car) => {

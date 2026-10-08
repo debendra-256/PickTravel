@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { AuthBAL } from "../bal/AuthBAL";
 import { Lock, User, KeyRound, X, LogIn, CheckCircle2, ShieldAlert } from "lucide-react";
+import { assetUrl } from "../config/assetUrl";
 
 export function AuthModal({ isOpen, onClose, session, onLoginSuccess }) {
   const [activeTab, setActiveTab] = useState(session ? "changePassword" : "login");
   
   // Login State
-  const [username, setUsername] = useState("admin");
-  const [password, setPassword] = useState("admin123");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   
   // Change Password State
   const [currentPassword, setCurrentPassword] = useState("");
@@ -18,10 +19,10 @@ export function AuthModal({ isOpen, onClose, session, onLoginSuccess }) {
 
   if (!isOpen) return null;
 
-  const handleLoginSubmit = (e) => {
+  const handleLoginSubmit = async (e) => {
     e.preventDefault();
     setAlertMsg(null);
-    const res = AuthBAL.login(username, password);
+    const res = await AuthBAL.login(username, password);
 
     if (res.success) {
       setAlertMsg({ type: "success", text: res.message });
@@ -34,12 +35,12 @@ export function AuthModal({ isOpen, onClose, session, onLoginSuccess }) {
     }
   };
 
-  const handleChangePasswordSubmit = (e) => {
+  const handleChangePasswordSubmit = async (e) => {
     e.preventDefault();
     setAlertMsg(null);
 
     const userId = session ? session.id : "USR-1";
-    const res = AuthBAL.changePassword(userId, currentPassword, newPassword, confirmPassword);
+    const res = await AuthBAL.changePassword(userId, currentPassword, newPassword, confirmPassword);
 
     if (res.success) {
       setAlertMsg({ type: "success", text: res.message });
@@ -59,7 +60,7 @@ export function AuthModal({ isOpen, onClose, session, onLoginSuccess }) {
         </button>
 
         <div style={{ textAlign: "center", marginBottom: "1rem" }}>
-          <img src="/picklogo.png" alt="Pick My Travel" style={{ height: "40px", objectFit: "contain" }} />
+          <img src={assetUrl("picklogo.png")} alt="Pick My Travel" style={{ height: "40px", objectFit: "contain" }} />
         </div>
 
         {/* Tab Headers: Login / Change Password */}
@@ -115,7 +116,7 @@ export function AuthModal({ isOpen, onClose, session, onLoginSuccess }) {
               <input
                 type="text"
                 className="form-input"
-                placeholder="Default: admin"
+                placeholder="Administrator username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 required
@@ -130,16 +131,12 @@ export function AuthModal({ isOpen, onClose, session, onLoginSuccess }) {
               <input
                 type="password"
                 className="form-input"
-                placeholder="Default: admin123"
+                placeholder="Administrator password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
             </div>
-
-            <p style={{ fontSize: "0.8rem", color: "var(--text-muted)" }}>
-              * Default administrator credentials: <strong>admin</strong> / <strong>admin123</strong>
-            </p>
 
             <button type="submit" className="btn-primary" style={{ marginTop: "0.5rem", justifyContent: "center" }}>
               Authenticate & Login
@@ -167,7 +164,7 @@ export function AuthModal({ isOpen, onClose, session, onLoginSuccess }) {
               <input
                 type="password"
                 className="form-input"
-                placeholder="Minimum 6 characters"
+                placeholder="Minimum 12 characters"
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
                 required

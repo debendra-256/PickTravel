@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { APP_CONFIG } from "../config/app.config";
 import { dbFactory } from "../dal/DBFactory";
+import { assetUrl } from "../config/assetUrl";
 import {
   Phone,
   Mail,
@@ -104,7 +105,7 @@ export function Header({
               onClick={onOpenAdmin}
             >
               <Database size={12} />
-              <span>DAL: {driverType === "MYSQL" ? "MySQL DB" : driverType === "POSTGRES" ? "PostgreSQL DB" : "Excel DB"}</span>
+              <span>{driverType === "POSTGRES" ? "Neon Postgres" : "Database"}</span>
             </div>
 
             {session ? (
@@ -152,7 +153,7 @@ export function Header({
         <div className="container nav-container">
           {/* Brand Logo with picklogo.png */}
           <div className="logo-brand" style={{ cursor: "pointer" }} onClick={() => handleNavClick("home")}>
-            <img className="site-logo-image" src="/picklogo.png" alt="Pick My Travel" style={{ height: "48px", objectFit: "contain" }} />
+            <img className="site-logo-image" src={assetUrl("picklogo.png")} alt="Pick My Travel" style={{ height: "48px", objectFit: "contain" }} />
           </div>
 
           {/* HIDE ALL PUBLIC MENUS IF ON ADMIN DASHBOARD AFTER LOGIN */}

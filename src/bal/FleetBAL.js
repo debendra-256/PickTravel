@@ -55,7 +55,7 @@ export class FleetBAL {
     return cars;
   }
 
-  static addCar(carData) {
+  static async addCar(carData) {
     // Validation
     if (!carData.name || !carData.seater || !carData.hourlyPrice) {
       return { success: false, message: "Vehicle Name, Seater capacity, and Hourly Price are required." };
@@ -92,7 +92,9 @@ export class FleetBAL {
     };
 
     const driver = dbFactory.getDriver();
-    const inserted = driver.insert("Cars", newCar);
+    let inserted;
+    try { inserted = await driver.insert("Cars", newCar); }
+    catch (error) { return { success: false, message: error.message || "Failed to save car to Neon." }; }
 
     if (inserted) {
       return { success: true, car: inserted, message: `Vehicle '${newCar.name}' added successfully to Database!` };
@@ -101,7 +103,7 @@ export class FleetBAL {
     return { success: false, message: "Failed to save car to database." };
   }
 
-  static updateCar(carId, carData) {
+  static async updateCar(carId, carData) {
     if (!carData.name || !carData.seater || !carData.hourlyPrice) {
       return { success: false, message: "Vehicle Name, Seater capacity, and Hourly Price are required." };
     }
@@ -135,7 +137,9 @@ export class FleetBAL {
     };
 
     const driver = dbFactory.getDriver();
-    const updated = driver.update("Cars", carId, updatedPayload);
+    let updated;
+    try { updated = await driver.update("Cars", carId, updatedPayload); }
+    catch (error) { return { success: false, message: error.message || "Failed to update vehicle in Neon." }; }
 
     if (updated) {
       return { success: true, car: updated, message: `Vehicle '${updated.name}' updated successfully!` };
@@ -144,9 +148,11 @@ export class FleetBAL {
     return { success: false, message: "Failed to update vehicle in database." };
   }
 
-  static deleteCar(carId) {
+  static async deleteCar(carId) {
     const driver = dbFactory.getDriver();
-    const deleted = driver.delete("Cars", carId);
+    let deleted;
+    try { deleted = await driver.delete("Cars", carId); }
+    catch (error) { return { success: false, message: error.message || "Failed to delete vehicle from Neon." }; }
     if (deleted) {
       return { success: true, message: "Vehicle deleted successfully from database." };
     }

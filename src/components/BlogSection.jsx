@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { BookOpen, Calendar, Clock, User, ArrowRight, X } from "lucide-react";
+import { assetUrl } from "../config/assetUrl";
 
 export function BlogSection() {
   const [blogs, setBlogs] = useState([]);
   const [selectedBlog, setSelectedBlog] = useState(null);
 
   useEffect(() => {
-    fetch("/Blogs/TravelBlogs.json")
+    fetch(assetUrl("Blogs/TravelBlogs.json"))
       .then((res) => res.json())
       .then((data) => {
         // Support both array and single-object formats

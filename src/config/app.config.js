@@ -19,57 +19,8 @@ export const APP_CONFIG = {
   COUPON_CODE: "PICK500",
   COUPON_DISCOUNT: 500,
 
-  // Data Access Layer Configuration (Pluggable multi-database support)
-  // Options: 'EXCEL' | 'MYSQL' | 'POSTGRES'
+  // Data is persisted through the secured Neon Postgres API.
   ACTIVE_DB_DRIVER: "POSTGRES",
-
-  // Driver 1: Excel Database Configuration
-  EXCEL_CONFIG: {
-    STORAGE_KEY: "PickmyTravels_Excel_DB",
-    FILE_NAME: "PickmyTravels_Database.xlsx",
-    SHEETS: {
-      CARS: "Cars",
-      BOOKINGS: "Bookings",
-      USERS: "Users",
-      BLOGS: "Blogs",
-      ENQUIRIES: "Enquiries"
-    }
-  },
-
-  // Driver 2: MySQL Database Configuration (Simulated MySQL Relational Engine)
-  MYSQL_CONFIG: {
-    HOST: "localhost",
-    PORT: 3306,
-    DATABASE: "pickmytravels_db",
-    USER: "root",
-    PASSWORD: "password_secret",
-    CONNECTION_STRING: "mysql://root:password_secret@localhost:3306/pickmytravels_db",
-    TABLES: {
-      CARS: "tbl_cars",
-      BOOKINGS: "tbl_bookings",
-      USERS: "tbl_users",
-      BLOGS: "tbl_blogs",
-      ENQUIRIES: "tbl_enquiries"
-    }
-  },
-
-  // Driver 3: PostgreSQL Database Configuration (Simulated PostgreSQL Relational Engine)
-  POSTGRES_CONFIG: {
-    HOST: "localhost",
-    PORT: 5432,
-    DATABASE: "pickmytravels_pg",
-    USER: "postgres",
-    PASSWORD: "postgres_secret",
-    SCHEMA: "public",
-    CONNECTION_STRING: "postgresql://postgres:postgres_secret@localhost:5432/pickmytravels_pg",
-    TABLES: {
-      CARS: "cars",
-      BOOKINGS: "bookings",
-      USERS: "users",
-      BLOGS: "blogs",
-      ENQUIRIES: "enquiries"
-    }
-  },
 
   // Social Links
   SOCIAL: {

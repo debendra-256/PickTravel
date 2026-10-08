@@ -2,7 +2,7 @@ import { dbFactory } from "../dal/DBFactory";
 import { APP_CONFIG } from "../config/app.config";
 
 export class EnquiryBAL {
-  static submitEnquiry(enquiryData) {
+  static async submitEnquiry(enquiryData) {
     if (!enquiryData.name || !enquiryData.phone) {
       return { success: false, message: "Name and Phone number are required." };
     }
@@ -19,7 +19,9 @@ export class EnquiryBAL {
     };
 
     const driver = dbFactory.getDriver();
-    const inserted = driver.insert("Enquiries", newEnquiry);
+    let inserted;
+    try { inserted = await driver.insert("Enquiries", newEnquiry); }
+    catch (error) { return { success: false, message: error.message || "Failed to submit enquiry." }; }
 
     // WhatsApp links open a prefilled notification for the administrator.
     const waText = [

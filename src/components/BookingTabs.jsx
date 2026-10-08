@@ -3,6 +3,8 @@ import { BookingBAL } from "../bal/BookingBAL";
 import { FleetBAL } from "../bal/FleetBAL";
 import { OfferBannerBAL } from "../bal/OfferBannerBAL";
 import { APP_CONFIG } from "../config/app.config";
+import { DATABASE_UPDATED_EVENT } from "../dal/drivers/PostgresDriver";
+import { assetUrl } from "../config/assetUrl";
 import {
   MapPin,
   Calendar,
@@ -21,17 +23,17 @@ import {
 // Background Hero Carousel Image Slides(1536 × 1024 px resolution)
 const CAROUSEL_SLIDES = [
   {
-    url: "/corosal_image/JagannathTemple.png",
+    url: assetUrl("corosal_image/JagannathTemple.png"),
     title: "Puri Jagannath Temple & Pilgrimage Tours",
     subtitle: "Explore Lord Jagannath Dham, Grand Road & Beach Tours with Professional Drivers"
   },
   {
-    url: "/corosal_image/konark-temple-puri-odisha-2-attr-hero.jpeg",
+    url: assetUrl("corosal_image/konark-temple-puri-odisha-2-attr-hero.jpeg"),
     title: "Scenic Puri-Konark Sun Temple & Marine Drive",
     subtitle: "Customized Day Tours, UNESCO World Heritage Sun Temple & Coastal Road Trips"
   },
   {
-    url: "/corosal_image/marine_drive.jpg",
+    url: assetUrl("corosal_image/marine_drive.jpg"),
     title: "Scenic View Marine Drive Eco Retreat",
     subtitle: "A vibrant seaside retreat featuring the deep blue ocean, bright skies, sandy shores, and a bold “Marine Drive Eco Retreat” sign."
   }
@@ -51,7 +53,7 @@ export function BookingTabs({
 }) {
   const [activeTab, setActiveTab] = useState(initialTab);
   const [cars, setCars] = useState([]);
-  const [offerBanner] = useState(() => OfferBannerBAL.getOfferBanner());
+  const [offerBanner, setOfferBanner] = useState(() => OfferBannerBAL.getOfferBanner());
   const [selectedCarId, setSelectedCarId] = useState(preselectedCarId || "");
 
   // If a preselectedCarId is provided, set it on mount or when it changes
@@ -125,7 +127,7 @@ export function BookingTabs({
   }, [initialPackage]);
 
   // Fetch car list from BAL
-  useEffect(() => {
+  const loadCars = () => {
     const list = FleetBAL.getCars();
     setCars(list);
     if (list.length > 0) {
@@ -134,6 +136,13 @@ export function BookingTabs({
         return exists ? prev : list[0].id;
       });
     }
+  };
+
+  useEffect(() => {
+    loadCars();
+    OfferBannerBAL.syncOfferBanner().then(setOfferBanner);
+    window.addEventListener(DATABASE_UPDATED_EVENT, loadCars);
+    return () => window.removeEventListener(DATABASE_UPDATED_EVENT, loadCars);
   }, [carsVersion]);
 
   // Recalculate fare whenever tab or inputs change
@@ -149,7 +158,7 @@ export function BookingTabs({
     setEstimatedFare(fare);
   }, [activeTab, selectedCarId, packageType, packageName, cars]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setAlertMsg(null);
 
@@ -172,7 +181,7 @@ export function BookingTabs({
       selectedCarName: carObj ? carObj.name : "Selected Car"
     };
 
-    const res = BookingBAL.createBooking(bookingPayload);
+    const res = await BookingBAL.createBooking(bookingPayload);
 
     if (res.success) {
       setAlertMsg({ type: "success", text: res.message });

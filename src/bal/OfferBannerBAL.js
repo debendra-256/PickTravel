@@ -1,4 +1,7 @@
-const STORAGE_KEY = "PickMyTravels_Festive_Offer_Banner";
+import { apiRequest } from "../dal/apiClient";
+import { DATABASE_UPDATED_EVENT } from "../dal/drivers/PostgresDriver";
+
+const STORAGE_KEY = "PickmyTravels_Festive_Offer_Banner";
 
 const DEFAULT_OFFER_BANNER = {
   enabled: true,
@@ -19,7 +22,21 @@ export const OfferBannerBAL = {
     }
   },
 
-  saveOfferBanner(values) {
+  async syncOfferBanner() {
+    try {
+      const records = await apiRequest("/api/records/Settings");
+      const saved = records.find((record) => record.id === "festive-offer");
+      if (!saved) return this.getOfferBanner();
+      const offer = { ...DEFAULT_OFFER_BANNER, ...saved };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(offer));
+      window.dispatchEvent(new CustomEvent(DATABASE_UPDATED_EVENT));
+      return offer;
+    } catch {
+      return this.getOfferBanner();
+    }
+  },
+
+  async saveOfferBanner(values) {
     const amountValue = Number(values.amount);
     const offer = {
       enabled: Boolean(values.enabled),
@@ -30,8 +47,13 @@ export const OfferBannerBAL = {
     };
 
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(offer));
-      return { success: true, offer, message: "Festive offer banner saved." };
+      const saved = await apiRequest("/api/records/Settings", {
+        method: "POST",
+        body: JSON.stringify(offer)
+      });
+      const persistedOffer = { ...DEFAULT_OFFER_BANNER, ...saved };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(persistedOffer));
+      return { success: true, offer: persistedOffer, message: "Festive offer banner saved to Neon." };
     } catch {
       return { success: false, message: "Could not save the festive offer banner." };
     }

@@ -1,5 +1,6 @@
 import React from "react";
 import { APP_CONFIG } from "../config/app.config";
+import { assetUrl } from "../config/assetUrl";
 import { Phone, Mail, MapPin, MessageSquare, ShieldCheck, CreditCard } from "lucide-react";
 
 export function Footer({ setActiveTab, onOpenAuthModal, onOpenFeedback, showFeedback = true }) {
@@ -10,7 +11,7 @@ export function Footer({ setActiveTab, onOpenAuthModal, onOpenFeedback, showFeed
           {/* Col 1: Brand & Bio */}
           <div>
             <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "1rem" }}>
-              <img className="site-logo-image" src="/picklogo.png" alt={APP_CONFIG.COMPANY_NAME} style={{ height: "42px", objectFit: "contain" }} />
+              <img className="site-logo-image" src={assetUrl("picklogo.png")} alt={APP_CONFIG.COMPANY_NAME} style={{ height: "42px", objectFit: "contain" }} />
             </div>
             <p style={{ color: "#94a3b8", fontSize: "0.88rem", marginBottom: "1.25rem", lineHeight: "1.6" }}>
               Pick My Travel is Odisha's premier car rental agency providing reliable outstation cabs, local city sightseeing, airport pickups, and luxury tempo travellers.
@@ -73,7 +74,7 @@ export function Footer({ setActiveTab, onOpenAuthModal, onOpenFeedback, showFeed
             © 2026 {APP_CONFIG.COMPANY_NAME}. All rights reserved.
           </div>
           <div className="footer-payment">
-            <img className="footer-payment-qr" src="/payment-qr.png" alt="Scan to pay with PhonePe" />
+            <img className="footer-payment-qr" src={assetUrl("payment-qr.png")} alt="Scan to pay with PhonePe" />
             <div className="footer-payment-copy">
               <span className="footer-payment-label"><CreditCard size={16} /> Easy, secure payments</span>
               <span className="footer-payment-methods">We accept UPI, Credit Cards, NetBanking, Cash.</span>

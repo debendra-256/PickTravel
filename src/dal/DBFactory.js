@@ -1,6 +1,4 @@
 import { APP_CONFIG } from "../config/app.config";
-import { ExcelDriver } from "./drivers/ExcelDriver";
-import { MysqlDriver } from "./drivers/MysqlDriver";
 import { PostgresDriver } from "./drivers/PostgresDriver";
 
 class DBFactory {
@@ -15,16 +13,8 @@ class DBFactory {
       this.driverInstance.disconnect();
     }
 
-    if (driverType === "MYSQL") {
-      this.driverInstance = new MysqlDriver();
-      this.currentDriverName = "MYSQL";
-    } else if (driverType === "POSTGRES") {
-      this.driverInstance = new PostgresDriver();
-      this.currentDriverName = "POSTGRES";
-    } else {
-      this.driverInstance = new ExcelDriver();
-      this.currentDriverName = "EXCEL";
-    }
+    this.driverInstance = new PostgresDriver();
+    this.currentDriverName = "POSTGRES";
 
     this.driverInstance.connect();
     console.log(`[DAL:DBFactory] Active Driver switched to: ${this.currentDriverName}`);
@@ -41,7 +31,7 @@ class DBFactory {
 
   // Switch driver dynamically at runtime (Excel <-> MySQL <-> PostgreSQL)
   switchDriver(driverType) {
-    return this.initializeDriver(driverType);
+    return this.initializeDriver(driverType === "POSTGRES" ? "POSTGRES" : this.currentDriverName);
   }
 
   // Download a backup of the currently active database without changing records

@@ -48,7 +48,7 @@ export class BookingBAL {
     }
   }
 
-  static createBooking(bookingData) {
+  static async createBooking(bookingData) {
     const {
       tripType,
       customerName,
@@ -117,7 +117,9 @@ export class BookingBAL {
       createdAt: new Date().toLocaleString()
     };
 
-    const inserted = driver.insert("Bookings", newBooking);
+    let inserted;
+    try { inserted = await driver.insert("Bookings", newBooking); }
+    catch (error) { return { success: false, message: error.message || "Failed to save booking." }; }
 
     if (inserted) {
       return {
@@ -135,16 +137,18 @@ export class BookingBAL {
     return driver.findAll("Bookings");
   }
 
-  static updateBookingStatus(bookingId, newStatus) {
+  static async updateBookingStatus(bookingId, newStatus) {
     const driver = dbFactory.getDriver();
-    const updated = driver.update("Bookings", bookingId, { status: newStatus });
+    let updated;
+    try { updated = await driver.update("Bookings", bookingId, { status: newStatus }); }
+    catch (error) { return { success: false, message: error.message || "Failed to update booking." }; }
     if (updated) {
       return { success: true, message: `Booking #${bookingId} status updated to '${newStatus}'.` };
     }
     return { success: false, message: "Failed to update booking status." };
   }
 
-  static confirmBookingWithDriver(bookingId, driverDetails) {
+  static async confirmBookingWithDriver(bookingId, driverDetails) {
     const driver = dbFactory.getDriver();
     const updateData = {
       status: "Confirmed",
@@ -154,7 +158,9 @@ export class BookingBAL {
     if (driverDetails.estimatedFare !== undefined && driverDetails.estimatedFare !== "") {
       updateData.estimatedFare = Number(driverDetails.estimatedFare) || driverDetails.estimatedFare;
     }
-    const updated = driver.update("Bookings", bookingId, updateData);
+    let updated;
+    try { updated = await driver.update("Bookings", bookingId, updateData); }
+    catch (error) { return { success: false, message: error.message || "Failed to update driver details." }; }
     if (updated) {
       return {
         success: true,
@@ -165,7 +171,7 @@ export class BookingBAL {
     return { success: false, message: "Failed to update booking with driver details." };
   }
 
-  static cancelBooking(bookingId) {
+  static async cancelBooking(bookingId) {
     return this.updateBookingStatus(bookingId, "Cancelled");
   }
 }

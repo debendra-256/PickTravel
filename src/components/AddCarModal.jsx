@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FleetBAL } from "../bal/FleetBAL";
 import { X, PlusCircle, Save } from "lucide-react";
+import { assetUrl } from "../config/assetUrl";
 
 export function AddCarModal({ isOpen, onClose, onCarAdded, carToEdit = null }) {
   const [name, setName] = useState("");
@@ -54,7 +55,7 @@ export function AddCarModal({ isOpen, onClose, onCarAdded, carToEdit = null }) {
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setAlertMsg(null);
 
@@ -81,9 +82,9 @@ export function AddCarModal({ isOpen, onClose, onCarAdded, carToEdit = null }) {
 
     let res;
     if (carToEdit && carToEdit.id) {
-      res = FleetBAL.updateCar(carToEdit.id, carData);
+      res = await FleetBAL.updateCar(carToEdit.id, carData);
     } else {
-      res = FleetBAL.addCar(carData);
+      res = await FleetBAL.addCar(carData);
     }
 
     if (res.success) {
@@ -105,7 +106,7 @@ export function AddCarModal({ isOpen, onClose, onCarAdded, carToEdit = null }) {
         </button>
 
         <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "1.25rem" }}>
-          <img src="/picklogo.png" alt="Pick My Travel" style={{ height: "36px", objectFit: "contain" }} />
+          <img src={assetUrl("picklogo.png")} alt="Pick My Travel" style={{ height: "36px", objectFit: "contain" }} />
           <h3 style={{ fontSize: "1.3rem" }}>
             {carToEdit ? "Edit Vehicle Details" : "Add New Vehicle to Fleet"}
           </h3>

@@ -2,6 +2,8 @@ import React, { useEffect, useMemo, useState } from "react";
 import { Car, Download, Search } from "lucide-react";
 import { FleetBAL } from "../bal/FleetBAL";
 import { APP_CONFIG } from "../config/app.config";
+import { DATABASE_UPDATED_EVENT } from "../dal/drivers/PostgresDriver";
+import { assetUrl } from "../config/assetUrl";
 
 const formatRate = (rate) => {
   if (rate === null || rate === undefined || rate === "") return "Contact for rate";
@@ -20,7 +22,10 @@ export function RateChartPage({ carsVersion = 0 }) {
   const [categoryFilter, setCategoryFilter] = useState("ALL");
 
   useEffect(() => {
-    setCars(FleetBAL.getCars());
+    const loadCars = () => setCars(FleetBAL.getCars());
+    loadCars();
+    window.addEventListener(DATABASE_UPDATED_EVENT, loadCars);
+    return () => window.removeEventListener(DATABASE_UPDATED_EVENT, loadCars);
   }, [carsVersion]);
 
   const categories = useMemo(() => [...new Set(cars.map((car) => car.category).filter(Boolean))].sort(), [cars]);
@@ -36,7 +41,7 @@ export function RateChartPage({ carsVersion = 0 }) {
   return (
     <section className="rate-chart-page">
       <div className="rate-chart-print-header">
-        <img src="/picklogo.png" alt={APP_CONFIG.COMPANY_NAME} />
+        <img src={assetUrl("picklogo.png")} alt={APP_CONFIG.COMPANY_NAME} />
         <div>
           <strong>{APP_CONFIG.COMPANY_NAME}</strong>
           <span>WhatsApp: {APP_CONFIG.DISPLAY_WHATSAPP}</span>

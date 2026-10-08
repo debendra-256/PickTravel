@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { ArrowRight, Award, Car, ChevronLeft, ChevronRight, Clock, CreditCard, MapPin, Plane, ShieldCheck, Sparkles, Tag, Users } from "lucide-react";
 import { APP_CONFIG } from "../config/app.config";
+import { assetUrl } from "../config/assetUrl";
 import { FestiveOfferStrip } from "./FestiveOfferStrip";
 
 const offers = [
@@ -132,7 +133,7 @@ export function OfferScroller({ onBook }) {
           const Icon = offer.icon;
           return (
             <article className={`offer-card offer-card-${offer.tone}`} key={offer.id}>
-              {offer.id === "diwali" && <img className="offer-diwali-art" src="/diwali-lakshmi.png" alt="" aria-hidden="true" />}
+              {offer.id === "diwali" && <img className="offer-diwali-art" src={assetUrl("diwali-lakshmi.png")} alt="" aria-hidden="true" />}
               <div className="offer-card-top">
                 <span className="offer-card-icon"><Icon size={25} strokeWidth={2.2} /></span>
                 <span className="offer-card-eyebrow">{offer.eyebrow}</span>

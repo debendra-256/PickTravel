@@ -4,6 +4,7 @@ import { BookingBAL } from "../bal/BookingBAL";
 import { FleetBAL } from "../bal/FleetBAL";
 import { EnquiryBAL } from "../bal/EnquiryBAL";
 import { OfferBannerBAL } from "../bal/OfferBannerBAL";
+import { DATABASE_UPDATED_EVENT } from "../dal/drivers/PostgresDriver";
 import {
   Database,
   DatabaseBackup,
@@ -35,8 +36,8 @@ import {
 const buildDriverDetailsMessage = (booking, driver, fare) => `*Booking Confirmed - Pick My Travel*\n\nDear ${booking.customerName},\nYour booking *#${booking.id}* has been confirmed!\n\nPickup: ${booking.pickupLocation}\nDate: ${booking.pickupDate} (${booking.pickupTime})\nVehicle: ${booking.selectedCar}\nTotal Fare: ₹${fare}\n\n*Driver Details:*\nDriver Name: *${driver.name}*\nDriver Mobile: *${driver.phone}*\n\n*⚠️ Note: The quoted fare is approximate and may vary based on applicable RTO/government guidelines, actual distance, trip duration, route changes, waiting time, or additional usage; toll, parking, and other applicable charges are extra as per actuals, and the final fare and trip inclusions should be confirmed with PickMyTravels before the journey to avoid any disputes.*\n\nPlease coordinate with your driver upon arrival.\nHelpline: +91 9853706020\n\nThank you for choosing Pick My Travel!`;
 
 export function AdminDashboard({ session, onLogout, onOpenAddCar, onEditCar, onOpenAuthModal, carsVersion = 0, onCarsChange }) {
-  const [activeDriver, setActiveDriver] = useState(dbFactory.getActiveDriverInfo().type);
-  const [driverStatus, setDriverStatus] = useState(dbFactory.getActiveDriverInfo().status);
+  const [activeDriver] = useState(dbFactory.getActiveDriverInfo().type);
+  const [driverStatus] = useState(dbFactory.getActiveDriverInfo().status);
   const [bookings, setBookings] = useState([]);
   const [enquiries, setEnquiries] = useState([]);
   const [cars, setCars] = useState([]);
@@ -56,9 +57,6 @@ export function AdminDashboard({ session, onLogout, onOpenAddCar, onEditCar, onO
   const enquiryRecords = enquiries.filter((record) => !String(record.type || "").toLowerCase().includes("feedback"));
 
   const reloadData = () => {
-    const activeInfo = dbFactory.getActiveDriverInfo();
-    setActiveDriver(activeInfo.type);
-    setDriverStatus(activeInfo.status);
     const bList = BookingBAL.getBookings();
     setBookings(bList);
     const eList = EnquiryBAL.getEnquiries();
@@ -69,18 +67,14 @@ export function AdminDashboard({ session, onLogout, onOpenAddCar, onEditCar, onO
 
   useEffect(() => {
     reloadData();
+    OfferBannerBAL.syncOfferBanner().then(setOfferBanner);
+    window.addEventListener(DATABASE_UPDATED_EVENT, reloadData);
+    return () => window.removeEventListener(DATABASE_UPDATED_EVENT, reloadData);
   }, [carsVersion]);
 
-  const handleSwitchDriver = (driverType) => {
-    dbFactory.switchDriver(driverType);
-    reloadData();
-    if (onCarsChange) onCarsChange();
-    setStatusMsg({ type: "success", text: `Active DAL Driver switched to [${driverType}] mode!` });
-  };
-
-  const handleExportDatabase = () => {
+  const handleExportDatabase = async () => {
     const driver = dbFactory.getDriver();
-    const res = driver.exportData();
+    const res = await driver.exportData();
     if (res.success) {
       setStatusMsg({ type: "success", text: `Database exported successfully as [${res.fileName}]!` });
     } else {
@@ -88,9 +82,9 @@ export function AdminDashboard({ session, onLogout, onOpenAddCar, onEditCar, onO
     }
   };
 
-  const handleSaveOfferBanner = (event) => {
+  const handleSaveOfferBanner = async (event) => {
     event.preventDefault();
-    const result = OfferBannerBAL.saveOfferBanner(offerBanner);
+    const result = await OfferBannerBAL.saveOfferBanner(offerBanner);
     if (result.success) {
       setOfferBanner(result.offer);
       setStatusMsg({ type: "success", text: result.message });
@@ -99,8 +93,8 @@ export function AdminDashboard({ session, onLogout, onOpenAddCar, onEditCar, onO
     }
   };
 
-  const handleBackupDatabase = () => {
-    const res = dbFactory.backupActiveDatabase();
+  const handleBackupDatabase = async () => {
+    const res = await dbFactory.backupActiveDatabase();
     if (res.success) {
       setStatusMsg({ type: "success", text: `Database backup downloaded as [${res.fileName}]!` });
     } else {
@@ -108,8 +102,8 @@ export function AdminDashboard({ session, onLogout, onOpenAddCar, onEditCar, onO
     }
   };
 
-  const handleStatusChange = (id, newStatus) => {
-    const res = BookingBAL.updateBookingStatus(id, newStatus);
+  const handleStatusChange = async (id, newStatus) => {
+    const res = await BookingBAL.updateBookingStatus(id, newStatus);
     if (res.success) {
       reloadData();
       setStatusMsg({ type: "success", text: res.message });
@@ -123,7 +117,7 @@ export function AdminDashboard({ session, onLogout, onOpenAddCar, onEditCar, onO
     setDriverPrice(booking.estimatedFare !== undefined ? String(booking.estimatedFare) : "");
   };
 
-  const handleConfirmAndSendWhatsApp = (e) => {
+  const handleConfirmAndSendWhatsApp = async (e) => {
     e.preventDefault();
     if (!confirmingBooking) return;
     if (!driverName.trim()) {
@@ -141,7 +135,7 @@ export function AdminDashboard({ session, onLogout, onOpenAddCar, onEditCar, onO
       estimatedFare: driverPrice.trim() !== "" ? Number(driverPrice) : confirmingBooking.estimatedFare
     };
 
-    const res = BookingBAL.confirmBookingWithDriver(confirmingBooking.id, updatedData);
+    const res = await BookingBAL.confirmBookingWithDriver(confirmingBooking.id, updatedData);
 
     if (res.success) {
       // Build WhatsApp message for customer
@@ -178,9 +172,9 @@ export function AdminDashboard({ session, onLogout, onOpenAddCar, onEditCar, onO
     }
   };
 
-  const handleDeleteCar = (car) => {
+  const handleDeleteCar = async (car) => {
     if (window.confirm(`Are you sure you want to delete vehicle "${car.name}" from the database?`)) {
-      const res = FleetBAL.deleteCar(car.id);
+      const res = await FleetBAL.deleteCar(car.id);
       if (res.success) {
         setStatusMsg({ type: "success", text: res.message });
         reloadData();
@@ -315,72 +309,15 @@ export function AdminDashboard({ session, onLogout, onOpenAddCar, onEditCar, onO
             <div>
               <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "0.5rem" }}>
                 <Database size={22} style={{ color: "var(--primary-red)" }} />
-                <h3 style={{ color: "white", fontSize: "1.3rem" }}>Pluggable Data Access Layer (DAL)</h3>
+                <h3 style={{ color: "white", fontSize: "1.3rem" }}>Neon Postgres Database</h3>
               </div>
               <p style={{ color: "#94a3b8", fontSize: "0.9rem" }}>
-                Active Driver: <strong>{driverStatus ? driverStatus.driver : activeDriver}</strong> | Target: <code>{driverStatus ? driverStatus.connectionString || driverStatus.storageKey : ""}</code>
+                Active database: <strong>{driverStatus ? driverStatus.driver : activeDriver}</strong> · {driverStatus?.connected ? "Connected through the Neon API" : "Waiting for the Neon API"}
               </p>
             </div>
 
-            {/* Switcher & Export Action Buttons */}
+            {/* Neon database actions */}
             <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
-              <button
-                onClick={() => handleSwitchDriver("EXCEL")}
-                style={{
-                  background: activeDriver === "EXCEL" ? "var(--primary-red)" : "rgba(255,255,255,0.1)",
-                  color: "white",
-                  padding: "0.6rem 1.25rem",
-                  borderRadius: "6px",
-                  fontWeight: "700",
-                  fontSize: "0.85rem",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "0.4rem"
-                }}
-              >
-                <FileSpreadsheet size={16} />
-                <span>Switch to Excel DB</span>
-                {activeDriver === "EXCEL" && <Check size={14} />}
-              </button>
-
-              <button
-                onClick={() => handleSwitchDriver("MYSQL")}
-                style={{
-                  background: activeDriver === "MYSQL" ? "#3b82f6" : "rgba(255,255,255,0.1)",
-                  color: "white",
-                  padding: "0.6rem 1.25rem",
-                  borderRadius: "6px",
-                  fontWeight: "700",
-                  fontSize: "0.85rem",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "0.4rem"
-                }}
-              >
-                <Database size={16} />
-                <span>Switch to MySQL DB</span>
-                {activeDriver === "MYSQL" && <Check size={14} />}
-              </button>
-
-              <button
-                onClick={() => handleSwitchDriver("POSTGRES")}
-                style={{
-                  background: activeDriver === "POSTGRES" ? "#336791" : "rgba(255,255,255,0.1)",
-                  color: "white",
-                  padding: "0.6rem 1.25rem",
-                  borderRadius: "6px",
-                  fontWeight: "700",
-                  fontSize: "0.85rem",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "0.4rem"
-                }}
-              >
-                <Database size={16} />
-                <span>Switch to PostgreSQL</span>
-                {activeDriver === "POSTGRES" && <Check size={14} />}
-              </button>
-
               <button
                 onClick={handleBackupDatabase}
                 style={{

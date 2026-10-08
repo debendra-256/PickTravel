@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { EnquiryBAL } from "../bal/EnquiryBAL";
 import { MessageSquare, Send, X } from "lucide-react";
+import { assetUrl } from "../config/assetUrl";
 
 export function FeedbackModal({ isOpen, onClose, mode = "feedback" }) {
   const [name, setName] = useState("");
@@ -23,12 +24,12 @@ export function FeedbackModal({ isOpen, onClose, mode = "feedback" }) {
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setAlertMsg(null);
 
     const isFeedback = mode === "feedback";
-    const res = EnquiryBAL.submitEnquiry({
+    const res = await EnquiryBAL.submitEnquiry({
       name,
       phone,
       email,
@@ -70,7 +71,7 @@ export function FeedbackModal({ isOpen, onClose, mode = "feedback" }) {
         </button>
 
         <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "1.25rem" }}>
-          <img src="/picklogo.png" alt="Pick My Travel" style={{ height: "36px", objectFit: "contain" }} />
+          <img src={assetUrl("picklogo.png")} alt="Pick My Travel" style={{ height: "36px", objectFit: "contain" }} />
           <div>
             <h3 style={{ fontSize: "1.3rem" }}>{mode === "feedback" ? "Share Feedback" : "Quick Enquiry"}</h3>
             <p style={{ fontSize: "0.8rem", color: "var(--text-muted)" }}>

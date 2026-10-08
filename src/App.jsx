@@ -35,10 +35,9 @@ export default function App() {
   const [feedbackModalMode, setFeedbackModalMode] = useState("feedback");
 
   useEffect(() => {
-    const user = AuthBAL.getCurrentUser();
-    if (user) {
-      setSession(user);
-    }
+    let active = true;
+    AuthBAL.restoreSession().then((user) => { if (active) setSession(user); });
+    return () => { active = false; };
   }, []);
 
   const handleLoginSuccess = (userSession) => {

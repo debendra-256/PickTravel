@@ -1,16 +1,19 @@
-# React + Vite
+# PickMyTravels
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+PickMyTravels is a React/Vite booking site. Its public pages are deployed to GitHub Pages, while bookings, fleet records, enquiries, offers, and administrator access use a protected API deployed as a Neon Function next to the Neon Postgres database.
 
-Currently, two official plugins are available:
+## Local development
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+1. Install dependencies with `npm ci`.
+2. Keep the ignored `.env.local` file containing the Neon environment values and generated admin/session secrets.
+3. Start the frontend with `npm run dev`.
 
-## React Compiler
+The first admin username is `admin`. The generated initial password is in `.env.local` as `INITIAL_ADMIN_PASSWORD`; change it from the Admin Panel after signing in. Never commit `.env.local` or `.neon`.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Deployments
 
-## Expanding the Oxlint configuration
+- `neon deploy --env .env.local` deploys the API declared in `neon.ts` to the linked Neon branch.
+- GitHub Actions builds and publishes the frontend from `main` to GitHub Pages. Configure the repository Actions variable `VITE_API_BASE_URL` with the public Neon Function base URL.
+- `.env.local`, `.neon`, and build output are excluded from Git.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+The Neon API accepts public vehicle/blog/offer reads and booking/enquiry submissions. Admin login and all administrative data changes require a signed, expiring session token.

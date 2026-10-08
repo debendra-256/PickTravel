@@ -1,8 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { OfferBannerBAL } from "../bal/OfferBannerBAL";
+import { assetUrl } from "../config/assetUrl";
+import { DATABASE_UPDATED_EVENT } from "../dal/drivers/PostgresDriver";
 
 export function FestiveOfferStrip() {
-  const [offer] = useState(() => OfferBannerBAL.getOfferBanner());
+  const [offer, setOffer] = useState(() => OfferBannerBAL.getOfferBanner());
+  useEffect(() => {
+    OfferBannerBAL.syncOfferBanner().then(setOffer);
+    const sync = () => setOffer(OfferBannerBAL.getOfferBanner());
+    window.addEventListener(DATABASE_UPDATED_EVENT, sync);
+    return () => window.removeEventListener(DATABASE_UPDATED_EVENT, sync);
+  }, []);
   if (!offer.enabled || !(offer.title || offer.message || offer.code)) return null;
 
   return (
@@ -22,18 +30,18 @@ export function FestiveOfferStrip() {
         </div>
       </div>
       <div className="festive-roadside-trees" aria-hidden="true">
-        <img className="festive-roadside-tree festive-roadside-tree-left" src="/festive-roadside-tree.png" alt="" />
-        <img className="festive-roadside-tree festive-roadside-tree-center" src="/festive-roadside-tree-pink.png" alt="" />
-        <img className="festive-roadside-tree festive-roadside-tree-right" src="/festive-roadside-tree.png" alt="" />
+        <img className="festive-roadside-tree festive-roadside-tree-left" src={assetUrl("festive-roadside-tree.png")} alt="" />
+        <img className="festive-roadside-tree festive-roadside-tree-center" src={assetUrl("festive-roadside-tree-pink.png")} alt="" />
+        <img className="festive-roadside-tree festive-roadside-tree-right" src={assetUrl("festive-roadside-tree.png")} alt="" />
       </div>
       <div className="festive-car-track" aria-hidden="true">
         <div className="festive-moving-car">
-          <img className="festive-moving-car-image" src="/swift-dzire-white.png" alt="" />
+          <img className="festive-moving-car-image" src={assetUrl("swift-dzire-white.png")} alt="" />
           <span className="festive-car-wheel festive-car-wheel-front" />
           <span className="festive-car-wheel festive-car-wheel-rear" />
         </div>
         <div className="festive-moving-vehicle festive-moving-bus" aria-hidden="true">
-          <img className="festive-moving-bus-image" src="/shyamoli-bus-green.png" alt="" />
+          <img className="festive-moving-bus-image" src={assetUrl("shyamoli-bus-green.png")} alt="" />
           <span className="festive-bus-brand"><span className="festive-bus-brand-text">PICKMYTRAVELS.com</span></span>
           <span className="festive-bus-wheel festive-bus-wheel-one" />
           <span className="festive-bus-wheel festive-bus-wheel-two" />

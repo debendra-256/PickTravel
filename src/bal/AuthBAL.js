@@ -1,72 +1,61 @@
+import { apiRequest } from "../dal/apiClient";
 import { dbFactory } from "../dal/DBFactory";
 
+const SESSION_KEY = "PATRA_SESSION";
+
 export class AuthBAL {
-  static login(username, password) {
-    if (!username || !password) {
-      return { success: false, message: "Please enter both username and password." };
+  static async login(username, password) {
+    if (!username || !password) return { success: false, message: "Please enter both username and password." };
+    try {
+      const result = await apiRequest("/api/auth/login", {
+        method: "POST",
+        body: JSON.stringify({ username: username.trim(), password })
+      });
+      sessionStorage.setItem("PATRA_TOKEN", result.token);
+      sessionStorage.setItem(SESSION_KEY, JSON.stringify({ ...result.user, loginTime: new Date().toISOString() }));
+      await dbFactory.getDriver().hydrateRemote(true);
+      return { success: true, user: this.getCurrentUser(), message: "Login successful!" };
+    } catch (error) {
+      return { success: false, message: error.message || "Unable to sign in." };
     }
-
-    const driver = dbFactory.getDriver();
-    const users = driver.findAll("Users");
-
-    const user = users.find(
-      (u) => u.username.toLowerCase() === username.trim().toLowerCase() && u.password === password
-    );
-
-    if (user) {
-      const session = {
-        id: user.id,
-        username: user.username,
-        role: user.role,
-        email: user.email,
-        loginTime: new Date().toLocaleString()
-      };
-      sessionStorage.setItem("PATRA_SESSION", JSON.stringify(session));
-      return { success: true, user: session, message: "Login successful!" };
-    }
-
-    return { success: false, message: "Invalid username or password. Default admin: admin / admin123" };
   }
 
   static getCurrentUser() {
-    const raw = sessionStorage.getItem("PATRA_SESSION");
-    return raw ? JSON.parse(raw) : null;
+    try { return JSON.parse(sessionStorage.getItem(SESSION_KEY) || "null"); }
+    catch { return null; }
+  }
+
+  static async restoreSession() {
+    if (!sessionStorage.getItem("PATRA_TOKEN")) return null;
+    try {
+      const result = await apiRequest("/api/auth/session");
+      sessionStorage.setItem(SESSION_KEY, JSON.stringify(result.user));
+      await dbFactory.getDriver().hydrateRemote(true);
+      return result.user;
+    } catch {
+      this.logout();
+      return null;
+    }
   }
 
   static logout() {
-    sessionStorage.removeItem("PATRA_SESSION");
+    sessionStorage.removeItem("PATRA_TOKEN");
+    sessionStorage.removeItem(SESSION_KEY);
     return true;
   }
 
-  static changePassword(userId, currentPassword, newPassword, confirmPassword) {
-    if (!currentPassword || !newPassword || !confirmPassword) {
-      return { success: false, message: "All password fields are required." };
+  static async changePassword(_userId, currentPassword, newPassword, confirmPassword) {
+    if (!currentPassword || !newPassword || !confirmPassword) return { success: false, message: "All password fields are required." };
+    if (newPassword !== confirmPassword) return { success: false, message: "New password and Confirm password do not match." };
+    if (newPassword.length < 12) return { success: false, message: "New password must be at least 12 characters long." };
+    try {
+      const result = await apiRequest("/api/auth/password", {
+        method: "POST",
+        body: JSON.stringify({ currentPassword, newPassword })
+      });
+      return { success: true, message: result.message };
+    } catch (error) {
+      return { success: false, message: error.message || "Password could not be changed." };
     }
-
-    if (newPassword !== confirmPassword) {
-      return { success: false, message: "New password and Confirm password do not match." };
-    }
-
-    if (newPassword.length < 6) {
-      return { success: false, message: "New password must be at least 6 characters long." };
-    }
-
-    const driver = dbFactory.getDriver();
-    const currentUser = driver.findById("Users", userId || "USR-1");
-
-    if (!currentUser) {
-      return { success: false, message: "User account not found." };
-    }
-
-    if (currentUser.password !== currentPassword) {
-      return { success: false, message: "Incorrect current password." };
-    }
-
-    const updated = driver.update("Users", currentUser.id, { password: newPassword });
-    if (updated) {
-      return { success: true, message: "Password changed successfully! Please use new password next time." };
-    }
-
-    return { success: false, message: "Failed to update password in database." };
   }
 }
