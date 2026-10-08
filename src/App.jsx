@@ -159,7 +159,6 @@ export default function App() {
             session={session}
             carsVersion={carsVersion}
             onCarsChange={() => setCarsVersion((prev) => prev + 1)}
-            onLogout={handleLogout}
             onOpenAddCar={handleOpenAddCar}
             onEditCar={handleOpenEditCar}
             onOpenAuthModal={() => setAuthModalOpen(true)}

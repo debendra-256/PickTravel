@@ -17,8 +17,7 @@ import {
   RefreshCw,
   PlusCircle,
   Lock,
-  User,
-  LogOut,
+  ShieldCheck,
   Check,
   Edit,
   Trash2,
@@ -35,7 +34,7 @@ import {
 
 const buildDriverDetailsMessage = (booking, driver, fare) => `*Booking Confirmed - Pick My Travel*\n\nDear ${booking.customerName},\nYour booking *#${booking.id}* has been confirmed!\n\nPickup: ${booking.pickupLocation}\nDate: ${booking.pickupDate} (${booking.pickupTime})\nVehicle: ${booking.selectedCar}\nTotal Fare: ₹${fare}\n\n*Driver Details:*\nDriver Name: *${driver.name}*\nDriver Mobile: *${driver.phone}*\n\n*⚠️ Note: The quoted fare is approximate and may vary based on applicable RTO/government guidelines, actual distance, trip duration, route changes, waiting time, or additional usage; toll, parking, and other applicable charges are extra as per actuals, and the final fare and trip inclusions should be confirmed with PickMyTravels before the journey to avoid any disputes.*\n\nPlease coordinate with your driver upon arrival.\nHelpline: +91 9853706020\n\nThank you for choosing Pick My Travel!`;
 
-export function AdminDashboard({ session, onLogout, onOpenAddCar, onEditCar, onOpenAuthModal, carsVersion = 0, onCarsChange }) {
+export function AdminDashboard({ session, onOpenAddCar, onEditCar, onOpenAuthModal, carsVersion = 0, onCarsChange }) {
   const [activeDriver] = useState(dbFactory.getActiveDriverInfo().type);
   const [driverStatus] = useState(dbFactory.getActiveDriverInfo().status);
   const [bookings, setBookings] = useState([]);
@@ -228,28 +227,22 @@ export function AdminDashboard({ session, onLogout, onOpenAddCar, onEditCar, onO
   };
 
   return (
-    <section className="section-padding" style={{ background: "#ffffff" }}>
+    <section className="section-padding admin-dashboard-page">
       <div className="container">
-        {/* Header Title & Logout Bar */}
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "2rem", flexWrap: "wrap", gap: "1rem" }}>
-          <div>
-            <span className="badge badge-red" style={{ marginBottom: "0.5rem" }}>
-              Administrator Console
-            </span>
-            <h2>Business Access & Data Layer Dashboard</h2>
+        <header className="admin-console-header">
+          <div className="admin-console-heading">
+            <span className="admin-console-mark" aria-hidden="true"><ShieldCheck size={24} /></span>
+            <div>
+              <span className="admin-console-eyebrow">PICK MY TRAVELS · ADMIN</span>
+              <h1>Administrator Console</h1>
+              <p>Welcome back, {session?.username || "Admin"}. Manage bookings, fleet, and customer enquiries.</p>
+            </div>
           </div>
-
-          <div style={{ display: "flex", gap: "0.75rem", alignItems: "center" }}>
-            <button className="btn-outline" onClick={onOpenAuthModal}>
-              <Lock size={15} />
-              <span>Change Password</span>
-            </button>
-            <button className="btn-secondary" onClick={onLogout}>
-              <LogOut size={15} />
-              <span>Logout ({session ? session.username : "Admin"})</span>
-            </button>
-          </div>
-        </div>
+          <button className="admin-console-password" onClick={onOpenAuthModal}>
+            <Lock size={15} />
+            <span>Change Password</span>
+          </button>
+        </header>
 
         {statusMsg && (
           <div

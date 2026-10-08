@@ -654,6 +654,91 @@ main > .offer-only-section + #fleet {
   50% { box-shadow: 0 10px 25px rgba(224, 106, 0, 0.27), inset 0 1px 0 rgba(255, 255, 255, 0.72); }
 }
 
+.admin-dashboard-page {
+  min-height: 70vh;
+  padding-block: clamp(1.5rem, 3vw, 2.75rem);
+  background: #f4f7fb;
+}
+
+.admin-console-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-bottom: 1.75rem;
+  padding: clamp(1.15rem, 2.8vw, 2rem);
+  border: 1px solid #e2e8f0;
+  border-radius: 18px;
+  background: linear-gradient(120deg, #ffffff 0%, #f8fbff 68%, #fff8f5 100%);
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+}
+
+.admin-console-heading {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 1rem;
+}
+
+.admin-console-mark {
+  display: grid;
+  width: 52px;
+  height: 52px;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 1px solid #fecdd3;
+  border-radius: 15px;
+  background: #fff1f2;
+  color: #c81e2b;
+}
+
+.admin-console-eyebrow {
+  display: block;
+  margin-bottom: 0.3rem;
+  color: #b42332;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.admin-console-header h1 {
+  margin: 0;
+  color: #172033;
+  font-size: clamp(1.35rem, 2.3vw, 1.85rem);
+  line-height: 1.2;
+}
+
+.admin-console-header p {
+  margin: 0.4rem 0 0;
+  color: #64748b;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.admin-console-password {
+  display: inline-flex;
+  min-height: 42px;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.6rem 0.9rem;
+  border: 1px solid #d6deea;
+  border-radius: 9px;
+  background: #fff;
+  color: #334155;
+  font-size: 0.84rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 150ms ease, border-color 150ms ease, color 150ms ease;
+}
+
+.admin-console-password:hover {
+  border-color: #e5a2a8;
+  background: #fff7f7;
+  color: #b42332;
+}
+
 .admin-offer-settings {
   padding: 1.5rem;
   border: 1px solid var(--border-color);
@@ -712,6 +797,11 @@ main > .offer-only-section + #fleet {
 }
 
 @media (max-width: 720px) {
+  .admin-console-header { align-items: stretch; flex-direction: column; gap: 1rem; }
+  .admin-console-heading { align-items: flex-start; gap: 0.75rem; }
+  .admin-console-mark { width: 44px; height: 44px; border-radius: 12px; }
+  .admin-console-header p { font-size: 0.82rem; }
+  .admin-console-password { align-self: flex-start; }
   .admin-offer-settings { padding: 1rem; }
   .admin-offer-settings-heading { align-items: flex-start; flex-direction: column; }
   .admin-offer-fields { grid-template-columns: 1fr; gap: 0.75rem; margin: 1rem 0; }
