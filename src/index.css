@@ -2883,8 +2883,8 @@ main > .offer-only-section + #fleet {
 }
 
 .addcar-field-name { grid-column: span 2; }
-.addcar-field-meta,
-.addcar-field-pricing { grid-column: span 2; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem; }
+.addcar-field-meta { grid-column: span 2; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem; }
+.addcar-field-pricing { grid-column: span 2; display: grid; grid-template-columns: minmax(0, 1fr); gap: 0.75rem; }
 .addcar-field-tariffs { grid-column: 1 / -1; padding: 0.75rem 0.9rem; }
 .addcar-field-image,
 .addcar-field-features { grid-column: span 2; }

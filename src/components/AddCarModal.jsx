@@ -68,7 +68,8 @@ export function AddCarModal({ isOpen, onClose, onCarAdded, carToEdit = null }) {
       name,
       category,
       seater,
-      hourlyPrice,
+      // Keep downstream fleet and booking rates populated without a separate hourly field.
+      hourlyPrice: hourlyPrice || extraHour,
       perKmPrice,
       fourHours40Km,
       eightHours80Km,
@@ -171,19 +172,6 @@ export function AddCarModal({ isOpen, onClose, onCarAdded, carToEdit = null }) {
           </div>
 
           <div className="addcar-field-pricing">
-            <div className="form-group">
-              <label className="form-label">Price Per Hour (₹) *</label>
-              <input
-                type="number"
-                className="form-input"
-                placeholder="e.g. 350"
-                value={hourlyPrice}
-                onChange={(e) => setHourlyPrice(e.target.value)}
-                required
-                min="1"
-              />
-            </div>
-
             <div className="form-group">
               <label className="form-label">Price Per KM (₹)</label>
               <input
