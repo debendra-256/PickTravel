@@ -43,12 +43,9 @@ export function AboutUsPage() {
             <h1>Your Trusted Travel Partner in Bhubaneswar</h1>
             <p className="about-us-tagline">Comfortable Journeys. Memorable Experiences. Reliable Service.</p>
             <p>
-              Welcome to <strong>PickMyTravels</strong> — your trusted partner for car rentals, taxi
-              services, local sightseeing, and outstation tours across Bhubaneswar, Puri, and Odisha.
-              Established in <strong>1999</strong>, PickMyTravels is dedicated to making every journey
-              comfortable, convenient, and hassle-free. Whether you need a taxi for local travel, an
-              airport transfer, a family trip, a business journey, or an outstation tour, we offer
-              reliable travel solutions tailored to your needs.
+              Welcome to <strong>PickMyTravels</strong> — your trusted partner for car rentals, taxi services, local sightseeing, and outstation tours across Bhubaneswar, Puri, and Odisha.<br />
+              Established in <strong>1999</strong>, PickMyTravels is dedicated to making every journey comfortable, convenient, and hassle-free.<br />
+              Whether you need a taxi for local travel, an airport transfer, a family trip, a business journey, or an outstation tour, we offer reliable travel solutions tailored to your needs.
             </p>
             <div className="about-us-hero-facts">
               <span><strong>Since 1999</strong><small>Travel experience</small></span>

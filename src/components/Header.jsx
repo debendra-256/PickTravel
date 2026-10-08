@@ -138,7 +138,7 @@ export function Header({
         <div className="container nav-container">
           {/* Brand Logo with picklogo.png */}
           <div className="logo-brand" style={{ cursor: "pointer" }} onClick={() => handleNavClick("home")}>
-            <img className="site-logo-image" src={assetUrl("picklogo.png")} alt="Pick My Travel" style={{ height: "48px", objectFit: "contain" }} />
+            <img className="site-logo-image" src={assetUrl("picklogo.png")} alt="Pick My Travel" />
           </div>
 
           {/* HIDE ALL PUBLIC MENUS IF ON ADMIN DASHBOARD AFTER LOGIN */}

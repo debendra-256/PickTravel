@@ -11,7 +11,7 @@ export function FestiveOfferStrip() {
     window.addEventListener(DATABASE_UPDATED_EVENT, sync);
     return () => window.removeEventListener(DATABASE_UPDATED_EVENT, sync);
   }, []);
-  if (!offer.enabled || !(offer.title || offer.message || offer.code)) return null;
+  if (!offer.enabled || !(offer.title || offer.message || offer.code || Number(offer.amount) > 0)) return null;
 
   return (
     <div className="top-festive-offer-strip" aria-label="Festive offer">
@@ -53,6 +53,9 @@ export function FestiveOfferStrip() {
           <strong>{offer.title}</strong>
         )}
         {offer.message && <span>{offer.message}</span>}
+        {Number(offer.amount) > 0 && (
+          <b className="festive-discount-badge">₹{Number(offer.amount).toLocaleString("en-IN")} OFF</b>
+        )}
         {offer.code && <b>USE CODE: {offer.code}</b>}
       </div>
     </div>

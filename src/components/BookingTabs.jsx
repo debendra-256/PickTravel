@@ -607,9 +607,10 @@ export function BookingTabs({
       ))}
 
       <div className="container" style={{ position: "relative", zIndex: 10 }}>
-        {/* Dynamic Carousel Slide Header Title */}
+        {/* Carousel copy retained but hidden so booking starts at the top.
         <h1 className="hero-title">{CAROUSEL_SLIDES[currentSlide].title}</h1>
         <p className="hero-subtitle">{CAROUSEL_SLIDES[currentSlide].subtitle}</p>
+        */}
 
         {renderBookingCard()}
       </div>

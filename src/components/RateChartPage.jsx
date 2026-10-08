@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Car, Download, Search } from "lucide-react";
+import { Download, Search } from "lucide-react";
 import { FleetBAL } from "../bal/FleetBAL";
 import { APP_CONFIG } from "../config/app.config";
 import { DATABASE_UPDATED_EVENT } from "../dal/drivers/PostgresDriver";
@@ -48,16 +48,6 @@ export function RateChartPage({ carsVersion = 0 }) {
           <span>Registered Office: {APP_CONFIG.ADDRESS}</span>
         </div>
       </div>
-      <section className="rate-chart-hero">
-        <div className="container rate-chart-hero-content">
-          <div>
-            <span className="rate-chart-eyebrow"><span /> Vehicle pricing</span>
-            <h1>Vehicle Rate Chart</h1>
-            <p>Local A/C package rates and extra usage charges.</p>
-          </div>
-          <div className="rate-chart-hero-mark" aria-hidden="true"><Car size={42} /></div>
-        </div>
-      </section>
 
       <section className="container rate-chart-content">
         <div className="rate-chart-toolbar">

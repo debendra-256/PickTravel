@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { BookingTabs } from "./BookingTabs";
 import { FleetBAL } from "../bal/FleetBAL";
-import { Car, Users, Briefcase, Filter, Zap, X } from "lucide-react";
+import { Car, Users, Filter, X } from "lucide-react";
 import { DATABASE_UPDATED_EVENT } from "../dal/drivers/PostgresDriver";
 
 export function FleetSection({
@@ -113,20 +113,9 @@ export function FleetSection({
                     <span><strong>{car.seater}</strong> Seater</span>
                   </div>
                   <div className="car-spec-item">
-                    <Briefcase size={14} />
-                    <span>{car.luggage || "Luggage Space"}</span>
-                  </div>
-                  <div className="car-spec-item">
-                    <Zap size={14} style={{ color: "#f59e0b" }} />
-                    <span>₹{car.perKmPrice}/KM</span>
+                    <span><strong>₹</strong>{car.perKmPrice}/KM</span>
                   </div>
                 </div>
-
-                <ul className="car-features-list">
-                  {(car.features || []).slice(0, 3).map((f, i) => (
-                    <li key={i} className="car-feature-pill">{f}</li>
-                  ))}
-                </ul>
 
                 {/* Action Buttons */}
                 <div style={{ display: "flex", gap: "0.5rem", marginTop: "auto", paddingTop: "0.75rem" }}>

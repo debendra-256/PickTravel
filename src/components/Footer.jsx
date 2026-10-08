@@ -10,8 +10,8 @@ export function Footer({ setActiveTab, onOpenAuthModal, onOpenFeedback, showFeed
         <div className="footer-grid">
           {/* Col 1: Brand & Bio */}
           <div>
-            <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "1rem" }}>
-              <img className="site-logo-image" src={assetUrl("picklogo.png")} alt={APP_CONFIG.COMPANY_NAME} style={{ height: "42px", objectFit: "contain" }} />
+            <div className="footer-brand-logo-wrap">
+              <img className="footer-brand-logo" src={assetUrl("picklogo-footer.png")} alt={APP_CONFIG.COMPANY_NAME} />
             </div>
             <p style={{ color: "#94a3b8", fontSize: "0.88rem", marginBottom: "1.25rem", lineHeight: "1.6" }}>
               Pick My Travel is Odisha's premier car rental agency providing reliable outstation cabs, local city sightseeing, airport pickups, and luxury tempo travellers.
