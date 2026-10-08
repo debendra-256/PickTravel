@@ -41,7 +41,7 @@ export function RateChartPage({ carsVersion = 0 }) {
   return (
     <section className="rate-chart-page">
       <div className="rate-chart-print-header">
-        <img src={assetUrl("picklogo.png")} alt={APP_CONFIG.COMPANY_NAME} />
+        <img src={assetUrl("picklogo.webp")} alt={APP_CONFIG.COMPANY_NAME} />
         <div>
           <strong>{APP_CONFIG.COMPANY_NAME}</strong>
           <span>WhatsApp: {APP_CONFIG.DISPLAY_WHATSAPP}</span>

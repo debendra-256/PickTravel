@@ -71,7 +71,7 @@ export function FeedbackModal({ isOpen, onClose, mode = "feedback" }) {
         </button>
 
         <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "1.25rem" }}>
-          <img src={assetUrl("picklogo.png")} alt="Pick My Travel" style={{ height: "36px", objectFit: "contain" }} />
+          <img src={assetUrl("picklogo.webp")} alt="Pick My Travel" style={{ height: "36px", objectFit: "contain" }} />
           <div>
             <h3 style={{ fontSize: "1.3rem" }}>{mode === "feedback" ? "Share Feedback" : "Quick Enquiry"}</h3>
             <p style={{ fontSize: "0.8rem", color: "var(--text-muted)" }}>

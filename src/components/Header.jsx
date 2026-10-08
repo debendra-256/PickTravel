@@ -136,9 +136,9 @@ export function Header({
       {/* Main Navigation Bar */}
       <nav className="main-header">
         <div className="container nav-container">
-          {/* Brand Logo with picklogo.png */}
+          {/* Brand Logo with optimized WebP image */}
           <div className="logo-brand" style={{ cursor: "pointer" }} onClick={() => handleNavClick("home")}>
-            <img className="site-logo-image" src={assetUrl("picklogo.png")} alt="Pick My Travel" />
+            <img className="site-logo-image" src={assetUrl("picklogo.webp")} alt="Pick My Travel" />
           </div>
 
           {/* HIDE ALL PUBLIC MENUS IF ON ADMIN DASHBOARD AFTER LOGIN */}
