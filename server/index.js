@@ -135,8 +135,9 @@ async function handle(request) {
     if (api !== "api") return json({ ok: true, service: "PickTravel API" }, 200, cors);
 
     if (area === "auth" && collection === "login" && request.method === "POST") {
-      const { username = "", password = "" } = await readJson(request);
-      const result = await pool.query("SELECT username, salt, password_hash FROM app_admin_credentials WHERE lower(username) = lower($1)", [String(username).trim()]);
+      const { userId, username, password = "" } = await readJson(request);
+      const loginId = String(userId || username || "").trim();
+      const result = await pool.query("SELECT username, salt, password_hash FROM app_admin_credentials WHERE lower(username) = lower($1)", [loginId]);
       if (!result.rowCount) return json({ message: "Invalid username or password." }, 401, cors);
       const stored = result.rows[0];
       const candidate = Buffer.from(await scrypt(String(password), stored.salt, 64));

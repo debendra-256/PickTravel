@@ -7,7 +7,7 @@ export function AuthModal({ isOpen, onClose, session, onLoginSuccess }) {
   const [activeTab, setActiveTab] = useState(session ? "changePassword" : "login");
   
   // Login State
-  const [username, setUsername] = useState("");
+  const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
   
   // Change Password State
@@ -22,7 +22,7 @@ export function AuthModal({ isOpen, onClose, session, onLoginSuccess }) {
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     setAlertMsg(null);
-    const res = await AuthBAL.login(username, password);
+    const res = await AuthBAL.login(userId, password);
 
     if (res.success) {
       setAlertMsg({ type: "success", text: res.message });
@@ -111,14 +111,14 @@ export function AuthModal({ isOpen, onClose, session, onLoginSuccess }) {
             <div className="form-group">
               <label className="form-label">
                 <User size={14} className="text-red" />
-                <span>Username</span>
+                <span>User ID</span>
               </label>
               <input
                 type="text"
                 className="form-input"
-                placeholder="Administrator username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                placeholder="Administrator User ID"
+                value={userId}
+                onChange={(e) => setUserId(e.target.value)}
                 required
               />
             </div>

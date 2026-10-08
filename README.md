@@ -8,7 +8,7 @@ PickMyTravels is a React/Vite booking site. Its public pages are deployed to Git
 2. Keep the ignored `.env.local` file containing the Neon environment values and generated admin/session secrets.
 3. Start the frontend with `npm run dev`.
 
-The first admin username is `admin`. The generated initial password is in `.env.local` as `INITIAL_ADMIN_PASSWORD`; change it from the Admin Panel after signing in. Never commit `.env.local` or `.neon`.
+The default admin User ID is `admin`. The initial password is configured locally in `.env.local` as `INITIAL_ADMIN_PASSWORD` and is only used when the database is initialized for the first time. Change it from the Admin Panel after signing in. Never commit `.env.local` or `.neon`.
 
 ## Deployments
 

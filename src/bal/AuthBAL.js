@@ -4,12 +4,12 @@ import { dbFactory } from "../dal/DBFactory";
 const SESSION_KEY = "PATRA_SESSION";
 
 export class AuthBAL {
-  static async login(username, password) {
-    if (!username || !password) return { success: false, message: "Please enter both username and password." };
+  static async login(userId, password) {
+    if (!userId || !password) return { success: false, message: "Please enter both User ID and password." };
     try {
       const result = await apiRequest("/api/auth/login", {
         method: "POST",
-        body: JSON.stringify({ username: username.trim(), password })
+        body: JSON.stringify({ userId: userId.trim(), password })
       });
       sessionStorage.setItem("PATRA_TOKEN", result.token);
       sessionStorage.setItem(SESSION_KEY, JSON.stringify({ ...result.user, loginTime: new Date().toISOString() }));
