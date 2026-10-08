@@ -584,12 +584,6 @@ main > .offer-only-section + #fleet {
   animation: festive-code-pulse 2.6s ease-in-out infinite;
 }
 
-.top-festive-offer-content .festive-discount-badge {
-  border-color: #64121a;
-  background: #64121a;
-  color: #ffffff;
-}
-
 @keyframes festive-code-pulse {
   0%, 100% { background-color: #fff0b5; }
   50% { background-color: #fff9df; }
