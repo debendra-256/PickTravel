@@ -3602,3 +3602,69 @@ main > .offer-only-section + #fleet {
     font-size: 1.05rem;
   }
 }
+
+@media (max-width: 640px) {
+  .top-bar {
+    display: none;
+  }
+
+  .hero-wrapper-carousel > .container {
+    width: 100%;
+    padding-inline: 0.85rem;
+  }
+
+  .booking-card-container {
+    width: 100%;
+    padding: clamp(0.75rem, 3.5vw, 1rem);
+    border: 0;
+    border-radius: 16px;
+    box-shadow: 0 10px 28px rgba(15, 23, 42, 0.2);
+    backdrop-filter: none;
+  }
+
+  .booking-tabs-header {
+    gap: 0.45rem;
+    padding: 0.45rem;
+  }
+
+  .booking-tabs-header .tab-btn {
+    min-height: 46px;
+    justify-content: center;
+    overflow-wrap: anywhere;
+  }
+
+  .booking-form-grid .form-input,
+  .booking-form-grid .form-select {
+    min-height: 46px;
+    height: auto;
+    padding-block: 0.65rem;
+    font-size: 16px;
+  }
+
+  .booking-form-grid .form-label {
+    font-size: 0.8rem;
+  }
+
+  .estimated-fare-box {
+    padding: 0.9rem;
+    border-radius: 12px;
+  }
+
+  .booking-coupon-controls .form-input {
+    height: 44px;
+  }
+}
+
+@media (max-width: 380px) {
+  .hero-wrapper-carousel > .container {
+    padding-inline: 0.65rem;
+  }
+
+  .booking-tabs-header {
+    gap: 0.35rem;
+  }
+
+  .booking-tabs-header .tab-btn {
+    min-height: 42px;
+  }
+}
