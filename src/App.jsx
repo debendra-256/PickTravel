@@ -88,6 +88,7 @@ export default function App() {
         activeTab={activePage}
         setActiveTab={setActivePage}
         onOpenAuthModal={() => setAuthModalOpen(true)}
+        onLogout={handleLogout}
         onOpenAdmin={() => {
           if (!session) {
             setAuthModalOpen(true);

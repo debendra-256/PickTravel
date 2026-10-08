@@ -1166,6 +1166,63 @@ main > .offer-only-section + #fleet {
   color: var(--primary-red);
 }
 
+.admin-user-menu {
+  position: relative;
+}
+
+.admin-user-menu-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.4rem;
+  border-radius: 5px;
+  background: transparent;
+  color: #f8fafc;
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+
+.admin-user-menu-trigger:hover,
+.admin-user-menu-trigger[aria-expanded="true"] {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.admin-user-menu-dropdown {
+  position: absolute;
+  top: calc(100% + 0.45rem);
+  right: 0;
+  z-index: 1100;
+  min-width: 150px;
+  padding: 0.3rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.18);
+}
+
+.admin-user-menu-dropdown button {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.55rem 0.65rem;
+  border-radius: 5px;
+  background: transparent;
+  color: #1e293b;
+  font-size: 0.82rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.admin-user-menu-dropdown button:hover,
+.admin-user-menu-dropdown button:focus-visible {
+  background: #f1f5f9;
+}
+
+.admin-user-menu-dropdown .admin-user-menu-logout {
+  color: #b91c1c;
+}
+
 .main-header {
   background: #ffffff;
   box-shadow: var(--shadow-sm);

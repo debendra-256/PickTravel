@@ -25,6 +25,7 @@ export function Header({
   setActiveTab,
   onOpenAuthModal,
   onOpenAdmin,
+  onLogout,
   session,
   onOpenFeedback,
   onOpenEnquiry,
@@ -34,6 +35,7 @@ export function Header({
 }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileSubmenu, setMobileSubmenu] = useState(null); // 'services' | 'fleet' | 'packages'
+  const [adminMenuOpen, setAdminMenuOpen] = useState(false);
 
   const isAdminDashboard = activeTab === "admin";
 
@@ -94,23 +96,53 @@ export function Header({
 
           <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
             {session ? (
-              <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }} className="hide-mobile">
-                <span style={{ fontSize: "0.82rem", color: "#f8fafc" }}>
-                  <UserCheck size={13} style={{ display: "inline", marginRight: "4px" }} />
-                  {session.username}
-                </span>
+              <div
+                className="admin-user-menu hide-mobile"
+                onBlur={(event) => {
+                  if (!event.currentTarget.contains(event.relatedTarget)) setAdminMenuOpen(false);
+                }}
+                onKeyDown={(event) => {
+                  if (event.key === "Escape") setAdminMenuOpen(false);
+                }}
+              >
                 <button
-                  onClick={onOpenAdmin}
-                  style={{
-                    background: "rgba(255,255,255,0.15)",
-                    color: "white",
-                    padding: "0.2rem 0.6rem",
-                    borderRadius: "4px",
-                    fontSize: "0.75rem"
-                  }}
+                  type="button"
+                  className="admin-user-menu-trigger"
+                  aria-haspopup="menu"
+                  aria-expanded={adminMenuOpen}
+                  onClick={() => setAdminMenuOpen((open) => !open)}
                 >
-                  Dashboard
+                  <UserCheck size={15} />
+                  <span>{session.username}</span>
+                  <ChevronDown size={13} />
                 </button>
+                {adminMenuOpen && (
+                  <div className="admin-user-menu-dropdown" role="menu" aria-label="Admin account">
+                    <button
+                      type="button"
+                      role="menuitem"
+                      onClick={() => {
+                        setAdminMenuOpen(false);
+                        onOpenAdmin?.();
+                      }}
+                    >
+                      <UserCheck size={15} />
+                      Dashboard
+                    </button>
+                    <button
+                      type="button"
+                      role="menuitem"
+                      className="admin-user-menu-logout"
+                      onClick={() => {
+                        setAdminMenuOpen(false);
+                        onLogout?.();
+                      }}
+                    >
+                      <LogOut size={15} />
+                      Logout
+                    </button>
+                  </div>
+                )}
               </div>
             ) : (
               <button
@@ -449,15 +481,26 @@ export function Header({
             </button>
 
             {session ? (
-              <button
-                className="mobile-drawer-link"
-                onClick={() => {
-                  onOpenAdmin();
-                  setMobileMenuOpen(false);
-                }}
-              >
-                Admin Console ({session.username})
-              </button>
+              <>
+                <button
+                  className="mobile-drawer-link"
+                  onClick={() => {
+                    onOpenAdmin();
+                    setMobileMenuOpen(false);
+                  }}
+                >
+                  Admin Console ({session.username})
+                </button>
+                <button
+                  className="mobile-drawer-link"
+                  onClick={() => {
+                    onLogout?.();
+                    setMobileMenuOpen(false);
+                  }}
+                >
+                  Logout
+                </button>
+              </>
             ) : (
               <button
                 className="mobile-drawer-link"
