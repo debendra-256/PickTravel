@@ -40,6 +40,12 @@ export default function App() {
     return () => { active = false; };
   }, []);
 
+  useEffect(() => {
+    const preventContextMenu = (event) => event.preventDefault();
+    document.addEventListener("contextmenu", preventContextMenu);
+    return () => document.removeEventListener("contextmenu", preventContextMenu);
+  }, []);
+
   const handleLoginSuccess = (userSession) => {
     setSession(userSession);
     setActivePage("admin");
