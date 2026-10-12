@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { BookOpen, Calendar, Clock, User, ArrowRight, X } from "lucide-react";
 import { assetUrl } from "../config/assetUrl";
+import { beginRequest } from "../dal/requestTracker";
 
 export function BlogSection() {
   const [blogs, setBlogs] = useState([]);
   const [selectedBlog, setSelectedBlog] = useState(null);
 
   useEffect(() => {
+    const finishRequest = beginRequest();
     fetch(assetUrl("Blogs/TravelBlogs.json"))
       .then((res) => res.json())
       .then((data) => {
@@ -14,7 +16,8 @@ export function BlogSection() {
         const blogList = Array.isArray(data) ? data : [data];
         setBlogs(blogList);
       })
-      .catch((err) => console.error("Failed to load blogs:", err));
+      .catch((err) => console.error("Failed to load blogs:", err))
+      .finally(finishRequest);
   }, []);
 
   return (

@@ -15,6 +15,7 @@ import { WhatsappButton } from "./components/WhatsappButton";
 import { GoogleReviewsCarousel } from "./components/GoogleReviewsCarousel";
 import { OfferScroller } from "./components/OfferScroller";
 import { AuthBAL } from "./bal/AuthBAL";
+import { GlobalSpinner } from "./components/GlobalSpinner";
 
 export default function App() {
   const [activePage, setActivePage] = useState("home");
@@ -184,6 +185,8 @@ export default function App() {
       )}
 
       <WhatsappButton />
+
+      <GlobalSpinner />
 
       {/* Global Modals */}
       <AuthModal
