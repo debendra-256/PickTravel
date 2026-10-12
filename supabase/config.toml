@@ -1,0 +1,2 @@
+[functions.picktravel]
+verify_jwt = false

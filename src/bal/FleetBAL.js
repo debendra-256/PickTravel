@@ -94,7 +94,7 @@ export class FleetBAL {
     const driver = dbFactory.getDriver();
     let inserted;
     try { inserted = await driver.insert("Cars", newCar); }
-    catch (error) { return { success: false, message: error.message || "Failed to save car to Neon." }; }
+    catch (error) { return { success: false, message: error.message || "Failed to save car to Supabase." }; }
 
     if (inserted) {
       return { success: true, car: inserted, message: `Vehicle '${newCar.name}' added successfully to Database!` };
@@ -139,7 +139,7 @@ export class FleetBAL {
     const driver = dbFactory.getDriver();
     let updated;
     try { updated = await driver.update("Cars", carId, updatedPayload); }
-    catch (error) { return { success: false, message: error.message || "Failed to update vehicle in Neon." }; }
+    catch (error) { return { success: false, message: error.message || "Failed to update vehicle in Supabase." }; }
 
     if (updated) {
       return { success: true, car: updated, message: `Vehicle '${updated.name}' updated successfully!` };
@@ -152,7 +152,7 @@ export class FleetBAL {
     const driver = dbFactory.getDriver();
     let deleted;
     try { deleted = await driver.delete("Cars", carId); }
-    catch (error) { return { success: false, message: error.message || "Failed to delete vehicle from Neon." }; }
+    catch (error) { return { success: false, message: error.message || "Failed to delete vehicle from Supabase." }; }
     if (deleted) {
       return { success: true, message: "Vehicle deleted successfully from database." };
     }

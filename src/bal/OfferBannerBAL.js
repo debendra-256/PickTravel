@@ -53,7 +53,7 @@ export const OfferBannerBAL = {
       });
       const persistedOffer = { ...DEFAULT_OFFER_BANNER, ...saved };
       localStorage.setItem(STORAGE_KEY, JSON.stringify(persistedOffer));
-      return { success: true, offer: persistedOffer, message: "Festive offer banner saved to Neon." };
+      return { success: true, offer: persistedOffer, message: "Festive offer banner saved to Supabase." };
     } catch {
       return { success: false, message: "Could not save the festive offer banner." };
     }

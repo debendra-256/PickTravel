@@ -4,7 +4,7 @@ import { apiRequest, getApiBaseUrl } from "../apiClient";
 
 export const DATABASE_UPDATED_EVENT = "picktravel:database-updated";
 const CACHE_KEY = "PickmyTravels_Neon_Cache";
-const collections = ["Cars", "Bookings", "Users", "Blogs", "Enquiries", "Settings"];
+export const collections = ["Cars", "Bookings", "Users", "Blogs", "Enquiries", "Settings"];
 
 const emptyState = () => ({
   Cars: [...APP_CONFIG.DEFAULT_CARS],
@@ -16,15 +16,16 @@ const emptyState = () => ({
 });
 
 export class PostgresDriver extends IDataBaseAdapter {
-  constructor() {
-    super("Neon Postgres");
+  constructor(cacheKey = CACHE_KEY) {
+    super("Supabase Postgres");
     this.isConnected = false;
+    this.cacheKey = cacheKey;
     this.tables = this.readCache();
   }
 
   readCache() {
     try {
-      const saved = JSON.parse(localStorage.getItem(CACHE_KEY) || "null");
+      const saved = JSON.parse(localStorage.getItem(this.cacheKey) || "null");
       return { ...emptyState(), ...(saved || {}), Users: [] };
     } catch {
       return emptyState();
@@ -32,7 +33,7 @@ export class PostgresDriver extends IDataBaseAdapter {
   }
 
   saveCache() {
-    localStorage.setItem(CACHE_KEY, JSON.stringify(this.tables));
+    localStorage.setItem(this.cacheKey, JSON.stringify(this.tables));
     window.dispatchEvent(new CustomEvent(DATABASE_UPDATED_EVENT));
   }
 
@@ -53,7 +54,7 @@ export class PostgresDriver extends IDataBaseAdapter {
         this.tables[name] = Array.isArray(rows) ? rows : [];
         changed = true;
       } else {
-        console.error("Could not sync data from Neon:", result.reason?.message || result.reason);
+        console.error("Could not sync data from Supabase:", result.reason?.message || result.reason);
       }
     }
     if (changed) this.saveCache();
@@ -67,9 +68,9 @@ export class PostgresDriver extends IDataBaseAdapter {
 
   getStatus() {
     return {
-      driver: "Neon Postgres API",
+      driver: "Supabase Postgres API",
       connected: this.isConnected && Boolean(getApiBaseUrl()),
-      target: "Neon production branch",
+      target: "Supabase production database",
       tablesCount: collections.length
     };
   }
@@ -124,7 +125,7 @@ export class PostgresDriver extends IDataBaseAdapter {
 
   async exportData() {
     await this.hydrateRemote(true);
-    return this.download(JSON.stringify(this.tables, null, 2), "PickTravel_Neon_Backup.json");
+    return this.download(JSON.stringify(this.tables, null, 2), "PickTravel_Postgres_Backup.json");
   }
 
   async backupData() {

@@ -34,6 +34,8 @@ import {
 
 const buildDriverDetailsMessage = (booking, driver, fare) => `*Booking Confirmed - Pick My Travel*\n\nDear ${booking.customerName},\nYour booking *#${booking.id}* has been confirmed!\n\nPickup: ${booking.pickupLocation}\nDate: ${booking.pickupDate} (${booking.pickupTime})\nVehicle: ${booking.selectedCar}\nTotal Fare: ₹${fare}\n\n*Driver Details:*\nDriver Name: *${driver.name}*\nDriver Mobile: *${driver.phone}*\n\n*⚠️ Note: The quoted fare is approximate and may vary based on applicable RTO/government guidelines, actual distance, trip duration, route changes, waiting time, or additional usage; toll, parking, and other applicable charges are extra as per actuals, and the final fare and trip inclusions should be confirmed with PickMyTravels before the journey to avoid any disputes.*\n\nPlease coordinate with your driver upon arrival.\nHelpline: +91 9853706020\n\nThank you for choosing Pick My Travel!`;
 
+const DRIVER_LABELS = { POSTGRES: "Postgres", GOOGLE_SHEETS: "Google Sheets" };
+
 export function AdminDashboard({ session, onOpenAddCar, onEditCar, onOpenAuthModal, carsVersion = 0, onCarsChange }) {
   const [activeDriver] = useState(dbFactory.getActiveDriverInfo().type);
   const [driverStatus] = useState(dbFactory.getActiveDriverInfo().status);
@@ -302,14 +304,14 @@ export function AdminDashboard({ session, onOpenAddCar, onEditCar, onOpenAuthMod
             <div>
               <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "0.5rem" }}>
                 <Database size={22} style={{ color: "var(--primary-red)" }} />
-                <h3 style={{ color: "white", fontSize: "1.3rem" }}>Neon Postgres Database</h3>
+                <h3 style={{ color: "white", fontSize: "1.3rem" }}>{DRIVER_LABELS[activeDriver] || activeDriver} Database</h3>
               </div>
               <p style={{ color: "#94a3b8", fontSize: "0.9rem" }}>
-                Active database: <strong>{driverStatus ? driverStatus.driver : activeDriver}</strong> · {driverStatus?.connected ? "Connected through the Neon API" : "Waiting for the Neon API"}
+                Active database: <strong>{driverStatus ? driverStatus.driver : activeDriver}</strong> · {driverStatus?.connected ? `Connected to ${driverStatus.target}` : "Waiting for connection"}
               </p>
             </div>
 
-            {/* Neon database actions */}
+            {/* Database actions */}
             <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
               <button
                 onClick={handleBackupDatabase}
@@ -335,7 +337,7 @@ export function AdminDashboard({ session, onOpenAddCar, onEditCar, onOpenAuthMod
                 style={{ padding: "0.6rem 1.25rem", fontSize: "0.85rem" }}
               >
                 <Download size={16} />
-                <span>Export {activeDriver} to File</span>
+                <span>Export {DRIVER_LABELS[activeDriver] || activeDriver} to File</span>
               </button>
             </div>
           </div>
@@ -544,7 +546,7 @@ export function AdminDashboard({ session, onOpenAddCar, onEditCar, onOpenAuthMod
                             </button>
                           </div>
                         ) : (
-                          `No bookings saved in current ${activeDriver} database.`
+                          `No bookings saved in current ${DRIVER_LABELS[activeDriver] || activeDriver} database.`
                         )}
                       </td>
                     </tr>

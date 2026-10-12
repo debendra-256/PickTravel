@@ -19,8 +19,9 @@ export const APP_CONFIG = {
   COUPON_CODE: "PICK500",
   COUPON_DISCOUNT: 500,
 
-  // Data is persisted through the secured Neon Postgres API.
-  ACTIVE_DB_DRIVER: "POSTGRES",
+  // Data is persisted in a Google Spreadsheet via the Apps Script web app in
+  // google-apps-script/Code.gs. Point VITE_SHEETS_API_URL at its /exec URL.
+  ACTIVE_DB_DRIVER: "GOOGLE_SHEETS",
 
   // Social Links
   SOCIAL: {

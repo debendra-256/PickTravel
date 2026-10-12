@@ -1,9 +1,15 @@
 import { APP_CONFIG } from "../config/app.config";
 import { PostgresDriver } from "./drivers/PostgresDriver";
+import { GoogleSheetsDriver } from "./drivers/GoogleSheetsDriver";
+
+const DRIVERS = {
+  POSTGRES: PostgresDriver,
+  GOOGLE_SHEETS: GoogleSheetsDriver
+};
 
 class DBFactory {
   constructor() {
-    this.currentDriverName = APP_CONFIG.ACTIVE_DB_DRIVER || "EXCEL";
+    this.currentDriverName = APP_CONFIG.ACTIVE_DB_DRIVER || "POSTGRES";
     this.driverInstance = null;
     this.initializeDriver(this.currentDriverName);
   }
@@ -13,9 +19,11 @@ class DBFactory {
       this.driverInstance.disconnect();
     }
 
-    this.driverInstance = new PostgresDriver();
-    this.currentDriverName = "POSTGRES";
-
+    if (!DRIVERS[driverType]) {
+      console.warn(`[DAL:DBFactory] Unknown driver "${driverType}", falling back to POSTGRES.`);
+    }
+    this.currentDriverName = DRIVERS[driverType] ? driverType : "POSTGRES";
+    this.driverInstance = new DRIVERS[this.currentDriverName]();
     this.driverInstance.connect();
     console.log(`[DAL:DBFactory] Active Driver switched to: ${this.currentDriverName}`);
     return this.driverInstance;
@@ -29,9 +37,9 @@ class DBFactory {
     return this.driverInstance;
   }
 
-  // Switch driver dynamically at runtime (Excel <-> MySQL <-> PostgreSQL)
+  // Switch driver dynamically at runtime (PostgreSQL <-> Google Sheets)
   switchDriver(driverType) {
-    return this.initializeDriver(driverType === "POSTGRES" ? "POSTGRES" : this.currentDriverName);
+    return this.initializeDriver(DRIVERS[driverType] ? driverType : this.currentDriverName);
   }
 
   // Download a backup of the currently active database without changing records
