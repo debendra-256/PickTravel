@@ -10,11 +10,13 @@ attachDatabasePool(pool);
 
 const publicCollections = new Set(["Cars", "Blogs", "Settings"]);
 const privateCollections = new Set(["Bookings", "Enquiries", "Feedback"]);
-const allowedOrigins = new Set([
-  process.env.ALLOWED_ORIGIN,
-  "http://localhost:5173",
-  "http://localhost:4173"
-].filter(Boolean));
+const allowedOrigins = new Set(
+  [
+    ...(process.env.ALLOWED_ORIGIN ?? "").split(",").map((origin) => origin.trim()).filter(Boolean),
+    "http://localhost:5173",
+    "http://localhost:4173"
+  ]
+);
 let databaseReady;
 
 async function hashPassword(password, salt = randomBytes(16).toString("hex")) {

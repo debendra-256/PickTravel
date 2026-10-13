@@ -14,6 +14,8 @@ const publicCollections = new Set(["Cars", "Blogs", "Settings"]);
 const privateCollections = new Set(["Bookings", "Enquiries", "Feedback"]);
 const allowedOrigins = new Set([
   "https://debendra-256.github.io",
+  "https://pickmytravels.com",
+  "https://www.pickmytravels.com",
   "http://localhost:5173",
   "http://localhost:4173",
 ]);
