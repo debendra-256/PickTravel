@@ -96,9 +96,6 @@ export function FleetSection({
             <div key={car.id} className="car-card">
               <div className="car-img-wrapper">
                 <img src={car.image} alt={car.name} className="car-img" />
-                <div className="car-badge-price">
-                  ₹{car.hourlyPrice}<span style={{ fontSize: "0.75rem", fontWeight: "normal" }}>/hr</span>
-                </div>
               </div>
 
               <div className="car-body">

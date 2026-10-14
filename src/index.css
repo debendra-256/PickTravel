@@ -2164,18 +2164,6 @@ main > .offer-only-section + #fleet {
   transform: scale(1.06);
 }
 
-.car-badge-price {
-  position: absolute;
-  bottom: 12px;
-  right: 12px;
-  background: var(--dark-navy);
-  color: white;
-  padding: 0.35rem 0.85rem;
-  border-radius: var(--radius-full);
-  font-weight: 800;
-  font-size: 0.9rem;
-}
-
 .car-body {
   padding: 1.25rem;
   display: flex;

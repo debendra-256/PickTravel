@@ -497,7 +497,7 @@ export function BookingTabs({
             >
               {cars.map((c) => (
                 <option key={c.id} value={c.id}>
-                  {c.name} ({c.seater} Seater - ₹{c.hourlyPrice}/hr)
+                  {c.name} ({c.seater} Seater - ₹{c.perKmPrice}/KM)
                 </option>
               ))}
             </select>
