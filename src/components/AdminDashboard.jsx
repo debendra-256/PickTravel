@@ -1051,7 +1051,6 @@ export function AdminDashboard({ session, onOpenAddCar, onEditCar, onOpenAuthMod
                   <th style={{ padding: "0.85rem 1rem" }}>Vehicle Name</th>
                   <th style={{ padding: "0.85rem 1rem" }}>Category</th>
                   <th style={{ padding: "0.85rem 1rem" }}>Seater</th>
-                  <th style={{ padding: "0.85rem 1rem" }}>Price / Hr</th>
                   <th style={{ padding: "0.85rem 1rem" }}>Price / KM</th>
                   <th style={{ padding: "0.85rem 1rem" }}>Actions</th>
                 </tr>
@@ -1063,7 +1062,6 @@ export function AdminDashboard({ session, onOpenAddCar, onEditCar, onOpenAuthMod
                     <td style={{ padding: "0.85rem 1rem", fontWeight: "600" }}>{c.name}</td>
                     <td style={{ padding: "0.85rem 1rem" }}><span className="badge badge-blue">{c.category}</span></td>
                     <td style={{ padding: "0.85rem 1rem" }}><strong>{c.seater}</strong> Seater</td>
-                    <td style={{ padding: "0.85rem 1rem", fontWeight: "700", color: "var(--primary-red)" }}>₹{c.hourlyPrice}/hr</td>
                     <td style={{ padding: "0.85rem 1rem" }}>₹{c.perKmPrice}/KM</td>
                     <td style={{ padding: "0.85rem 1rem" }}>
                       <div style={{ display: "flex", gap: "0.5rem" }}>
