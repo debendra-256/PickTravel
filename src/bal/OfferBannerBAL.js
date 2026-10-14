@@ -24,7 +24,7 @@ export const OfferBannerBAL = {
 
   async syncOfferBanner() {
     try {
-      const records = await apiRequest("/api/records/Settings");
+      const records = await apiRequest("/api/records/Settings", { silent: true });
       const saved = records.find((record) => record.id === "festive-offer");
       if (!saved) return this.getOfferBanner();
       const offer = { ...DEFAULT_OFFER_BANNER, ...saved };

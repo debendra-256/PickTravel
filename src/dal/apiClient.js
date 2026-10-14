@@ -15,7 +15,9 @@ export function getSheetsApiBaseUrl() {
 }
 
 export async function apiRequest(path, options = {}) {
-  const finishRequest = beginRequest();
+  // Background cache refreshes pass `silent` so they never block the page behind
+  // the global spinner; only user-initiated actions are tracked.
+  const finishRequest = options.silent ? null : beginRequest();
   try {
     const token = sessionStorage.getItem("PATRA_TOKEN");
     const headers = new Headers(options.headers || {});
@@ -48,6 +50,6 @@ export async function apiRequest(path, options = {}) {
     if (!response.ok || payload?.ok === false) throw new Error(payload?.message || `Request failed (${response.status}).`);
     return payload;
   } finally {
-    finishRequest();
+    finishRequest?.();
   }
 }

@@ -46,7 +46,7 @@ export class PostgresDriver extends IDataBaseAdapter {
   async hydrateRemote(includePrivate = Boolean(sessionStorage.getItem("PATRA_TOKEN"))) {
     if (!getApiBaseUrl()) return false;
     const names = includePrivate ? collections : ["Cars", "Blogs", "Settings"];
-    const results = await Promise.allSettled(names.map(async (name) => [name, await apiRequest(`/api/records/${name}`)]));
+    const results = await Promise.allSettled(names.map(async (name) => [name, await apiRequest(`/api/records/${name}`, { silent: true })]));
     let changed = false;
     for (const result of results) {
       if (result.status === "fulfilled") {
