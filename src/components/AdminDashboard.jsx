@@ -38,7 +38,6 @@ const DRIVER_LABELS = { POSTGRES: "Postgres", GOOGLE_SHEETS: "Google Sheets" };
 
 export function AdminDashboard({ session, onOpenAddCar, onEditCar, onOpenAuthModal, carsVersion = 0, onCarsChange }) {
   const [activeDriver] = useState(dbFactory.getActiveDriverInfo().type);
-  const [driverStatus] = useState(dbFactory.getActiveDriverInfo().status);
   const [bookings, setBookings] = useState([]);
   const [enquiries, setEnquiries] = useState([]);
   const [cars, setCars] = useState([]);
@@ -302,13 +301,7 @@ export function AdminDashboard({ session, onOpenAddCar, onEditCar, onOpenAuthMod
         >
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "1.5rem" }}>
             <div>
-              <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "0.5rem" }}>
-                <Database size={22} style={{ color: "var(--primary-red)" }} />
-                <h3 style={{ color: "white", fontSize: "1.3rem" }}>{DRIVER_LABELS[activeDriver] || activeDriver} Database</h3>
-              </div>
-              <p style={{ color: "#94a3b8", fontSize: "0.9rem" }}>
-                Active database: <strong>{driverStatus ? driverStatus.driver : activeDriver}</strong> · {driverStatus?.connected ? `Connected to ${driverStatus.target}` : "Waiting for connection"}
-              </p>
+              <Database size={22} style={{ color: "var(--primary-red)" }} />
             </div>
 
             {/* Database actions */}
