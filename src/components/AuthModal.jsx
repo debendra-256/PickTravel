@@ -18,20 +18,24 @@ export function AuthModal({ isOpen, onClose, session, onLoginSuccess }) {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const [alertMsg, setAlertMsg] = useState(null);
+  const [submitting, setSubmitting] = useState(false);
 
   if (!isOpen) return null;
 
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
+    if (submitting) return;
     setAlertMsg(null);
+    setSubmitting(true);
     const res = await AuthBAL.login(userId, password);
+    setSubmitting(false);
 
     if (res.success) {
       setAlertMsg({ type: "success", text: res.message });
       setTimeout(() => {
         if (onLoginSuccess) onLoginSuccess(res.user);
         onClose();
-      }, 1000);
+      }, 300);
     } else {
       setAlertMsg({ type: "error", text: res.message });
     }
@@ -142,8 +146,14 @@ export function AuthModal({ isOpen, onClose, session, onLoginSuccess }) {
               />
             </div>
 
-            <button type="submit" className="btn-primary" style={{ marginTop: "0.5rem", justifyContent: "center" }}>
-              Authenticate & Login
+            <button
+              type="submit"
+              className="btn-primary"
+              style={{ marginTop: "0.5rem", justifyContent: "center" }}
+              disabled={submitting}
+            >
+              {submitting && <span className="btn-spinner" aria-hidden="true" />}
+              <span>{submitting ? "Signing in…" : "Authenticate & Login"}</span>
             </button>
           </form>
         )}

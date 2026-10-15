@@ -73,6 +73,15 @@ body {
   font-weight: 600;
 }
 
+.btn-spinner {
+  width: 15px;
+  height: 15px;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: global-spinner-rotate 0.6s linear infinite;
+}
+
 @keyframes global-spinner-rotate {
   to { transform: rotate(360deg); }
 }
@@ -239,22 +248,6 @@ main > .offer-only-section + #fleet {
   pointer-events: none;
   transform: skewX(-18deg);
   animation: festive-banner-light-sweep 5s ease-in-out infinite;
-}
-
-.top-festive-offer-strip::after {
-  position: absolute;
-  z-index: 6;
-  right: 14px;
-  bottom: 4px;
-  color: rgba(255, 255, 255, 0.62);
-  content: "Bibhu Animation";
-  font-size: 0.68rem;
-  font-style: italic;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  pointer-events: none;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
-  white-space: nowrap;
 }
 
 .festive-bulb-string {
@@ -1127,12 +1120,6 @@ main > .offer-only-section + #fleet {
     height: 100px;
     max-height: 100px;
     margin-bottom: 1rem;
-  }
-
-  .top-festive-offer-strip::after {
-    right: 8px;
-    bottom: 3px;
-    font-size: 0.58rem;
   }
 
 }

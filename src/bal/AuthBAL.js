@@ -46,7 +46,9 @@ export class AuthBAL {
         sessionStorage.setItem("PATRA_TOKEN", result.token);
         sessionStorage.setItem(SESSION_KEY, JSON.stringify({ ...result.user, loginTime: new Date().toISOString() }));
       }
-      await dbFactory.getDriver().hydrateRemote(true);
+      // Refreshing the tables must not gate the sign-in: the cached data renders right
+      // away and the console updates when the background sync lands.
+      void dbFactory.getDriver().hydrateRemote(true);
       return { success: true, user: this.getCurrentUser(), message: "Login successful!" };
     } catch (error) {
       return { success: false, message: error.message || "Unable to sign in." };
@@ -64,12 +66,12 @@ export class AuthBAL {
       if (AuthBAL.usesLocalAuth()) {
         const user = this.getCurrentUser();
         if (!user) return null;
-        await dbFactory.getDriver().hydrateRemote(true);
+        void dbFactory.getDriver().hydrateRemote(true);
         return user;
       }
       const result = await apiRequest("/api/auth/session");
       sessionStorage.setItem(SESSION_KEY, JSON.stringify(result.user));
-      await dbFactory.getDriver().hydrateRemote(true);
+      void dbFactory.getDriver().hydrateRemote(true);
       return result.user;
     } catch {
       this.logout();
