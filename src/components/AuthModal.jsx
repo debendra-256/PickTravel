@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import { AuthBAL } from "../bal/AuthBAL";
-import { Lock, User, KeyRound, X, LogIn, CheckCircle2, ShieldAlert } from "lucide-react";
+import { Lock, User, /* KeyRound, */ X, LogIn, CheckCircle2, ShieldAlert } from "lucide-react";
 import { assetUrl } from "../config/assetUrl";
 
 export function AuthModal({ isOpen, onClose, session, onLoginSuccess }) {
-  // With .env.local credentials there is no server-side password to change.
-  const localAuth = AuthBAL.usesLocalAuth();
-  const [activeTab, setActiveTab] = useState(session && !localAuth ? "changePassword" : "login");
+  const [activeTab, setActiveTab] = useState("login");
   
   // Login State
   const [userId, setUserId] = useState("");
@@ -80,16 +78,17 @@ export function AuthModal({ isOpen, onClose, session, onLoginSuccess }) {
             <span>Admin Login</span>
           </button>
 
-          {!localAuth && (
-            <button
-              className={`tab-btn ${activeTab === "changePassword" ? "active" : ""}`}
-              onClick={() => setActiveTab("changePassword")}
-              style={{ flex: 1, justifyContent: "center" }}
-            >
-              <KeyRound size={16} />
-              <span>Change Password</span>
-            </button>
-          )}
+          {/* Change Password tab stays hidden; the handler and form below are kept so
+              the entry point can be switched back on.
+          <button
+            className={`tab-btn ${activeTab === "changePassword" ? "active" : ""}`}
+            onClick={() => setActiveTab("changePassword")}
+            style={{ flex: 1, justifyContent: "center" }}
+          >
+            <KeyRound size={16} />
+            <span>Change Password</span>
+          </button>
+          */}
         </div>
 
         {alertMsg && (

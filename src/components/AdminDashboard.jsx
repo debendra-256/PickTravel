@@ -4,7 +4,6 @@ import { BookingBAL } from "../bal/BookingBAL";
 import { FleetBAL } from "../bal/FleetBAL";
 import { EnquiryBAL } from "../bal/EnquiryBAL";
 import { OfferBannerBAL } from "../bal/OfferBannerBAL";
-import { AuthBAL } from "../bal/AuthBAL";
 import { DATABASE_UPDATED_EVENT } from "../dal/drivers/PostgresDriver";
 import {
   Database,
@@ -17,7 +16,7 @@ import {
   XCircle,
   RefreshCw,
   PlusCircle,
-  Lock,
+  // Lock,
   ShieldCheck,
   Check,
   Edit,
@@ -240,12 +239,12 @@ export function AdminDashboard({ session, onOpenAddCar, onEditCar, onOpenAuthMod
               <p>Welcome back, {session?.username || "Admin"}. Manage bookings, fleet, and customer enquiries.</p>
             </div>
           </div>
-          {!AuthBAL.usesLocalAuth() && (
-            <button className="admin-console-password" onClick={onOpenAuthModal}>
-              <Lock size={15} />
-              <span>Change Password</span>
-            </button>
-          )}
+          {/* Change Password entry point hidden app-wide; restore together with AuthModal.
+          <button className="admin-console-password" onClick={onOpenAuthModal}>
+            <Lock size={15} />
+            <span>Change Password</span>
+          </button>
+          */}
         </header>
 
         {statusMsg && (
