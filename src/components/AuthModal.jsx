@@ -4,7 +4,9 @@ import { Lock, User, KeyRound, X, LogIn, CheckCircle2, ShieldAlert } from "lucid
 import { assetUrl } from "../config/assetUrl";
 
 export function AuthModal({ isOpen, onClose, session, onLoginSuccess }) {
-  const [activeTab, setActiveTab] = useState(session ? "changePassword" : "login");
+  // With .env.local credentials there is no server-side password to change.
+  const localAuth = AuthBAL.usesLocalAuth();
+  const [activeTab, setActiveTab] = useState(session && !localAuth ? "changePassword" : "login");
   
   // Login State
   const [userId, setUserId] = useState("");
@@ -74,14 +76,16 @@ export function AuthModal({ isOpen, onClose, session, onLoginSuccess }) {
             <span>Admin Login</span>
           </button>
 
-          <button
-            className={`tab-btn ${activeTab === "changePassword" ? "active" : ""}`}
-            onClick={() => setActiveTab("changePassword")}
-            style={{ flex: 1, justifyContent: "center" }}
-          >
-            <KeyRound size={16} />
-            <span>Change Password</span>
-          </button>
+          {!localAuth && (
+            <button
+              className={`tab-btn ${activeTab === "changePassword" ? "active" : ""}`}
+              onClick={() => setActiveTab("changePassword")}
+              style={{ flex: 1, justifyContent: "center" }}
+            >
+              <KeyRound size={16} />
+              <span>Change Password</span>
+            </button>
+          )}
         </div>
 
         {alertMsg && (

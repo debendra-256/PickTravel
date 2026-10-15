@@ -4,6 +4,7 @@ import { BookingBAL } from "../bal/BookingBAL";
 import { FleetBAL } from "../bal/FleetBAL";
 import { EnquiryBAL } from "../bal/EnquiryBAL";
 import { OfferBannerBAL } from "../bal/OfferBannerBAL";
+import { AuthBAL } from "../bal/AuthBAL";
 import { DATABASE_UPDATED_EVENT } from "../dal/drivers/PostgresDriver";
 import {
   Database,
@@ -239,10 +240,12 @@ export function AdminDashboard({ session, onOpenAddCar, onEditCar, onOpenAuthMod
               <p>Welcome back, {session?.username || "Admin"}. Manage bookings, fleet, and customer enquiries.</p>
             </div>
           </div>
-          <button className="admin-console-password" onClick={onOpenAuthModal}>
-            <Lock size={15} />
-            <span>Change Password</span>
-          </button>
+          {!AuthBAL.usesLocalAuth() && (
+            <button className="admin-console-password" onClick={onOpenAuthModal}>
+              <Lock size={15} />
+              <span>Change Password</span>
+            </button>
+          )}
         </header>
 
         {statusMsg && (
