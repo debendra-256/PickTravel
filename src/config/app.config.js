@@ -25,9 +25,9 @@ export const APP_CONFIG = {
 
   // Social Links
   SOCIAL: {
-    FACEBOOK: "https://www.facebook.com/PICKMYTRAVELS/",
-    TWITTER: "https://twitter.com/patratravels",
-    INSTAGRAM: "https://www.instagram.com/pick_my_travels",
+    FACEBOOK: "https://www.facebook.com/PICKMYTRAVELS",
+    TWITTER: "https://x.com/pickmytrav7849",
+    INSTAGRAM: "https://www.instagram.com/pick_my_travels/",
     YOUTUBE: "https://www.pickmytravels.com/",
     LINKEDIN: "https://www.pickmytravels.com/"
   },
