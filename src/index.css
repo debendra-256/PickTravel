@@ -1704,6 +1704,200 @@ main > .offer-only-section + #fleet {
   color: var(--primary-red);
 }
 
+/* Flight enquiry form */
+.flight-enquiry-form {
+  margin-top: 0.85rem;
+  padding: 0.9rem 1rem 1rem;
+  border-radius: 14px;
+  background: linear-gradient(150deg, #fff7f7 0%, #fdeeee 60%, #ffffff 100%);
+  border: 1px solid #f6dadb;
+  box-shadow: 0 8px 24px rgba(217, 35, 45, 0.06);
+}
+
+.flight-enquiry-heading {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  margin-bottom: 0.7rem;
+  color: var(--dark-navy);
+}
+
+.flight-enquiry-heading > svg {
+  flex: 0 0 auto;
+  width: 34px;
+  height: 34px;
+  padding: 8px;
+  border-radius: 50%;
+  background: #ffffff;
+  color: var(--primary-red);
+  box-shadow: 0 3px 10px rgba(217, 35, 45, 0.16);
+}
+
+.flight-enquiry-heading strong {
+  display: block;
+  font-size: 0.95rem;
+}
+
+.flight-enquiry-heading span {
+  display: block;
+  margin-top: 0.12rem;
+  font-size: 0.76rem;
+  line-height: 1.35;
+  color: #64748b;
+}
+
+.flight-trip-type {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.55rem;
+  margin-bottom: 0.7rem;
+}
+
+.flight-trip-type label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.34rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid #f0d8d8;
+  background: #ffffff;
+  color: #475569;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.18s ease, color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+}
+
+.flight-trip-type label:hover {
+  border-color: #e9b9ba;
+}
+
+.flight-trip-type label:has(input:checked) {
+  border-color: var(--primary-red);
+  background: #fff1f1;
+  color: var(--primary-red);
+  box-shadow: 0 2px 8px rgba(217, 35, 45, 0.14);
+}
+
+.flight-trip-type input[type="radio"] {
+  width: 14px;
+  height: 14px;
+  margin: 0;
+  accent-color: var(--primary-red);
+  cursor: pointer;
+}
+
+.flight-search-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 0.6rem 0.7rem;
+  margin-top: 0.6rem;
+}
+
+.flight-search-grid > .form-group {
+  min-width: 0;
+}
+
+.flight-enquiry-form .form-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #94a3b8;
+}
+
+.flight-enquiry-form .form-label svg {
+  color: var(--primary-red);
+}
+
+.flight-enquiry-form .form-input {
+  height: 46px;
+  padding: 0.5rem 0.85rem;
+  border: 1px solid #f1dcdc;
+  border-radius: 10px;
+  background: #ffffff;
+  font-weight: 600;
+  color: #0f172a;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+}
+
+.flight-enquiry-form .form-input::placeholder {
+  font-weight: 400;
+  color: #94a3b8;
+}
+
+.flight-enquiry-form .form-input:focus {
+  border-color: var(--primary-red);
+  box-shadow: 0 0 0 3px rgba(217, 35, 45, 0.12);
+}
+
+.flight-enquiry-alert {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.flight-enquiry-alert.success {
+  background: #ecfdf5;
+  color: #065f46;
+  border: 1px solid #a7f3d0;
+}
+
+.flight-enquiry-alert.error {
+  background: #fef2f2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+}
+
+.flight-enquiry-alert a {
+  color: inherit;
+  font-weight: 800;
+  text-decoration: underline;
+}
+
+.flight-enquiry-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 0.85rem;
+}
+
+.flight-enquiry-actions .btn-primary {
+  padding: 0.6rem 1.35rem;
+  font-size: 0.92rem;
+}
+
+@media (max-width: 640px) {
+  .flight-enquiry-form {
+    margin-top: 0.65rem;
+    padding: 0.75rem 0.8rem 0.85rem;
+  }
+
+  .flight-enquiry-form .form-input {
+    font-size: 16px;
+  }
+
+  .flight-enquiry-actions {
+    justify-content: stretch;
+  }
+
+  .flight-enquiry-actions .btn-primary {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 420px) {
+  .flight-search-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media (max-width: 480px) {
   .booking-service-tabs {
     grid-template-columns: repeat(4, minmax(0, 1fr));

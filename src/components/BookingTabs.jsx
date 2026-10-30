@@ -19,7 +19,10 @@ import {
   Navigation,
   ArrowRight,
   Tag,
-  X
+  X,
+  User,
+  Phone,
+  Send
 } from "lucide-react";
 
 // Background Hero Carousel Image Slides(1536 × 1024 px resolution)
@@ -79,6 +82,17 @@ export function BookingTabs({
   const [packageType, setPackageType] = useState("");
   const [packageName, setPackageName] = useState(initialPackage || "");
   const [transferType, setTransferType] = useState("");
+
+  // Flight enquiry inputs
+  const [flightTripType, setFlightTripType] = useState("One Way");
+  const [flightFrom, setFlightFrom] = useState("");
+  const [flightTo, setFlightTo] = useState("");
+  const [flightDepartureDate, setFlightDepartureDate] = useState("");
+  const [flightReturnDate, setFlightReturnDate] = useState("");
+  const [flightName, setFlightName] = useState("");
+  const [flightPhone, setFlightPhone] = useState("");
+  const [flightAlert, setFlightAlert] = useState(null);
+  const [flightWhatsappUrl, setFlightWhatsappUrl] = useState("");
 
   const [estimatedFare, setEstimatedFare] = useState(0);
   const [couponCode, setCouponCode] = useState("");
@@ -248,6 +262,69 @@ export function BookingTabs({
     } else {
       setAlertMsg({ type: "error", text: res.message });
     }
+  };
+
+  const handleFlightEnquiry = (e) => {
+    e.preventDefault();
+    setFlightAlert(null);
+    setFlightWhatsappUrl("");
+
+    const from = flightFrom.trim();
+    const to = flightTo.trim();
+    const name = flightName.trim();
+    const phone = flightPhone.replace(/\D/g, "");
+    const isRoundTrip = flightTripType === "Round Trip";
+
+    if (!from || !to || !flightDepartureDate || !name || !phone || (isRoundTrip && !flightReturnDate)) {
+      setFlightAlert({ type: "error", text: "Please fill in all fields — From, Arrive At, dates, Name and Mobile Number." });
+      return;
+    }
+
+    if (isRoundTrip && flightReturnDate < flightDepartureDate) {
+      setFlightAlert({ type: "error", text: "Return date cannot be earlier than the departure date." });
+      return;
+    }
+
+    if (!/^[6-9]\d{9}$/.test(phone)) {
+      setFlightAlert({ type: "error", text: "Please enter a valid 10-digit Indian mobile number." });
+      return;
+    }
+
+    const waText = [
+      "New flight enquiry — Pick My Travels",
+      `Trip Type: ${flightTripType}`,
+      `From: ${from}`,
+      `Arrive At: ${to}`,
+      `Departure Date: ${flightDepartureDate}`,
+      ...(isRoundTrip ? [`Return Date: ${flightReturnDate}`] : []),
+      `Name: ${name}`,
+      `Mobile: ${phone}`
+    ].join("\n");
+
+    const whatsappUrl = APP_CONFIG.getWhatsappLink(waText);
+    const whatsappWindow = window.open(whatsappUrl, "_blank");
+
+    if (whatsappWindow) {
+      whatsappWindow.opener = null;
+      setFlightAlert({
+        type: "success",
+        text: "WhatsApp opened with your flight request. Tap Send in WhatsApp to deliver it to our team."
+      });
+    } else {
+      setFlightWhatsappUrl(whatsappUrl);
+      setFlightAlert({
+        type: "success",
+        text: "Your flight request is ready — tap the WhatsApp button below to send it."
+      });
+    }
+
+    setFlightTripType("One Way");
+    setFlightFrom("");
+    setFlightTo("");
+    setFlightDepartureDate("");
+    setFlightReturnDate("");
+    setFlightName("");
+    setFlightPhone("");
   };
 
   const handleApplyCoupon = () => {
@@ -663,10 +740,165 @@ export function BookingTabs({
         </div>
       </form>
       </>
+      ) : activeService === "flight" ? (
+        <form className="flight-enquiry-form" onSubmit={handleFlightEnquiry}>
+          <div className="flight-enquiry-heading">
+            <Plane size={18} />
+            <div>
+              <strong>Flight Enquiry</strong>
+              <span>Share your route and travel dates — our team will call you back with the best fare.</span>
+            </div>
+          </div>
+
+          <div className="flight-trip-type" role="radiogroup" aria-label="Trip type">
+            <label>
+              <input
+                type="radio"
+                name="flight-trip-type"
+                value="One Way"
+                checked={flightTripType === "One Way"}
+                onChange={(e) => setFlightTripType(e.target.value)}
+              />
+              <span>One Way</span>
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="flight-trip-type"
+                value="Round Trip"
+                checked={flightTripType === "Round Trip"}
+                onChange={(e) => setFlightTripType(e.target.value)}
+              />
+              <span>Round Trip</span>
+            </label>
+          </div>
+
+          <div className="flight-search-grid">
+            <div className="form-group">
+              <label className="form-label" htmlFor="flight-from">
+                <Plane size={14} />
+                <span>Departure From</span>
+              </label>
+              <input
+                id="flight-from"
+                type="text"
+                className="form-input"
+                placeholder="Departure city (e.g. Bhubaneswar)"
+                value={flightFrom}
+                onChange={(e) => setFlightFrom(e.target.value)}
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label className="form-label" htmlFor="flight-to">
+                <Plane size={14} />
+                <span>Arrive At</span>
+              </label>
+              <input
+                id="flight-to"
+                type="text"
+                className="form-input"
+                placeholder="Destination city (e.g. Delhi)"
+                value={flightTo}
+                onChange={(e) => setFlightTo(e.target.value)}
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label className="form-label" htmlFor="flight-departure-date">
+                <Calendar size={14} />
+                <span>Departure Date</span>
+              </label>
+              <input
+                id="flight-departure-date"
+                type="date"
+                className="form-input"
+                value={flightDepartureDate}
+                onChange={(e) => setFlightDepartureDate(e.target.value)}
+                required
+              />
+            </div>
+
+            {flightTripType === "Round Trip" && (
+              <div className="form-group">
+                <label className="form-label" htmlFor="flight-return-date">
+                  <Calendar size={14} />
+                  <span>Return Date</span>
+                </label>
+                <input
+                  id="flight-return-date"
+                  type="date"
+                  className="form-input"
+                  value={flightReturnDate}
+                  min={flightDepartureDate || undefined}
+                  onChange={(e) => setFlightReturnDate(e.target.value)}
+                  required
+                />
+              </div>
+            )}
+          </div>
+
+          <div className="flight-search-grid">
+            <div className="form-group">
+              <label className="form-label" htmlFor="flight-name">
+                <User size={14} />
+                <span>Name</span>
+              </label>
+              <input
+                id="flight-name"
+                type="text"
+                className="form-input"
+                placeholder="Enter Your Full Name"
+                value={flightName}
+                onChange={(e) => setFlightName(e.target.value)}
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label className="form-label" htmlFor="flight-phone">
+                <Phone size={14} />
+                <span>Mobile No</span>
+              </label>
+              <input
+                id="flight-phone"
+                type="tel"
+                inputMode="numeric"
+                className="form-input"
+                placeholder="Enter 10-Digit Mobile No"
+                value={flightPhone}
+                onChange={(e) => setFlightPhone(e.target.value)}
+                maxLength={10}
+                pattern="[0-9]{10}"
+                title="Enter a 10-digit mobile number"
+                required
+              />
+            </div>
+          </div>
+
+          {flightAlert && (
+            <div className={`flight-enquiry-alert ${flightAlert.type}`} role="status">
+              <CheckCircle2 size={18} />
+              <span>{flightAlert.text}</span>
+              {flightWhatsappUrl && (
+                <a href={flightWhatsappUrl} target="_blank" rel="noopener noreferrer">Open WhatsApp</a>
+              )}
+            </div>
+          )}
+
+          <div className="flight-enquiry-actions">
+            <button type="submit" className="btn-primary">
+              <Send size={16} />
+              <span>Submit Flight Request</span>
+            </button>
+          </div>
+        </form>
       ) : (
         <div className="booking-service-placeholder" role="status">
-          {activeService === "holiday" ? <Palmtree size={28} /> : <Plane size={28} />}
-          <span>{activeService === "holiday" ? "Holiday bookings are coming soon." : "Flight bookings are coming soon."}</span>
+          <Palmtree size={28} />
+          <span>Holiday bookings are coming soon.</span>
         </div>
       )}
     </div>
