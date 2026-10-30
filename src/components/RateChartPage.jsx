@@ -41,7 +41,7 @@ export function RateChartPage({ carsVersion = 0 }) {
   return (
     <section className="rate-chart-page">
       <div className="rate-chart-print-header">
-        <img src={assetUrl("picklogo.webp")} alt={APP_CONFIG.COMPANY_NAME} />
+        <img src={assetUrl("picklogo.png")} alt={APP_CONFIG.COMPANY_NAME} />
         <div>
           <strong>{APP_CONFIG.COMPANY_NAME}</strong>
           <span>WhatsApp: {APP_CONFIG.DISPLAY_WHATSAPP}</span>
@@ -110,14 +110,37 @@ export function RateChartPage({ carsVersion = 0 }) {
           <div className="rate-chart-empty">No vehicles match “{searchTerm}”. Try another search.</div>
         )}
 
-        <aside className="rate-chart-notes">
-          <h2>Good to know</h2>
-          <ul>
-            <li>Toll, interstate tax, and parking are extra. Billing is garage to garage.</li>
-            <li>Night halt and driver allowance apply. Outstation trips have a 300 km/day minimum.</li>
-            <li>Standing A/C is chargeable; A/C is switched off on ghat roads.</li>
-            <li>Cancellation within 24 hours incurs a 20% charge. Jurisdiction: Bhubaneswar.</li>
-          </ul>
+        <aside className="rate-chart-notes rate-chart-tnc">
+          <h2>Terms &amp; Conditions</h2>
+          <ol className="rate-chart-tnc-list">
+            <li>Toll taxes, interstate taxes, and parking charges will be charged on an actual basis.</li>
+            <li>Kilometres and hours will be calculated from garage to garage.</li>
+            <li>
+              <strong>Night Halt Charges (10:00 PM to 6:00 AM):</strong>
+              <ul className="rate-chart-tnc-sub">
+                <li>Light Vehicle: ₹350</li>
+                <li>Traveller: ₹500</li>
+                <li>Coach: ₹1,000</li>
+              </ul>
+            </li>
+            <li>
+              <strong>Driver Allowance for Outstation Trips:</strong>
+              <ul className="rate-chart-tnc-sub">
+                <li>Light Vehicle: ₹350</li>
+                <li>Tempo: ₹500</li>
+                <li>Coach: ₹1,000</li>
+              </ul>
+            </li>
+            <li>Vehicles covering less than 300 km per day will be billed as per the applicable local tariff.</li>
+            <li>For outstation trips, a minimum of 300 km per day will be charged.</li>
+            <li>Additional charges will apply for vehicles operating with the air conditioning switched on while stationary.</li>
+            <li>If a booking is cancelled within 24 hours of the scheduled departure time, 20% of the total booking amount will be charged as a cancellation fee.</li>
+            <li>Air conditioning must remain switched off while driving on ghat roads.</li>
+            <li>All disputes shall be subject to the jurisdiction of the courts in Bhubaneswar only.</li>
+            <li>Toll taxes, interstate taxes, parking fees, and other road-related charges incurred during the trip will be charged additionally on an actual basis.</li>
+            <li>For all bookings with Tour &amp; Travels Bhubaneswar, the travel time and distance will be calculated from garage to garage.</li>
+            <li>Customers are requested to confirm all trip details before the commencement of the journey.</li>
+          </ol>
         </aside>
       </section>
     </section>

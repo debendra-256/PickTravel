@@ -70,22 +70,22 @@ export function BookingTabs({
   const [customerPhone, setCustomerPhone] = useState("");
   const [customerEmail, setCustomerEmail] = useState("");
 
-  // Tab-specific inputs
-  const [pickupLocation, setPickupLocation] = useState("Bhubaneswar");
-  const [dropLocation, setDropLocation] = useState("Cuttack");
-  const [pickupDate, setPickupDate] = useState(new Date().toISOString().split("T")[0]);
+  // Tab-specific inputs - all empty initially
+  const [pickupLocation, setPickupLocation] = useState("");
+  const [dropLocation, setDropLocation] = useState("");
+  const [pickupDate, setPickupDate] = useState("");
   const [returnDate, setReturnDate] = useState("");
-  const [pickupTime, setPickupTime] = useState("09:00");
-  const [packageType, setPackageType] = useState("8 Hrs / 80 Kms");
-  const [packageName, setPackageName] = useState(initialPackage || "Bhubaneswar Temple & City Tour");
-  const [transferType, setTransferType] = useState("Airport Pickup");
+  const [pickupTime, setPickupTime] = useState("");
+  const [packageType, setPackageType] = useState("");
+  const [packageName, setPackageName] = useState(initialPackage || "");
+  const [transferType, setTransferType] = useState("");
 
   const [estimatedFare, setEstimatedFare] = useState(0);
   const [couponCode, setCouponCode] = useState("");
   const [appliedCoupon, setAppliedCoupon] = useState("");
   const [couponMessage, setCouponMessage] = useState(null);
   const [alertMsg, setAlertMsg] = useState(null);
-  const selectedCar = cars.find((car) => String(car.id) === String(selectedCarId)) || cars[0];
+  const selectedCar = cars.find((car) => String(car.id) === String(selectedCarId));
   const appliedFestiveOffer = offerBanner.enabled
     && offerBanner.code
     && Number(offerBanner.amount) > 0
@@ -135,8 +135,9 @@ export function BookingTabs({
     setCars(list);
     if (list.length > 0) {
       setSelectedCarId((prev) => {
+        if (!prev) return "";
         const exists = list.some((c) => String(c.id) === String(prev));
-        return exists ? prev : list[0].id;
+        return exists ? prev : "";
       });
     }
   };
@@ -150,7 +151,23 @@ export function BookingTabs({
 
   // Recalculate fare whenever tab or inputs change
   useEffect(() => {
-    const carObj = cars.find((c) => String(c.id) === String(selectedCarId)) || cars[0];
+    const carObj = cars.find((c) => String(c.id) === String(selectedCarId));
+    if (!carObj) {
+      setEstimatedFare(0);
+      return;
+    }
+    if (activeTab === "Local Trip" && !packageType) {
+      setEstimatedFare(0);
+      return;
+    }
+    if (activeTab === "Taxi Packages" && !packageName) {
+      setEstimatedFare(0);
+      return;
+    }
+    if (activeTab === "Airport Transfer" && !transferType) {
+      setEstimatedFare(0);
+      return;
+    }
     const details = {
       packageType,
       packageName,
@@ -159,11 +176,41 @@ export function BookingTabs({
     };
     const fare = BookingBAL.calculateFare(activeTab, details, carObj);
     setEstimatedFare(fare);
-  }, [activeTab, selectedCarId, packageType, packageName, cars]);
+  }, [activeTab, selectedCarId, packageType, packageName, transferType, cars]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setAlertMsg(null);
+
+    if (!selectedCarId) {
+      setAlertMsg({ type: "error", text: "Please select a car model / seater." });
+      return;
+    }
+
+    if (activeTab === "Local Trip" && !packageType) {
+      setAlertMsg({ type: "error", text: "Please select a rental package." });
+      return;
+    }
+
+    if (activeTab === "Taxi Packages" && !packageName) {
+      setAlertMsg({ type: "error", text: "Please select a sightseeing package." });
+      return;
+    }
+
+    if (activeTab === "Airport Transfer" && !transferType) {
+      setAlertMsg({ type: "error", text: "Please select an airport transfer option." });
+      return;
+    }
+
+    if (!pickupDate) {
+      setAlertMsg({ type: "error", text: "Please select a pickup date." });
+      return;
+    }
+
+    if (!pickupTime) {
+      setAlertMsg({ type: "error", text: "Please select a pickup time." });
+      return;
+    }
 
     const carObj = cars.find((c) => String(c.id) === String(selectedCarId));
 
@@ -190,6 +237,13 @@ export function BookingTabs({
       setAlertMsg({ type: "success", text: res.message });
       setCustomerName("");
       setCustomerPhone("");
+      setPickupLocation("");
+      setDropLocation("");
+      setPickupDate("");
+      setPickupTime("");
+      setReturnDate("");
+      setPackageType("");
+      setSelectedCarId("");
       if (onBookingSuccess) onBookingSuccess(res.booking);
     } else {
       setAlertMsg({ type: "error", text: res.message });
@@ -357,15 +411,35 @@ export function BookingTabs({
             <input
               type="text"
               className="form-input"
-              placeholder="e.g. Bhubaneswar Station / Hotel"
+              placeholder="Enter Pickup City / Spot (e.g. Bhubaneswar)"
               value={pickupLocation}
               onChange={(e) => setPickupLocation(e.target.value)}
               required
             />
           </div>
 
-          {/* Conditional Fields based on Tab */}
-          {(activeTab === "One Way" || activeTab === "Round Trip") && (
+          {/* Conditional Slot 2 of Row 1: Car Model for Local Trip (swapped with Rental Package), or Destination/Package/Transfer for other tabs */}
+          {activeTab === "Local Trip" ? (
+            <div className="form-group">
+              <label className="form-label">
+                <Car size={14} className="text-red" />
+                <span>Select Car Model / Seater</span>
+              </label>
+              <select
+                className="form-select"
+                value={selectedCarId}
+                onChange={(e) => setSelectedCarId(e.target.value)}
+                required
+              >
+                <option value="">----select car----</option>
+                {cars.map((c) => (
+                  <option key={c.id} value={c.id}>
+                    {c.name} ({c.seater} Seater - ₹{c.perKmPrice}/KM)
+                  </option>
+                ))}
+              </select>
+            </div>
+          ) : (activeTab === "One Way" || activeTab === "Round Trip") ? (
             <div className="form-group">
               <label className="form-label">
                 <MapPin size={14} className="text-red" />
@@ -374,33 +448,13 @@ export function BookingTabs({
               <input
                 type="text"
                 className="form-input"
-                placeholder="e.g. Puri Dham / Cuttack / Rourkela"
+                placeholder="Enter Drop Destination (e.g. Puri Dham / Cuttack)"
                 value={dropLocation}
                 onChange={(e) => setDropLocation(e.target.value)}
                 required
               />
             </div>
-          )}
-
-          {activeTab === "Local Trip" && (
-            <div className="form-group">
-              <label className="form-label">
-                <Package size={14} className="text-red" />
-                <span>Rental Package</span>
-              </label>
-              <select
-                className="form-select"
-                value={packageType}
-                onChange={(e) => setPackageType(e.target.value)}
-              >
-                <option value="4 Hrs / 40 Kms">4 hrs - 40 km ({formatPackageRate(selectedCar?.fourHours40Km)})</option>
-                <option value="8 Hrs / 80 Kms">8 hrs - 80 km ({formatPackageRate(selectedCar?.eightHours80Km)})</option>
-                <option value="10 Hrs / 100 Kms">10 hrs - 100 km ({formatPackageRate(selectedCar?.tenHours100Km)})</option>
-              </select>
-            </div>
-          )}
-
-          {activeTab === "Taxi Packages" && (
+          ) : activeTab === "Taxi Packages" ? (
             <div className="form-group">
               <label className="form-label">
                 <Package size={14} className="text-red" />
@@ -410,7 +464,9 @@ export function BookingTabs({
                 className="form-select"
                 value={packageName}
                 onChange={(e) => setPackageName(e.target.value)}
+                required
               >
+                <option value="">----select package----</option>
                 <option value="Bhubaneswar Temple & City Tour">Bhubaneswar Temple & City Tour</option>
                 <option value="Puri Jagannath Temple & Beach Tour">Puri Jagannath Temple & Beach Tour</option>
                 <option value="Konark Sun Temple & Marine Drive">Konark Sun Temple & Marine Drive</option>
@@ -418,9 +474,7 @@ export function BookingTabs({
                 <option value="Odisha Golden Triangle (3 Days)">Odisha Golden Triangle (3 Days)</option>
               </select>
             </div>
-          )}
-
-          {activeTab === "Airport Transfer" && (
+          ) : activeTab === "Airport Transfer" ? (
             <div className="form-group">
               <label className="form-label">
                 <Plane size={14} className="text-red" />
@@ -430,12 +484,14 @@ export function BookingTabs({
                 className="form-select"
                 value={transferType}
                 onChange={(e) => setTransferType(e.target.value)}
+                required
               >
+                <option value="">----select transfer option----</option>
                 <option value="Airport Pickup">Pickup from Airport (BPI Bhubaneswar)</option>
                 <option value="Airport Drop">Drop at Airport (BPI Bhubaneswar)</option>
               </select>
             </div>
-          )}
+          ) : null}
 
           {/* Pickup Date */}
           <div className="form-group">
@@ -484,24 +540,46 @@ export function BookingTabs({
             />
           </div>
 
-          {/* Car Selection */}
-          <div className={`form-group ${activeTab !== "Round Trip" ? "col-span-2" : ""}`}>
-            <label className="form-label">
-              <Car size={14} className="text-red" />
-              <span>Select Car Model / Seater</span>
-            </label>
-            <select
-              className="form-select"
-              value={selectedCarId}
-              onChange={(e) => setSelectedCarId(e.target.value)}
-            >
-              {cars.map((c) => (
-                <option key={c.id} value={c.id}>
-                  {c.name} ({c.seater} Seater - ₹{c.perKmPrice}/KM)
-                </option>
-              ))}
-            </select>
-          </div>
+          {/* Row 2: Rental Package (if Local Trip) or Car Selection (for all other tabs) */}
+          {activeTab === "Local Trip" ? (
+            <div className="form-group col-span-2">
+              <label className="form-label">
+                <Package size={14} className="text-red" />
+                <span>Rental Package</span>
+              </label>
+              <select
+                className="form-select"
+                value={packageType}
+                onChange={(e) => setPackageType(e.target.value)}
+                required
+              >
+                <option value="">----select package----</option>
+                <option value="4 Hrs / 40 Kms">4 hrs - 40 km {selectedCar?.fourHours40Km ? `(${formatPackageRate(selectedCar.fourHours40Km)})` : ""}</option>
+                <option value="8 Hrs / 80 Kms">8 hrs - 80 km {selectedCar?.eightHours80Km ? `(${formatPackageRate(selectedCar.eightHours80Km)})` : ""}</option>
+                <option value="10 Hrs / 100 Kms">10 hrs - 100 km {selectedCar?.tenHours100Km ? `(${formatPackageRate(selectedCar.tenHours100Km)})` : ""}</option>
+              </select>
+            </div>
+          ) : (
+            <div className={`form-group ${activeTab !== "Round Trip" ? "col-span-2" : ""}`}>
+              <label className="form-label">
+                <Car size={14} className="text-red" />
+                <span>Select Car Model / Seater</span>
+              </label>
+              <select
+                className="form-select"
+                value={selectedCarId}
+                onChange={(e) => setSelectedCarId(e.target.value)}
+                required
+              >
+                <option value="">----select car----</option>
+                {cars.map((c) => (
+                  <option key={c.id} value={c.id}>
+                    {c.name} ({c.seater} Seater - ₹{c.perKmPrice}/KM)
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
 
           {/* Customer Contact Inputs */}
           <div className="form-group">
@@ -509,7 +587,7 @@ export function BookingTabs({
             <input
               type="text"
               className="form-input"
-              placeholder="Your Full Name"
+              placeholder="Enter Your Full Name"
               value={customerName}
               onChange={(e) => setCustomerName(e.target.value)}
               required
@@ -521,7 +599,7 @@ export function BookingTabs({
             <input
               type="tel"
               className="form-input"
-              placeholder="10-Digit Mobile"
+              placeholder="Enter 10-Digit Mobile"
               value={customerPhone}
               onChange={(e) => setCustomerPhone(e.target.value)}
               required
@@ -534,11 +612,19 @@ export function BookingTabs({
           <div className="estimated-fare-summary">
             <div className="fare-title">Estimated Booking Fare</div>
             <div className="fare-amount">
-              {appliedCoupon && <del>₹{estimatedFare.toLocaleString("en-IN")}</del>}
-              <strong>₹{payableFare.toLocaleString("en-IN")}</strong>{" "}
-              <span style={{ fontSize: "0.8rem", color: "#64748b", fontWeight: "normal" }}>
-                (All Inclusive Base Price)
-              </span>
+              {estimatedFare > 0 ? (
+                <>
+                  {appliedCoupon && <del>₹{estimatedFare.toLocaleString("en-IN")}</del>}
+                  <strong>₹{payableFare.toLocaleString("en-IN")}</strong>{" "}
+                  <span style={{ fontSize: "0.8rem", color: "#64748b", fontWeight: "normal" }}>
+                    (All Inclusive Base Price)
+                  </span>
+                </>
+              ) : (
+                <span style={{ fontSize: "0.92rem", color: "#64748b", fontWeight: "500" }}>
+                  Select car model to view fare
+                </span>
+              )}
             </div>
             {discountAmount > 0 && <div className="fare-savings">You save ₹{discountAmount.toLocaleString("en-IN")}</div>}
           </div>

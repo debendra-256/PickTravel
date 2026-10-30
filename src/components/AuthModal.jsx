@@ -64,7 +64,7 @@ export function AuthModal({ isOpen, onClose, session, onLoginSuccess }) {
         </button>
 
         <div style={{ textAlign: "center", marginBottom: "1rem" }}>
-          <img src={assetUrl("picklogo.webp")} alt="Pick My Travel" style={{ height: "40px", objectFit: "contain" }} />
+          <img src={assetUrl("picklogo.png")} alt="Pick My Travel" style={{ height: "40px", objectFit: "contain" }} />
         </div>
 
         {/* Tab Headers: Login / Change Password */}

@@ -1,6 +1,7 @@
 import React from "react";
-import { ArrowUpRight, Building2, Car, Clock3, Mail, MapPin, Phone, Route, ShieldCheck, Users } from "lucide-react";
+import { ArrowUpRight, Award, Building2, Car, CheckCircle2, Clock3, Mail, MapPin, Phone, Route, ShieldCheck, Users } from "lucide-react";
 import { APP_CONFIG } from "../config/app.config";
+import { assetUrl } from "../config/assetUrl";
 
 const strengths = [
   {
@@ -70,6 +71,48 @@ export function AboutUsPage() {
               <a href={directionsUrl} target="_blank" rel="noopener noreferrer" aria-label="Open PickMyTravels office in Google Maps">
                 <ArrowUpRight size={18} />
               </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Recognition & Trust Section */}
+      <section className="about-us-recognition-section">
+        <div className="container about-us-recognition-grid">
+          <div className="about-us-recognition-image-wrap">
+            <img
+              src={assetUrl("about-recognition.jpg")}
+              alt="PickMyTravels felicitated at Lok Bhavan, Odisha"
+              className="about-us-recognition-image"
+              loading="lazy"
+            />
+            <div className="about-us-recognition-badge">
+              <Award size={16} />
+              <span>Lok Bhavan, Odisha</span>
+            </div>
+          </div>
+          <div className="about-us-recognition-content">
+            <span className="about-us-section-kicker">Honour & Recognition</span>
+            <h2>Proudly Serving Odisha with Trust & Excellence</h2>
+            <p>
+              A moment of immense pride and privilege for the <strong>PickMyTravels</strong> family — being felicitated at <strong>Lok Bhavan, Odisha</strong>.
+            </p>
+            <p>
+              This honour reflects our journey since <strong>1999</strong> and our dedication to delivering safe, dignified, and dependable travel experiences across Bhubaneswar, Puri, and every corner of Odisha.
+            </p>
+            <div className="about-us-recognition-highlights">
+              <div className="about-us-recognition-highlight-item">
+                <CheckCircle2 size={18} color="#16a34a" />
+                <span>Govt. Approved & Verified Travel Partner</span>
+              </div>
+              <div className="about-us-recognition-highlight-item">
+                <CheckCircle2 size={18} color="#16a34a" />
+                <span>Recognised for Reliable Road Transport</span>
+              </div>
+              <div className="about-us-recognition-highlight-item">
+                <CheckCircle2 size={18} color="#16a34a" />
+                <span>Trusted by Thousands of Happy Travellers</span>
+              </div>
             </div>
           </div>
         </div>
