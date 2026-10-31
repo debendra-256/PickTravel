@@ -5,6 +5,8 @@ import { BookingTabs } from "./components/BookingTabs";
 import { FleetSection } from "./components/FleetSection";
 import { RateChartPage } from "./components/RateChartPage";
 import { AboutUsPage } from "./components/AboutUsPage";
+import { GalleryPage } from "./components/GalleryPage";
+import { TourPackagesPage } from "./components/TourPackagesPage";
 import { BlogSection } from "./components/BlogSection";
 import { AdminDashboard } from "./components/AdminDashboard";
 import { AuthModal } from "./components/AuthModal";
@@ -18,7 +20,9 @@ import { AuthBAL } from "./bal/AuthBAL";
 import { GlobalSpinner } from "./components/GlobalSpinner";
 
 export default function App() {
-  const [activePage, setActivePage] = useState("home");
+  const [activePage, setActivePage] = useState(() =>
+    window.location.hash.startsWith("#/tour-packages") ? "packages" : "home"
+  );
   const [session, setSession] = useState(null);
 
   // Cars reactivity version counter
@@ -27,7 +31,7 @@ export default function App() {
 
   // SubMenu navigation selections
   const [bookingTab, setBookingTab] = useState("Local Trip");
-  const [selectedPackage, setSelectedPackage] = useState("");
+  const [packagesCategory, setPackagesCategory] = useState("All");
 
   // Modals
   const [authModalOpen, setAuthModalOpen] = useState(false);
@@ -46,6 +50,12 @@ export default function App() {
     document.addEventListener("contextmenu", preventContextMenu);
     return () => document.removeEventListener("contextmenu", preventContextMenu);
   }, []);
+
+  useEffect(() => {
+    if (activePage !== "packages" && window.location.hash.startsWith("#/tour-packages")) {
+      window.history.replaceState(null, "", window.location.pathname + window.location.search);
+    }
+  }, [activePage]);
 
   const handleLoginSuccess = (userSession) => {
     setSession(userSession);
@@ -82,6 +92,19 @@ export default function App() {
     setActivePage("fleet");
   };
 
+  const handlePackageCategory = (category) => {
+    setPackagesCategory(category);
+    setActivePage("packages");
+    if (window.location.hash.startsWith("#/tour-packages/")) {
+      window.location.hash = "#/tour-packages";
+    }
+  };
+
+  const handlePackageLink = (slug) => {
+    setActivePage("packages");
+    window.location.hash = `#/tour-packages/${slug}`;
+  };
+
   return (
     <div className={activePage === "rates" ? "rate-chart-print-mode" : ""} style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
       {/* Header Bar */}
@@ -104,11 +127,8 @@ export default function App() {
           setBookingTab(tab);
           setActivePage("home");
         }}
-        onSelectPackage={(pkg) => {
-          setSelectedPackage(pkg);
-          setBookingTab("Taxi Packages");
-          setActivePage("home");
-        }}
+        onSelectPackageCategory={handlePackageCategory}
+        onSelectPackageLink={handlePackageLink}
         onSelectFleetFilter={() => {
           setActivePage("fleet");
         }}
@@ -123,7 +143,6 @@ export default function App() {
               onBookingSuccess={handleBookingSuccess}
               carsVersion={carsVersion}
               initialTab={bookingTab}
-              initialPackage={selectedPackage}
             />
 
             {/* Why Choose Us Section */}
@@ -150,6 +169,16 @@ export default function App() {
         )}
 
         {activePage === "blogs" && <BlogSection />}
+
+        {activePage === "gallery" && <GalleryPage />}
+
+        {activePage === "packages" && (
+          <TourPackagesPage
+            key={packagesCategory}
+            category={packagesCategory}
+            onOpenEnquiry={() => handleOpenContactModal("enquiry")}
+          />
+        )}
 
         {activePage === "rates" && <RateChartPage carsVersion={carsVersion} />}
 

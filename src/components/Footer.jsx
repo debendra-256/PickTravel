@@ -14,7 +14,7 @@ export function Footer({ setActiveTab, onOpenAuthModal, onOpenFeedback, showFeed
               <img className="footer-brand-logo" src={assetUrl("picklogo-footer.png")} alt={APP_CONFIG.COMPANY_NAME} />
             </div>
             <p style={{ color: "#94a3b8", fontSize: "0.88rem", marginBottom: "1.25rem", lineHeight: "1.6" }}>
-              Pick My Travel is Odisha's premier car rental agency providing reliable outstation cabs, local city sightseeing, airport pickups, and luxury tempo travellers.
+              Pick My Travels is Odisha's premier car rental agency providing reliable outstation cabs, local city sightseeing, airport pickups, and luxury tempo travellers.
             </p>
             <div style={{ display: "flex", gap: "0.5rem" }}>
               <span className="badge badge-red">Govt. Approved</span>
@@ -29,6 +29,7 @@ export function Footer({ setActiveTab, onOpenAuthModal, onOpenFeedback, showFeed
               <li><a href="#home" onClick={(e) => { e.preventDefault(); setActiveTab("home"); }}>Home Portal</a></li>
               <li><a href="#fleet" onClick={(e) => { e.preventDefault(); setActiveTab("fleet"); }}>Vehicle Fleet & Rates</a></li>
               <li><a href="#blogs" onClick={(e) => { e.preventDefault(); setActiveTab("blogs"); }}>Travel Blogs</a></li>
+              <li><a href="#gallery" onClick={(e) => { e.preventDefault(); setActiveTab("gallery"); }}>Travel Gallery</a></li>
               {showFeedback && <li><a href="#feedback" onClick={(e) => { e.preventDefault(); onOpenFeedback(); }}>Share Feedback</a></li>}
               <li><a href="#login" onClick={(e) => { e.preventDefault(); onOpenAuthModal(); }}>Admin / Staff Login</a></li>
             </ul>

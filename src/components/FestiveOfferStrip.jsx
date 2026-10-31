@@ -42,7 +42,7 @@ export function FestiveOfferStrip() {
         </div>
         <div className="festive-moving-vehicle festive-moving-bus" aria-hidden="true">
           <img className="festive-moving-bus-image" src={assetUrl("shyamoli-bus-green.png")} alt="" />
-          <span className="festive-bus-brand"><span className="festive-bus-brand-text">PICKMYTRAVELS.com</span></span>
+          <span className="festive-bus-brand"><span className="festive-bus-brand-text">PICK MY TRAVELS</span></span>
           <span className="festive-bus-wheel festive-bus-wheel-one" />
           <span className="festive-bus-wheel festive-bus-wheel-two" />
           <span className="festive-bus-wheel festive-bus-wheel-three" />

@@ -52,7 +52,6 @@ export function BookingTabs({
   onBookingSuccess,
   carsVersion = 0,
   initialTab = "Local Trip",
-  initialPackage = "",
   preselectedCarId,
   compactMode = false
 }) {
@@ -80,7 +79,7 @@ export function BookingTabs({
   const [returnDate, setReturnDate] = useState("");
   const [pickupTime, setPickupTime] = useState("");
   const [packageType, setPackageType] = useState("");
-  const [packageName, setPackageName] = useState(initialPackage || "");
+  const [packageName, setPackageName] = useState("");
   const [transferType, setTransferType] = useState("");
 
   // Flight enquiry inputs
@@ -139,13 +138,11 @@ export function BookingTabs({
     if (initialTab) setActiveTab(initialTab);
   }, [initialTab]);
 
-  useEffect(() => {
-    if (initialPackage) setPackageName(initialPackage);
-  }, [initialPackage]);
-
   // Fetch car list from BAL
   const loadCars = () => {
-    const list = FleetBAL.getCars();
+    const list = FleetBAL.getCars()
+      .slice()
+      .sort((a, b) => Number(a.seater) - Number(b.seater));
     setCars(list);
     if (list.length > 0) {
       setSelectedCarId((prev) => {

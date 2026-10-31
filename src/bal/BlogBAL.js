@@ -23,7 +23,7 @@ export class BlogBAL {
       id: Date.now(),
       title: blogData.title,
       category: blogData.category || "Travel News",
-      author: blogData.author || "PICKMYTRAVELS Travels Desk",
+      author: blogData.author || "Pick My Travels Desk",
       date: new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }),
       readTime: "4 min read",
       image: blogData.image || "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&auto=format&fit=crop&q=80",

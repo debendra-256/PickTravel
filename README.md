@@ -1,6 +1,6 @@
-# PickMyTravels
+# Pick My Travels
 
-PickMyTravels is a React/Vite booking site. Its public pages are deployed to GitHub Pages. Bookings, fleet records, enquiries, offers, and administrator access are stored in a **Google Spreadsheet** through a bound Google Apps Script web app (`google-apps-script/Code.gs`). The Supabase Edge Function + Postgres stack remains in the repo as a fallback driver.
+Pick My Travels is a React/Vite booking site. Its public pages are deployed to GitHub Pages. Bookings, fleet records, enquiries, offers, and administrator access are stored in a **Google Spreadsheet** through a bound Google Apps Script web app (`google-apps-script/Code.gs`). The Supabase Edge Function + Postgres stack remains in the repo as a fallback driver.
 
 ## Google Sheets database setup
 

@@ -1,0 +1,488 @@
+[
+  {
+    "id": "puri-gangasagar",
+    "title": "Puri – Gangasagar Tour Packages",
+    "slug": "puri-gangasagar-tour-packages",
+    "link": "#/tour-packages/puri-gangasagar-tour-packages",
+    "category": "Spiritual Tours",
+    "image": "TourPackages/images/puri-gangasagar-hero.png",
+    "duration": "4 Days / 3 Nights",
+    "price": "On request",
+    "bestFor": "Pilgrims and families who want a short coastal darshan trip.",
+    "summary": "Combine Lord Jagannath's abode in Puri with the sacred Gangasagar coastline on a comfortable, privately driven pilgrimage. We handle the road journey, hotel coordination, and temple timings so you can focus on darshan.",
+    "highlights": [
+      "Jagannath Temple darshan with local guidance",
+      "Puri Golden Beach and Marine Drive",
+      "Gangasagar coastal temple visit",
+      "Private AC vehicle with experienced driver",
+      "Flexible pickup from Bhubaneswar or Puri hotels"
+    ],
+    "itinerary": [
+      {
+        "day": "Day 1",
+        "title": "Bhubaneswar to Puri",
+        "details": "Pickup from your Bhubaneswar hotel or the airport, drive to Puri, hotel check-in, and an evening visit to Puri beach and Marine Drive."
+      },
+      {
+        "day": "Day 2",
+        "title": "Puri darshan",
+        "details": "Morning Jagannath Temple darshan, followed by Gundicha Temple and the local market. The afternoon is free for the beach or rest."
+      },
+      {
+        "day": "Day 3",
+        "title": "Gangasagar pilgrimage",
+        "details": "Full-day coastal journey to Gangasagar for the temple visit and holy dip, with comfortable breaks and a local driver who knows the route."
+      },
+      {
+        "day": "Day 4",
+        "title": "Return journey",
+        "details": "Breakfast, checkout, and a relaxed drive back to Bhubaneswar with drop at your hotel, station, or airport."
+      }
+    ],
+    "inclusions": [
+      "Private air-conditioned vehicle for the full tour",
+      "Experienced local driver and fuel charges",
+      "Toll, parking, and state permit charges",
+      "Hotel booking assistance on request",
+      "Doorstep pickup and drop"
+    ],
+    "exclusions": [
+      "Temple offerings and personal pooja expenses",
+      "Ferry or boat tickets where applicable",
+      "Monument entry fees",
+      "Meals unless specifically included"
+    ]
+  },
+  {
+    "id": "puri-konark",
+    "title": "Puri & Konark Tour Packages",
+    "slug": "puri-konark-tour-packages",
+    "link": "#/tour-packages/puri-konark-tour-packages",
+    "category": "Spiritual Tours",
+    "image": "Gallery-Images/Gallery/konark-sun-temple.jpeg",
+    "duration": "2 Days / 1 Night",
+    "price": "On request",
+    "bestFor": "Weekend travellers and families covering Odisha's iconic temple circuit.",
+    "summary": "See the best of Odisha's spiritual heritage in one short trip. Visit Lord Jagannath in Puri, walk the UNESCO-listed Konark Sun Temple, and unwind on the Chandrabhaga coast with a private cab throughout.",
+    "highlights": [
+      "Jagannath Temple and Gundicha Temple, Puri",
+      "UNESCO World Heritage Konark Sun Temple",
+      "Chandrabhaga Beach and Marine Drive",
+      "Comfortable same-day transfers from Bhubaneswar",
+      "Flexible departure times"
+    ],
+    "itinerary": [
+      {
+        "day": "Day 1",
+        "title": "Bhubaneswar to Puri",
+        "details": "Morning pickup and drive to Puri. Check in, visit Jagannath Temple and the beach, then continue to Konark for the Sun Temple and Chandrabhaga Beach at sunset."
+      },
+      {
+        "day": "Day 2",
+        "title": "Puri to Bhubaneswar",
+        "details": "Leisurely breakfast, optional local shopping or beach time, and a comfortable return drive to Bhubaneswar."
+      }
+    ],
+    "inclusions": [
+      "Private air-conditioned cab for two days",
+      "Experienced driver with local knowledge",
+      "Fuel, toll, and parking charges",
+      "Hotel booking assistance",
+      "Pickup and drop at your preferred location"
+    ],
+    "exclusions": [
+      "Temple offerings and personal expenses",
+      "Monument entry tickets",
+      "Meals and hotel stay unless included in your quote",
+      "Guide charges"
+    ]
+  },
+  {
+    "id": "odisha-spiritual",
+    "title": "Odisha Spiritual Tour Packages",
+    "slug": "odisha-spiritual-tour-packages",
+    "link": "#/tour-packages/odisha-spiritual-tour-packages",
+    "category": "Spiritual Tours",
+    "image": "Gallery-Images/Gallery/jagannath-temple-puri.png",
+    "duration": "5 Days / 4 Nights",
+    "price": "On request",
+    "bestFor": "Pilgrims who want a complete temple and heritage circuit at a calm pace.",
+    "summary": "A curated spiritual journey across Bhubaneswar, Puri, and Konark. Our drivers plan darshan timings, handle the road travel, and keep the schedule unhurried so every temple visit feels meaningful.",
+    "highlights": [
+      "Lingaraj and Mukteshwar temples in Bhubaneswar",
+      "Jagannath Temple darshan in Puri",
+      "Konark Sun Temple and Chandrabhaga",
+      "Optional Chilika stop for a quiet coastal break",
+      "Assistance with temple queues and timings"
+    ],
+    "itinerary": [
+      {
+        "day": "Day 1",
+        "title": "Arrival in Bhubaneswar",
+        "details": "Airport or station pickup, hotel check-in, and an afternoon visit to Lingaraj Temple, Mukteshwar Temple, and the Khandagiri caves."
+      },
+      {
+        "day": "Day 2",
+        "title": "Bhubaneswar to Puri",
+        "details": "Drive to Puri with a Konark Sun Temple stop on the way. Evening darshan at Jagannath Temple and time at Puri beach."
+      },
+      {
+        "day": "Day 3",
+        "title": "Puri darshan and rest",
+        "details": "Morning temple darshan, Gundicha Temple, and the local market. A relaxed afternoon for the beach or personal visits."
+      },
+      {
+        "day": "Day 4",
+        "title": "Chilika or local sightseeing",
+        "details": "Choose a day trip to Chilika Lake or explore more Puri heritage spots. The evening is free for a quiet beach walk."
+      },
+      {
+        "day": "Day 5",
+        "title": "Return",
+        "details": "Checkout and drive back to Bhubaneswar for your onward journey."
+      }
+    ],
+    "inclusions": [
+      "Private AC vehicle for the complete circuit",
+      "Local driver familiar with temple routes",
+      "Fuel, toll, parking, and permits",
+      "Hotel and darshan assistance",
+      "Airport, station, or hotel pickup and drop"
+    ],
+    "exclusions": [
+      "Temple offerings and pooja charges",
+      "Monument and museum entry fees",
+      "Meals and accommodation unless included",
+      "Boat rides and personal expenses"
+    ]
+  },
+  {
+    "id": "daringbadi",
+    "title": "Daringbadi Tour Packages",
+    "slug": "daringbadi-tour-packages",
+    "link": "#/tour-packages/daringbadi-tour-packages",
+    "category": "Odisha Vacation Tours",
+    "image": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&auto=format&fit=crop&q=80",
+    "duration": "3 Days / 2 Nights",
+    "price": "On request",
+    "bestFor": "Couples, friends, and families looking for cool hills and pine forests.",
+    "summary": "Escape to the misty hills of Kandhamal. Daringbadi is Odisha's own hill station, known for pine forests, coffee gardens, waterfalls, and viewpoints — all reachable on a comfortable private road trip.",
+    "highlights": [
+      "Pine forest and coffee garden walks",
+      "Hill View Park and sunset viewpoints",
+      "Doluri River and local waterfalls",
+      "Cool climate and quiet village roads",
+      "Private cab with a hill-route driver"
+    ],
+    "itinerary": [
+      {
+        "day": "Day 1",
+        "title": "Bhubaneswar to Daringbadi",
+        "details": "Morning departure with scenic breaks, afternoon check-in, and an evening at a nearby viewpoint."
+      },
+      {
+        "day": "Day 2",
+        "title": "Daringbadi sightseeing",
+        "details": "Visit Hill View Park, the pine forest, coffee gardens, and Doluri River. Sunset at a local viewpoint before returning to the hotel."
+      },
+      {
+        "day": "Day 3",
+        "title": "Return via local stops",
+        "details": "Breakfast, checkout, and a relaxed return drive with optional stops at roadside viewpoints or a waterfall."
+      }
+    ],
+    "inclusions": [
+      "Private vehicle for the full trip",
+      "Experienced hill-route driver",
+      "Fuel, toll, parking, and permits",
+      "Hotel booking assistance",
+      "Pickup and drop from Bhubaneswar"
+    ],
+    "exclusions": [
+      "Hotel stay and meals unless included",
+      "Entry tickets and guide charges",
+      "Personal expenses and adventure activity fees",
+      "Anything not listed in inclusions"
+    ]
+  },
+  {
+    "id": "odisha-honeymoon",
+    "title": "Odisha Honeymoon Tour Packages",
+    "slug": "odisha-honeymoon-tour-packages",
+    "link": "#/tour-packages/odisha-honeymoon-tour-packages",
+    "category": "Odisha Vacation Tours",
+    "image": "https://images.unsplash.com/photo-1519741497674-611481863552?w=1200&auto=format&fit=crop&q=80",
+    "duration": "4 Days / 3 Nights",
+    "price": "On request",
+    "bestFor": "Newly married couples who want beaches, heritage, and private time.",
+    "summary": "A romantic Odisha escape with beach sunsets, temple heritage, and a private cab at your disposal. We help with hotel choices and keep the pace relaxed, with quiet stops along the coast.",
+    "highlights": [
+      "Puri Golden Beach and Marine Drive sunsets",
+      "Konark Sun Temple and Chandrabhaga coast",
+      "Chilika Lake views and quiet shoreline stops",
+      "Private cab with flexible timing",
+      "Hotel and candlelight dinner assistance"
+    ],
+    "itinerary": [
+      {
+        "day": "Day 1",
+        "title": "Arrival and Puri beach",
+        "details": "Pickup from Bhubaneswar, drive to Puri, check in, and spend the evening at the beach and Marine Drive."
+      },
+      {
+        "day": "Day 2",
+        "title": "Puri and Konark",
+        "details": "Jagannath Temple darshan in the morning, then Konark Sun Temple and Chandrabhaga Beach in the afternoon."
+      },
+      {
+        "day": "Day 3",
+        "title": "Chilika day trip",
+        "details": "A relaxed drive towards Chilika with scenic stops, local lunch options, and a quiet evening back in Puri."
+      },
+      {
+        "day": "Day 4",
+        "title": "Return",
+        "details": "Breakfast, checkout, and drop at Bhubaneswar airport or station."
+      }
+    ],
+    "inclusions": [
+      "Private air-conditioned cab throughout",
+      "Professional driver with local route knowledge",
+      "Fuel, toll, and parking charges",
+      "Hotel and dinner arrangement assistance",
+      "Flexible pickup and drop"
+    ],
+    "exclusions": [
+      "Hotel stay, meals, and special dinner costs",
+      "Temple offerings and entry tickets",
+      "Boat rides and activity charges",
+      "Personal shopping and tips"
+    ]
+  },
+  {
+    "id": "odisha-adventure",
+    "title": "Odisha Adventure Tour Packages",
+    "slug": "odisha-adventure-tour-packages",
+    "link": "#/tour-packages/odisha-adventure-tour-packages",
+    "category": "Odisha Vacation Tours",
+    "image": "https://images.unsplash.com/photo-1551632811-561732d1e306?w=1200&auto=format&fit=crop&q=80",
+    "duration": "4 Days / 3 Nights",
+    "price": "On request",
+    "bestFor": "Friends and active travellers who enjoy trails, waterfalls, and the outdoors.",
+    "summary": "An outdoors-first Odisha circuit with forest trails, waterfalls, and lake stops. We arrange the vehicle, driver, and route so you can spend your energy on the adventure, not the driving.",
+    "highlights": [
+      "Forest and hill trails around Kandhamal",
+      "Waterfall and river stops",
+      "Chilika Lake boating options",
+      "Flexible route for small groups",
+      "SUV or tempo traveller options"
+    ],
+    "itinerary": [
+      {
+        "day": "Day 1",
+        "title": "Bhubaneswar to the hills",
+        "details": "Drive towards the Kandhamal region with a waterfall stop, evening check-in, and a short nature walk."
+      },
+      {
+        "day": "Day 2",
+        "title": "Trails and viewpoints",
+        "details": "A full day of forest trails, viewpoints, and local sightseeing with a packed lunch option."
+      },
+      {
+        "day": "Day 3",
+        "title": "Chilika and coast",
+        "details": "Drive towards Chilika for a boat ride and lakeside stop before continuing to your night halt."
+      },
+      {
+        "day": "Day 4",
+        "title": "Return",
+        "details": "Breakfast and a relaxed return drive to Bhubaneswar."
+      }
+    ],
+    "inclusions": [
+      "Private SUV or tempo traveller as per group size",
+      "Experienced driver for hill and forest routes",
+      "Fuel, toll, parking, and permits",
+      "Route planning and stay assistance",
+      "Pickup and drop"
+    ],
+    "exclusions": [
+      "Adventure activity and boating fees",
+      "Hotel stay and meals unless included",
+      "Guide charges and entry tickets",
+      "Personal gear and expenses"
+    ]
+  },
+  {
+    "id": "senior-citizen-odisha",
+    "title": "Senior Citizen Odisha Tour Packages",
+    "slug": "senior-citizen-odisha-tour-packages",
+    "link": "#/tour-packages/senior-citizen-odisha-tour-packages",
+    "category": "Odisha Vacation Tours",
+    "image": "https://images.unsplash.com/photo-1511895426328-dc8714191300?w=1200&auto=format&fit=crop&q=80",
+    "duration": "4 Days / 3 Nights",
+    "price": "On request",
+    "bestFor": "Senior travellers and multigenerational families who prefer a gentle pace.",
+    "summary": "A thoughtfully paced Odisha tour for senior citizens, with shorter drives, comfortable halts, and assistance at temples. The itinerary can be adjusted for mobility needs and rest time.",
+    "highlights": [
+      "Gentle day-wise pace with rest breaks",
+      "Temple darshan assistance and queue support",
+      "Comfortable hotels near key sights",
+      "Short drives and easy boarding vehicles",
+      "Wheelchair or mobility support on request"
+    ],
+    "itinerary": [
+      {
+        "day": "Day 1",
+        "title": "Arrival and Bhubaneswar",
+        "details": "Airport or station pickup, check-in, and an easy afternoon at Lingaraj Temple and the Khandagiri area."
+      },
+      {
+        "day": "Day 2",
+        "title": "Bhubaneswar to Puri",
+        "details": "A comfortable drive with a Konark stop, followed by hotel check-in and evening beach time."
+      },
+      {
+        "day": "Day 3",
+        "title": "Puri darshan",
+        "details": "Morning Jagannath Temple darshan with assistance, then a free afternoon for rest or local shopping."
+      },
+      {
+        "day": "Day 4",
+        "title": "Return",
+        "details": "Breakfast, checkout, and a relaxed drive back to Bhubaneswar."
+      }
+    ],
+    "inclusions": [
+      "Comfortable private AC vehicle",
+      "Patient, experienced driver",
+      "Fuel, toll, and parking charges",
+      "Hotel and darshan assistance",
+      "Doorstep pickup and drop"
+    ],
+    "exclusions": [
+      "Hotel stay and meals unless included",
+      "Temple offerings and entry fees",
+      "Medical or insurance costs",
+      "Personal expenses"
+    ]
+  },
+  {
+    "id": "wildlife-odisha",
+    "title": "Wildlife Tour Packages Odisha",
+    "slug": "wildlife-tour-packages-odisha",
+    "link": "#/tour-packages/wildlife-tour-packages-odisha",
+    "category": "Wildlife Tours",
+    "image": "https://images.unsplash.com/photo-1561731216-c3a4d99437d5?w=1200&auto=format&fit=crop&q=80",
+    "duration": "4 Days / 3 Nights",
+    "price": "On request",
+    "bestFor": "Nature lovers and photographers exploring Odisha's forests and wetlands.",
+    "summary": "Discover Odisha beyond the coast with guided forest and wetland experiences. We plan permits, safari slots, and comfortable transfers so your wildlife days run smoothly.",
+    "highlights": [
+      "Simlipal and Satkosia forest options",
+      "Guided safari and nature walks",
+      "Mangalajodi birding on Chilika",
+      "Local naturalist assistance",
+      "Comfortable forest-side stays on request"
+    ],
+    "itinerary": [
+      {
+        "day": "Day 1",
+        "title": "Bhubaneswar to the forest",
+        "details": "Morning departure, check-in near the reserve, and an evening nature walk or local interpretation session."
+      },
+      {
+        "day": "Day 2",
+        "title": "Morning safari",
+        "details": "Early safari or forest drive with a local guide, followed by rest and an afternoon birding stop."
+      },
+      {
+        "day": "Day 3",
+        "title": "Wetlands and wildlife",
+        "details": "Drive towards Chilika for Mangalajodi birding or a second forest experience, depending on the season."
+      },
+      {
+        "day": "Day 4",
+        "title": "Return",
+        "details": "Breakfast, checkout, and return to Bhubaneswar with a stop for lunch."
+      }
+    ],
+    "inclusions": [
+      "Private vehicle for the full itinerary",
+      "Driver and fuel, toll, parking charges",
+      "Safari and permit coordination assistance",
+      "Stay and naturalist booking help",
+      "Pickup and drop from Bhubaneswar"
+    ],
+    "exclusions": [
+      "Safari permit and entry fees",
+      "Guide and naturalist charges",
+      "Hotel stay and meals unless included",
+      "Camera fees and personal expenses"
+    ]
+  },
+  {
+    "id": "best-of-odisha-wildlife",
+    "title": "Best of Odisha Wildlife Tour Package",
+    "slug": "best-of-odisha-wildlife-tour-package",
+    "link": "#/tour-packages/best-of-odisha-wildlife-tour-package",
+    "category": "Wildlife Tours",
+    "image": "https://images.unsplash.com/photo-1557050543-4d5f4e07ef46?w=1200&auto=format&fit=crop&q=80",
+    "duration": "6 Days / 5 Nights",
+    "price": "On request",
+    "bestFor": "Wildlife enthusiasts who want a longer, multi-reserve Odisha trip.",
+    "summary": "Our longest wildlife itinerary brings together Odisha's forests, rivers, and wetlands. With unhurried travel days and planned safari windows, it is built for guests who want to see more of the state's wild side.",
+    "highlights": [
+      "Multiple forest and wetland experiences",
+      "Simlipal and Satkosia safari windows",
+      "Chilika dolphin and birding stops",
+      "Nature-focused stays and local guides",
+      "Balanced travel days with rest time"
+    ],
+    "itinerary": [
+      {
+        "day": "Day 1",
+        "title": "Arrival and transfer",
+        "details": "Pickup in Bhubaneswar and drive to the first forest destination, with an evening briefing."
+      },
+      {
+        "day": "Day 2",
+        "title": "First safari",
+        "details": "Early morning safari, afternoon rest, and an evening nature walk."
+      },
+      {
+        "day": "Day 3",
+        "title": "Forest to wetland",
+        "details": "Travel towards the next destination with scenic stops and a lakeside evening."
+      },
+      {
+        "day": "Day 4",
+        "title": "Chilika wildlife",
+        "details": "Boat ride for dolphins and birding at Mangalajodi, with a local guide."
+      },
+      {
+        "day": "Day 5",
+        "title": "Second reserve",
+        "details": "A second safari or forest drive, followed by a relaxed afternoon."
+      },
+      {
+        "day": "Day 6",
+        "title": "Return",
+        "details": "Breakfast, checkout, and a comfortable return to Bhubaneswar."
+      }
+    ],
+    "inclusions": [
+      "Private vehicle for six days",
+      "Experienced driver and fuel charges",
+      "Toll, parking, and permit assistance",
+      "Safari and stay coordination",
+      "Airport, station, or hotel pickup and drop"
+    ],
+    "exclusions": [
+      "Safari permits, boat tickets, and entry fees",
+      "Naturalist and guide charges",
+      "Hotel stay and meals unless included",
+      "Camera fees, insurance, and personal expenses"
+    ]
+  }
+]

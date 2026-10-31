@@ -1,5 +1,5 @@
 /**
- * PickMyTravels API - Google Sheets backend.
+ * Pick My Travels API - Google Sheets backend.
  * This spreadsheet IS the database: every collection (Cars, Blogs, Settings,
  * Bookings, Enquiries, Feedback) is stored in a tab of this spreadsheet, one
  * record per row. Primitive record fields are flattened into their own columns

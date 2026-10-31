@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { APP_CONFIG } from "../config/app.config";
 import { assetUrl } from "../config/assetUrl";
+import { TOUR_PACKAGE_CATEGORIES, loadTourPackages } from "../config/tourPackages";
 import {
   Phone,
   Mail,
@@ -14,7 +15,6 @@ import {
   ArrowRight,
   RotateCw,
   Plane,
-  Package,
   Users,
   LogOut,
   ExternalLink
@@ -30,14 +30,29 @@ export function Header({
   onOpenFeedback,
   onOpenEnquiry,
   onSelectBookingTab,
-  onSelectPackage,
+  onSelectPackageCategory,
+  onSelectPackageLink,
   onSelectFleetFilter
 }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileSubmenu, setMobileSubmenu] = useState(null); // 'services' | 'fleet' | 'packages'
   const [adminMenuOpen, setAdminMenuOpen] = useState(false);
+  const [tourPackages, setTourPackages] = useState([]);
 
   const isAdminDashboard = activeTab === "admin";
+
+  useEffect(() => {
+    let active = true;
+    loadTourPackages()
+      .then((list) => { if (active) setTourPackages(list); })
+      .catch((error) => { console.error("Failed to load tour packages:", error); });
+    return () => { active = false; };
+  }, []);
+
+  const packageGroups = TOUR_PACKAGE_CATEGORIES.map((category) => ({
+    ...category,
+    items: tourPackages.filter((pkg) => pkg.category === category.name)
+  }));
 
   const handleNavClick = (pageName) => {
     setActiveTab(pageName);
@@ -51,10 +66,16 @@ export function Header({
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const handlePackageSelect = (packageName) => {
-    setActiveTab("home");
-    if (onSelectBookingTab) onSelectBookingTab("Taxi Packages");
-    if (onSelectPackage) onSelectPackage(packageName);
+  const handlePackageCategory = (categoryName) => {
+    setActiveTab("packages");
+    if (onSelectPackageCategory) onSelectPackageCategory(categoryName);
+    setMobileMenuOpen(false);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handlePackageLink = (slug) => {
+    setActiveTab("packages");
+    if (onSelectPackageLink) onSelectPackageLink(slug);
     setMobileMenuOpen(false);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -170,7 +191,7 @@ export function Header({
         <div className="container nav-container">
           {/* Brand Logo */}
           <div className="logo-brand" style={{ cursor: "pointer" }} onClick={() => handleNavClick("home")}>
-            <img className="site-logo-image" src={assetUrl("picklogo.png")} alt="Pick My Travel" />
+            <img className="site-logo-image" src={assetUrl("picklogo.png")} alt="Pick My Travels" />
           </div>
 
           {/* HIDE ALL PUBLIC MENUS IF ON ADMIN DASHBOARD AFTER LOGIN */}
@@ -274,42 +295,45 @@ export function Header({
 
                 {/* SubMenu 3: Tour Packages */}
                 <li className="nav-item dropdown">
-                  <button className="nav-link dropdown-toggle">
+                  <button
+                    className={`nav-link dropdown-toggle ${activeTab === "packages" ? "active" : ""}`}
+                    onClick={() => handlePackageCategory("All")}
+                  >
                     <span>Tour Packages</span>
                     <ChevronDown size={14} />
                   </button>
-                  <div className="dropdown-menu">
-                    <button className="dropdown-item" onClick={() => handlePackageSelect("Bhubaneswar Temple & City Tour")}>
-                      <Package size={18} className="text-red" />
-                      <div>
-                        <div className="dropdown-title">Bhubaneswar Temple Tour</div>
-                        <div className="dropdown-desc">Lingaraj, Khandagiri & City Sightseeing</div>
-                      </div>
-                    </button>
-
-                    <button className="dropdown-item" onClick={() => handlePackageSelect("Puri Jagannath Temple & Beach Tour")}>
-                      <Package size={18} className="text-red" />
-                      <div>
-                        <div className="dropdown-title">Puri Jagannath & Beach</div>
-                        <div className="dropdown-desc">Darshan, Golden Beach & Marine Drive</div>
-                      </div>
-                    </button>
-
-                    <button className="dropdown-item" onClick={() => handlePackageSelect("Konark Sun Temple & Marine Drive")}>
-                      <Package size={18} className="text-red" />
-                      <div>
-                        <div className="dropdown-title">Konark Sun Temple</div>
-                        <div className="dropdown-desc">UNESCO World Heritage Sightseeing</div>
-                      </div>
-                    </button>
-
-                    <button className="dropdown-item" onClick={() => handlePackageSelect("Chilika Lake & Satapada Dolphin Tour")}>
-                      <Package size={18} className="text-red" />
-                      <div>
-                        <div className="dropdown-title">Chilika Lake Dolphins</div>
-                        <div className="dropdown-desc">Satapada Boating & Sea Mouth Tour</div>
-                      </div>
-                    </button>
+                  <div className="dropdown-menu tour-mega">
+                    {packageGroups.map((group) => {
+                      const CategoryIcon = group.icon;
+                      return (
+                        <div key={group.name} className="tour-mega-col">
+                          <button
+                            className="tour-mega-head"
+                            onClick={() => handlePackageCategory(group.name)}
+                          >
+                            <CategoryIcon size={15} className="text-red" />
+                            <span>{group.name}</span>
+                          </button>
+                          <div className="tour-mega-links">
+                            {group.items.map((pkg) => (
+                              <button
+                                key={pkg.id}
+                                className="tour-mega-link"
+                                onClick={() => handlePackageLink(pkg.slug)}
+                              >
+                                {pkg.title}
+                              </button>
+                            ))}
+                          </div>
+                          <button
+                            className="tour-mega-all"
+                            onClick={() => handlePackageCategory(group.name)}
+                          >
+                            View all <ArrowRight size={12} />
+                          </button>
+                        </div>
+                      );
+                    })}
                   </div>
                 </li>
 
@@ -319,6 +343,15 @@ export function Header({
                     onClick={() => handleNavClick("blogs")}
                   >
                     Blogs
+                  </button>
+                </li>
+
+                <li className="nav-item">
+                  <button
+                    className={`nav-link ${activeTab === "gallery" ? "active" : ""}`}
+                    onClick={() => handleNavClick("gallery")}
+                  >
+                    Gallery
                   </button>
                 </li>
 
@@ -440,10 +473,26 @@ export function Header({
               </button>
               {mobileSubmenu === "packages" && (
                 <div className="mobile-submenu-list">
-                  <button className="mobile-submenu-item" onClick={() => handlePackageSelect("Bhubaneswar Temple & City Tour")}>Bhubaneswar Temple Tour</button>
-                  <button className="mobile-submenu-item" onClick={() => handlePackageSelect("Puri Jagannath Temple & Beach Tour")}>Puri Jagannath & Beach</button>
-                  <button className="mobile-submenu-item" onClick={() => handlePackageSelect("Konark Sun Temple & Marine Drive")}>Konark Sun Temple</button>
-                  <button className="mobile-submenu-item" onClick={() => handlePackageSelect("Chilika Lake & Satapada Dolphin Tour")}>Chilika Lake Dolphins</button>
+                  {packageGroups.map((group) => (
+                    <div key={group.name} className="mobile-package-group">
+                      <button
+                        className="mobile-submenu-item mobile-package-heading"
+                        onClick={() => handlePackageCategory(group.name)}
+                      >
+                        <span>{group.name}</span>
+                        <span className="mobile-package-count">{group.items.length}</span>
+                      </button>
+                      {group.items.map((pkg) => (
+                        <button
+                          key={pkg.id}
+                          className="mobile-package-link"
+                          onClick={() => handlePackageLink(pkg.slug)}
+                        >
+                          {pkg.title}
+                        </button>
+                      ))}
+                    </div>
+                  ))}
                 </div>
               )}
             </div>
@@ -453,6 +502,12 @@ export function Header({
               onClick={() => handleNavClick("blogs")}
             >
               Travel Blogs
+            </button>
+            <button
+              className={`mobile-drawer-link ${activeTab === "gallery" ? "active" : ""}`}
+              onClick={() => handleNavClick("gallery")}
+            >
+              Gallery
             </button>
             {activeTab === "home" && (
               <button

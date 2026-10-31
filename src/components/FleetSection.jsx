@@ -179,7 +179,7 @@ export function FleetSection({
                   }}>🚗</div>
                   <div>
                     <div style={{ color: "#fff", fontWeight: "700", fontSize: "1.05rem", letterSpacing: "0.01em" }}>Book Your Ride</div>
-                    <div style={{ color: "#94a3b8", fontSize: "0.75rem" }}>Pick My Travel — Odisha's Trusted Cab Service</div>
+                    <div style={{ color: "#94a3b8", fontSize: "0.75rem" }}>Pick My Travels — Odisha's Trusted Cab Service</div>
                   </div>
                 </div>
                 <button

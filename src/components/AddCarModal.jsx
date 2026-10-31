@@ -107,7 +107,7 @@ export function AddCarModal({ isOpen, onClose, onCarAdded, carToEdit = null }) {
         </button>
 
         <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "1.25rem" }}>
-          <img src={assetUrl("picklogo.png")} alt="Pick My Travel" style={{ height: "36px", objectFit: "contain" }} />
+          <img src={assetUrl("picklogo.png")} alt="Pick My Travels" style={{ height: "36px", objectFit: "contain" }} />
           <h3 style={{ fontSize: "1.3rem" }}>
             {carToEdit ? "Edit Vehicle Details" : "Add New Vehicle to Fleet"}
           </h3>

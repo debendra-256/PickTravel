@@ -40,12 +40,12 @@ export function AboutUsPage() {
       <section className="about-us-hero">
         <div className="container about-us-hero-grid">
           <div className="about-us-intro">
-            <span className="about-us-eyebrow"><span /> About PickMyTravels</span>
+            <span className="about-us-eyebrow"><span /> About Pick My Travels</span>
             <h1>Your Trusted Travel Partner in Bhubaneswar</h1>
             <p className="about-us-tagline">Comfortable Journeys. Memorable Experiences. Reliable Service.</p>
             <p>
-              Welcome to <strong>PickMyTravels</strong> — your trusted partner for car rentals, taxi services, local sightseeing, and outstation tours across Bhubaneswar, Puri, and Odisha.<br />
-              Established in <strong>1999</strong>, PickMyTravels is dedicated to making every journey comfortable, convenient, and hassle-free.<br />
+              Welcome to <strong>Pick My Travels</strong> — your trusted partner for car rentals, taxi services, local sightseeing, and outstation tours across Bhubaneswar, Puri, and Odisha.<br />
+              Established in <strong>1999</strong>, Pick My Travels is dedicated to making every journey comfortable, convenient, and hassle-free.<br />
               Whether you need a taxi for local travel, an airport transfer, a family trip, a business journey, or an outstation tour, we offer reliable travel solutions tailored to your needs.
             </p>
             <div className="about-us-hero-facts">
@@ -59,7 +59,7 @@ export function AboutUsPage() {
             <iframe
               className="about-us-google-map"
               src={mapEmbedUrl}
-              title="PickMyTravels office location in Bhubaneswar on Google Maps"
+              title="Pick My Travels office location in Bhubaneswar on Google Maps"
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
               allowFullScreen
@@ -67,8 +67,8 @@ export function AboutUsPage() {
             <span className="about-us-map-label"><MapPin size={15} /> Bhubaneswar office</span>
             <div className="about-us-brand-caption">
               <span className="about-us-brand-pin"><MapPin size={18} /></span>
-              <div><strong>PickMyTravels</strong><span>{APP_CONFIG.ADDRESS}</span></div>
-              <a href={directionsUrl} target="_blank" rel="noopener noreferrer" aria-label="Open PickMyTravels office in Google Maps">
+              <div><strong>Pick My Travels</strong><span>{APP_CONFIG.ADDRESS}</span></div>
+              <a href={directionsUrl} target="_blank" rel="noopener noreferrer" aria-label="Open Pick My Travels office in Google Maps">
                 <ArrowUpRight size={18} />
               </a>
             </div>
@@ -82,7 +82,7 @@ export function AboutUsPage() {
           <div className="about-us-recognition-image-wrap">
             <img
               src={assetUrl("about-recognition.jpg")}
-              alt="PickMyTravels felicitated at Lok Bhavan, Odisha"
+              alt="Pick My Travels felicitated at Lok Bhavan, Odisha"
               className="about-us-recognition-image"
               loading="lazy"
             />
@@ -95,7 +95,7 @@ export function AboutUsPage() {
             <span className="about-us-section-kicker">Honour & Recognition</span>
             <h2>Proudly Serving Odisha with Trust & Excellence</h2>
             <p>
-              A moment of immense pride and privilege for the <strong>PickMyTravels</strong> family — being felicitated at <strong>Lok Bhavan, Odisha</strong>.
+              A moment of immense pride and privilege for the <strong>Pick My Travels</strong> family — being felicitated at <strong>Lok Bhavan, Odisha</strong>.
             </p>
             <p>
               This honour reflects our journey since <strong>1999</strong> and our dedication to delivering safe, dignified, and dependable travel experiences across Bhubaneswar, Puri, and every corner of Odisha.
@@ -121,7 +121,7 @@ export function AboutUsPage() {
       <section className="container about-us-story">
         <div className="about-us-section-heading">
           <span className="about-us-section-kicker">What sets us apart</span>
-          <h2>Why Choose PickMyTravels?</h2>
+          <h2>Why Choose Pick My Travels?</h2>
           <p>We make it easier to plan comfortable and dependable travel around Bhubaneswar, Puri, and Odisha.</p>
         </div>
         <div className="about-us-strength-grid">
@@ -140,7 +140,7 @@ export function AboutUsPage() {
           <span className="about-us-section-kicker">Our Commitment</span>
           <h2>Every journey should be more than reaching a destination.</h2>
           <p>
-            At PickMyTravels, we believe every journey should be comfortable, safe, and memorable.
+            At Pick My Travels, we believe every journey should be comfortable, safe, and memorable.
             Our goal is to provide dependable transportation and personalised service so you can
             travel with confidence and peace of mind. Whether you are a local resident or visiting
             Odisha, let us help you discover the region’s temples, beaches, cultural attractions,
@@ -162,7 +162,7 @@ export function AboutUsPage() {
           <div className="about-us-office-card">
             <div className="about-us-office-card-icon"><Building2 size={23} /></div>
             <div className="about-us-office-details">
-              <span className="about-us-office-label">PickMyTravels</span>
+              <span className="about-us-office-label">Pick My Travels</span>
               <address>{APP_CONFIG.ADDRESS}</address>
               <a href={`tel:${APP_CONFIG.TOLL_FREE.replace(/\s+/g, "")}`}><Phone size={16} /> {APP_CONFIG.TOLL_FREE}</a>
               <a href={`mailto:${APP_CONFIG.EMAIL}`}><Mail size={16} /> {APP_CONFIG.EMAIL}</a>
@@ -170,7 +170,7 @@ export function AboutUsPage() {
             <div className="about-us-office-hours"><Clock3 size={15} /> Travel support available 24/7</div>
           </div>
         </div>
-        <div className="container about-us-closing-tagline">PickMyTravels — Your Journey, Our Responsibility.</div>
+        <div className="container about-us-closing-tagline">Pick My Travels — Your Journey, Our Responsibility.</div>
       </section>
     </section>
   );
